@@ -99,15 +99,6 @@ public class BoardController {
         return mav;
     }
 
-//    /* 검색 정렬 목록 불러오기 */
-//    @GetMapping("/getSearchSortList")
-//    @ResponseBody
-//    private List<Board> getSearchSortList(@RequestParam("keyword") String keyword,
-//                                       @RequestParam("sort") String sort) throws Exception {
-//        List<Board> bList = boardService.selectBoardSearchList(keyword, sort);
-//        logger.info("bList : " + bList);
-//        return bList;
-//    }
 
 
 }

@@ -46,27 +46,5 @@
     </table>
     <a href="/security/main">메인으로가기</a>
 </div>
-<script>
-    function sortBtn(id) {
-        console.log("sortBtn 클릭");
-        location.href="getSearchList?keyword=${keyword}&sort=" + id;
-        <%--$.ajax({--%>
-        <%--    type: 'GET',--%>
-        <%--    url: '/getSearchList?keyword=${keyword}&sort=' + id,--%>
-        <%--    data: {id},--%>
-        <%--    success: function (result) {--%>
-        <%--        console.log(result)--%>
-        <%--        for (let i = 0; i < result.length; i++) {--%>
-        <%--            let str = "<h5>" + result[i].ID + "</h5>";--%>
-        <%--            str += "<h5>" + result[i].TITLE + "</h5> | <br>";--%>
-        <%--            $(".table").append(str);--%>
-        <%--        }--%>
-        <%--    },--%>
-        <%--    error: function (result) { },--%>
-        <%--    complete: function () { }--%>
-        <%--})--%>
-    }
-
-</script>
 </body>
 </html>
