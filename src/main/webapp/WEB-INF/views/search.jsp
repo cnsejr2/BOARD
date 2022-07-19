@@ -20,7 +20,7 @@
 </head>
 <body>
 <c:set var="key" value="${keyword}" />
-<form class="form-inline ml-3" action="/getSearchList" method="GET">
+<form class="form-inline ml-3" action="/getSearchList" method="get">
     <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" id="keyword" name="keyword" type="search"
                placeholder="<c:out value="${key}" default="Search"/>" aria-label="Search">

@@ -95,6 +95,7 @@ public class BoardController {
         List<Board> bList = boardService.selectBoardSearchList(keyword, sort);
         mav.addObject("bList", bList);
         mav.addObject("keyword", keyword);
+        mav.addObject("sort", sort);
         logger.info("bList : " + bList);
         return mav;
     }

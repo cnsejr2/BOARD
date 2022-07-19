@@ -76,8 +76,8 @@
     <select id="selectBoardSearchList" resultType="java.util.LinkedHashMap">
         SELECT *
         FROM BOARD_LYE
-        WHERE TITLE LIKE '%'|| #{param1, jdbcType=VARCHAR} ||'%'
-        ORDER BY #{param2, jdbcType=VARCHAR} DESC
+        WHERE TITLE LIKE '%'|| #{keyword, jdbcType=VARCHAR} ||'%'
+        ORDER BY ${sort} DESC
     </select>
 
     <select id="getListPaging" resultType="java.util.LinkedHashMap">

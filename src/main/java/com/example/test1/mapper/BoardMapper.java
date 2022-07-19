@@ -5,6 +5,7 @@ import com.example.test1.domain.Comment;
 import com.example.test1.domain.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public interface BoardMapper {
     List<Board> getListPaging(Criteria cri);
 
 
-    List<Board> selectBoardSearchList(String keyword, String sort);
+    List<Board> selectBoardSearchList(@Param("keyword") String keyword, @Param("sort") String sort);
 
     /* 게시판 총 갯수 */
     int getTotal();

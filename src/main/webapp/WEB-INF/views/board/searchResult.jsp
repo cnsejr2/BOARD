@@ -22,11 +22,11 @@
 <%@ include file="/WEB-INF/views/nav.jsp" %>
 
 <div class="container" style='width:1000px;'>
-    <h1>" ${keyword} " 검색 결과 목록</h1>
+    <h1>" ${keyword} " 검색 결과 목록 ${sort}</h1>
     <div class="col-auto">
-        <button id="view_cnt" class="btn btn-primary" onclick="location.href='getSearchList?keyword=${keyword}&sort=' + this.id">조회수 순</button>
+        <a id="view_cnt" href="/getSearchList?keyword=${keyword}&sort=view_cnt" style="text-decoration-line: none; text-decoration-color: darkgrey">조회수 순</a> |
 <%--        <a class="btn btn-primary" href="">좋아요 순</a>--%>
-        <button id="id" class="btn btn-primary" onclick="location.href='getSearchList?keyword=${keyword}&sort=' + this.id">최신 순</button>
+        <a id="id" href="/getSearchList?keyword=${keyword}&sort=id" style="text-decoration-line: none; text-decoration-color: darkgrey">최신 순</a>
     </div>
     <table class="table">
         <tr>
