@@ -42,5 +42,9 @@ public class BoardService {
 
     public int getTotal() { return boardMapper.getTotal(); }
 
+    public  void updateRecommend(Long bid) { boardMapper.updateRecommend(bid);}
 
+    public  void saveRecommendBoard(Long bid, String mid) { boardMapper.saveRecommendBoard(bid, mid); }
+
+    public  int wasRecommend(Long bid, String mid) { return  boardMapper.wasRecommend(bid, mid); }
 }

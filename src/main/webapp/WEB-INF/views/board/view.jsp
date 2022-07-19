@@ -14,7 +14,6 @@
     <style>
         #comment {
             width : 75%;
-
         }
     </style>
 </head>
@@ -44,6 +43,7 @@
                             <button type="button" class="btn btn-danger delete-btn" onclick="location.href='/board/delete/${board.id}'">삭제</button>
                         </c:if>
                         <button type="button" class="btn btn-primary list-btn" onclick="location.href='/security/main'">메인으로</button>
+                        <button type="button" class="btn btn-primary list-btn" id="recommendBtn">추천 ${board.recom_cnt}</button>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,31 @@
                 $("#comment-form").submit();
             }
         })
+        $("#recommendBtn").click(function() {
+            recommendBoard();
+        })
     })
+    function recommendBoard() {
+        console.log("추천 클릭")
+        $.ajax({
+            type : "GET",
+            url : "/board/updateRecommend",
+            data : {'id' : ${board.id} },
+            success : function(likeCheck) {
+                if(likeCheck != 1){
+                    alert("추천완료.");
+                    location.reload();
+                }
+                else {
+                    alert("이미 추천한 글 입니다.");
+                    location.reload();
+                }
+            },
+            error : function(){
+                alert("통신 에러");
+            }
+        });
+    }
     let isOpen = true;
     function updateViewBtn(cid, contents, writer) {
         if (isOpen) {

@@ -100,7 +100,18 @@ public class BoardController {
         return mav;
     }
 
-
+    /* 게시글 추천 */
+    @GetMapping("/board/updateRecommend")
+    @ResponseBody
+    private int getCommentList(Principal principal, @RequestParam("id") Long id) throws Exception {
+        String user = principal.getName();
+        int isRecommend = boardService.wasRecommend(id, user);
+        if (isRecommend != 1) {
+            boardService.updateRecommend(id);
+            boardService.saveRecommendBoard(id, user);
+        }
+        return isRecommend;
+    }
 
 }
 

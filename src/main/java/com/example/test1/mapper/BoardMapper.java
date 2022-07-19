@@ -39,4 +39,10 @@ public interface BoardMapper {
     /* 게시판 총 갯수 */
     int getTotal();
 
+    void updateRecommend(Long id);
+
+    void saveRecommendBoard(@Param("bid") Long bid, @Param("mid") String mid);
+
+    int wasRecommend(@Param("bid") Long bid, @Param("mid") String mid);
+
 }

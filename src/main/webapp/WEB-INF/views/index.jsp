@@ -640,17 +640,7 @@
     <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-<%--<script>--%>
-<%--    let moveForm = $("#moveForm");--%>
 
-<%--    $(".pageInfo a").on("click", function(e){--%>
-<%--        e.preventDefault();--%>
-<%--        moveForm.find("input[name='pageNum']").val($(this).attr("href"));--%>
-<%--        moveForm.attr("action", "/security/main");--%>
-<%--        moveForm.submit();--%>
-
-<%--    });--%>
-<%--</script>--%>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 
 </body>

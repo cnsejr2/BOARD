@@ -83,7 +83,7 @@
     <select id="getListPaging" resultType="java.util.LinkedHashMap">
     <![CDATA[
         select * from(
-        select rownum  as rn, id, title, contents, writer
+        select rownum  as rn, id, title, contents, writer, view_cnt
         from BOARD_LYE where rownum <= #{pageNum} * #{amount})
         where rn > (#{pageNum} -1) * #{amount}
         ]]>
@@ -94,5 +94,21 @@
         select count(*) from BOARD_LYE
     </select>
 
+    <!-- 게시글 추천수 -->
+    <update id="updateRecommend" parameterType="Long">
+        UPDATE BOARD_LYE SET
+            RECOM_CNT = RECOM_CNT + 1
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 추천 id 와 게시글 id 테이블 저장-->
+    <insert id="saveRecommendBoard">
+        INSERT INTO RECOM_LYE (BOARDID, MEMBERID)
+        VALUES (#{bid}, #{mid, jdbcType=VARCHAR})
+    </insert>
+    <!-- 게시글 추천 중복 방지 -->
+    <select id="wasRecommend" resultType="int">
+        SELECT count(*) FROM RECOM_LYE WHERE BOARDID = #{bid} and MEMBERID = #{mid}
+    </select>
 
 </mapper>

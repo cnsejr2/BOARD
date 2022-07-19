@@ -33,4 +33,7 @@ public class Board {
     /** 삭제일 */
     private String dedate;
 
+    /** 추천 수 */
+    private int recom_cnt;
+
 }
