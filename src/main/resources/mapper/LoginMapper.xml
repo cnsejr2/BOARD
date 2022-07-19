@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.test1.mapper.LoginMapper">
+<!--    회원 정보 조회-->
+    <select id="getSelectMemberInfo" parameterType="String" resultType="com.example.test1.domain.SecurityMember">
+            SELECT
+                ID, PASSWORD, MEMBER_NAME, USERROLE
+            FROM SECURITY_MEMBER
+            WHERE ID=#{id}
+    </select>
+    <!--   비밀번호 틀린횟수 조회-->
+    <update id="setUpdatePasswordLockCnt" parameterType="String">
+        UPDATE SECURITY_MEMBER
+        SET PASSWORD_LOCK = NVL(PASSWORD_LOCK, 0) + 1
+        WHERE ID = #{id}
+    </update>
+    <!--   비밀번호 틀린횟수 초기화-->
+    <update id="setUpdatePasswordLockCntReset" parameterType="String">
+        UPDATE SECURITY_MEMBER
+        SET PASSWORD_LOCK = 0
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

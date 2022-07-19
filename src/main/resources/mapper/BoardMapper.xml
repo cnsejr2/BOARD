@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.test1.mapper.BoardMapper">
+    <sql id="boardColumns">
+        id
+        , title
+        , contents
+        , writer
+        , view_cnt
+        , notice
+        , secret
+        , wrdate
+        , modate
+        ,dedate
+    </sql>
+
+    <insert id="insertBoard" parameterType="com.example.test1.domain.Board">
+        INSERT INTO BOARD_LYE (
+            <include refid="boardColumns"></include>
+        ) VALUES (
+            BOARD_SEQ.nextval
+            , #{title,jdbcType=VARCHAR}
+            , #{contents,jdbcType=VARCHAR}
+            , #{writer,jdbcType=VARCHAR}
+            , 0
+            , 'N'
+            , 'N'
+            , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+            , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+            , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        )
+    </insert>
+
+    <select id="findAll" resultType="java.util.HashMap">
+        SELECT
+            *
+        FROM BOARD_LYE
+        ORDER BY id
+    </select>
+
+    <select id="findByWriter" parameterType="String" resultType="java.util.HashMap">
+        SELECT
+            *
+        FROM BOARD_LYE
+        WHERE writer=#{writer, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectBoardDetail" parameterType="Long" resultType="com.example.test1.domain.Board">
+        select * FROM BOARD_LYE WHERE id = #{id}
+    </select>
+
+    <update id="updateBoard" parameterType="com.example.test1.domain.Board">
+        update BOARD_LYE
+        <set>
+            <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>
+            <if test="contents != null">contents = #{contents,jdbcType=VARCHAR},</if>
+            <if test="notice != null">notice = #{notice,jdbcType=VARCHAR},</if>
+            <if test="secret != null">secret = #{secret,jdbcType=VARCHAR},</if>
+            modate = TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="viewCntBoard" parameterType="com.example.test1.domain.Board">
+        update BOARD_LYE
+        <set>
+            view_cnt = view_cnt + 1
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="deleteBoard" parameterType="Long">
+        delete from BOARD_LYE where id = #{id}
+    </delete>
+
+    <select id="selectBoardSearchList" resultType="java.util.HashMap">
+        SELECT *
+        FROM BOARD_LYE
+        WHERE TITLE LIKE '%'|| #{keyword, jdbcType=VARCHAR} ||'%'
+        ORDER BY #{sort, jdbcType=VARCHAR} DESC
+    </select>
+</mapper>
