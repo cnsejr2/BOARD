@@ -1,6 +1,7 @@
 package com.example.test1.service;
 
 import com.example.test1.domain.Board;
+import com.example.test1.domain.Criteria;
 import com.example.test1.mapper.BoardMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @Service
 @Transactional
@@ -33,6 +36,12 @@ public class BoardService {
     public List<Board> findByWriter(String writer) { return boardMapper.findByWriter(writer); }
 
     public List<Board> selectBoardSearchList(String keyword, String sort) { return  boardMapper.selectBoardSearchList(keyword, sort); }
+
+    public int boardListCnt() { return boardMapper.boardListCnt(); }
+
+    public List<Map<String, Object>> boardList(Criteria cri) throws Exception {
+        return boardMapper.boardList(cri);
+    }
 
 
 }

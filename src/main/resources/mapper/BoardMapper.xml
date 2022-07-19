@@ -73,10 +73,17 @@
         delete from BOARD_LYE where id = #{id}
     </delete>
 
-    <select id="selectBoardSearchList" resultType="java.util.HashMap">
+    <select id="selectBoardSearchList" resultType="java.util.LinkedHashMap">
         SELECT *
         FROM BOARD_LYE
-        WHERE TITLE LIKE '%'|| #{keyword, jdbcType=VARCHAR} ||'%'
-        ORDER BY #{sort, jdbcType=VARCHAR} DESC
+        WHERE TITLE LIKE '%'|| #{param1, jdbcType=VARCHAR} ||'%'
+        ORDER BY #{param2, jdbcType=VARCHAR} DESC
     </select>
+
+    <select id="boardList" resultType="java.util.LinkedHashMap" parameterType="java.util.LinkedHashMap">
+        SELECT * FROM BOARD_LYE ORDER BY ID DESC LIMIT #{pageStart}, #{perPageNum}
+    </select>
+    <select id="boardListCnt" resultType="int">
+        SELECT count(*) FROM BOARD_LYE</select>
+
 </mapper>
