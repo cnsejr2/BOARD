@@ -9,6 +9,13 @@
     <title>AdminLTE 3 | Dashboard</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -616,38 +623,7 @@
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
-                        <%
-                            session = request.getSession();
-                            out.println(session.getAttribute("greeting") + "님, 반갑습니다.");
-                        %>
-                        <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-                            <div class="grid-sample" style="height: 600px;">
-                                <div id="grid_data" style="height: 600px;">
-                                    관리자 입니다.
-                                    <a href="/admin/board/list"> 회원 전체 글 목록</a>
-                                </div>
-                            </div>
-                        </sec:authorize>
-
-                        <div class="container">
-                            <h1>게시판목록</h1>
-                            <table class="table">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>TITLE</th>
-                                    <th>WRITER</th>
-                                    <th>VIEW</th>
-                                </tr>
-                                <c:forEach var="b" items="${bList}">
-                                    <tr>
-                                        <td>${b.ID}</td>
-                                        <td><a href="/board/view/${b.ID}">${b.TITLE}</a></td>
-                                        <td>${b.WRITER}</td>
-                                        <td>${b.VIEW_CNT}</td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </div>
+                        <%@ include file="/WEB-INF/views/security/main.jsp" %>
                     </section>
                     <!-- right col -->
                 </div>
@@ -664,6 +640,17 @@
     <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+<%--<script>--%>
+<%--    let moveForm = $("#moveForm");--%>
+
+<%--    $(".pageInfo a").on("click", function(e){--%>
+<%--        e.preventDefault();--%>
+<%--        moveForm.find("input[name='pageNum']").val($(this).attr("href"));--%>
+<%--        moveForm.attr("action", "/security/main");--%>
+<%--        moveForm.submit();--%>
+
+<%--    });--%>
+<%--</script>--%>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 
 </body>

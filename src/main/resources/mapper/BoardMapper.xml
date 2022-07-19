@@ -80,10 +80,19 @@
         ORDER BY #{param2, jdbcType=VARCHAR} DESC
     </select>
 
-    <select id="boardList" resultType="java.util.LinkedHashMap" parameterType="java.util.LinkedHashMap">
-        SELECT * FROM BOARD_LYE ORDER BY ID DESC LIMIT #{pageStart}, #{perPageNum}
+    <select id="getListPaging" resultType="java.util.LinkedHashMap">
+    <![CDATA[
+        select * from(
+        select rownum  as rn, id, title, contents, writer
+        from BOARD_LYE where rownum <= #{pageNum} * #{amount})
+        where rn > (#{pageNum} -1) * #{amount}
+        ]]>
     </select>
-    <select id="boardListCnt" resultType="int">
-        SELECT count(*) FROM BOARD_LYE</select>
+
+    <!-- 게시물 총 갯수 -->
+    <select id="getTotal" resultType="int">
+        select count(*) from BOARD_LYE
+    </select>
+
 
 </mapper>

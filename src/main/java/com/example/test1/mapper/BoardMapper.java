@@ -29,10 +29,13 @@ public interface BoardMapper {
 
     List<Board> findByWriter(String writer);
 
+    /* 게시판 목록(페이징 적용) */
+    List<Board> getListPaging(Criteria cri);
+
+
     List<Board> selectBoardSearchList(String keyword, String sort);
 
-    List<Map<String, Object>> boardList(Criteria cri) throws Exception;
-
-
+    /* 게시판 총 갯수 */
+    int getTotal();
 
 }

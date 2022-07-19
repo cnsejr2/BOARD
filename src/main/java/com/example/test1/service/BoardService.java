@@ -37,11 +37,10 @@ public class BoardService {
 
     public List<Board> selectBoardSearchList(String keyword, String sort) { return  boardMapper.selectBoardSearchList(keyword, sort); }
 
-    public int boardListCnt() { return boardMapper.boardListCnt(); }
+    /* 게시판 목록(페이징 적용) */
+    public List<Board> getListPaging(Criteria cri) { return boardMapper.getListPaging(cri); }
 
-    public List<Map<String, Object>> boardList(Criteria cri) throws Exception {
-        return boardMapper.boardList(cri);
-    }
+    public int getTotal() { return boardMapper.getTotal(); }
 
 
 }

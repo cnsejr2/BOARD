@@ -35,17 +35,15 @@ public class SecurityLoginController {
     @RequestMapping("/security/main")
     public ModelAndView getMain(Criteria cri) throws Exception {
         ModelAndView mav = new ModelAndView("/index");
-//        List<Board> bList = boardService.findAll();
 
-        int boardListCnt = boardService.boardListCnt();
-
-        Paging paging = new Paging();
-        paging.setCri(cri);
-        paging.setTotalCount(boardListCnt);
-
-        List<Map<String, Object>> bList = boardService.boardList(cri);
+        List<Board> bList = boardService.getListPaging(cri);
         mav.addObject("bList", bList);
-        mav.addObject("paging", paging);
+
+        int total = boardService.getTotal();
+        logger.info("total : " + total);
+        Paging pageMake = new Paging(cri, total);
+
+        mav.addObject("pageMaker", pageMake);
         return mav;
     }
 
