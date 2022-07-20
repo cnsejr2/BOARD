@@ -74,6 +74,7 @@ public class BoardController {
     @RequestMapping(value="/board/update/{id}", method=RequestMethod.PUT)
     public ModelAndView updateSubmit(Board board, @PathVariable("id") Long id) {
         ModelAndView mav = new ModelAndView("redirect:/board/view/" + id);
+        logger.info("updating");
         boardService.updateBoard(board);
         return mav;
     }

@@ -120,7 +120,8 @@
             cView += '<div class="card my-4" id="writeView">';
             cView += '<h5 class="card-header">Update a Comment:</h5>';
             cView += '<div class="card-body">';
-            cView += '<form name="comment-form" action="/board/${board.id}/comment/update/' + cid + '"method="POST" autocomplete="off">';
+            cView += '<form name="comment-form" action="/board/${board.id}/comment/update/' + cid + '"method="PUT" autocomplete="off">';
+            // cView += '<input type="hidden" name="_method" value="PUT"/>';
             cView += '<div class="form-group">';
             cView += '<input type="hidden" name="id" value="${board.id}" />';
             cView += '<label> <textarea name="contents" class="form-control" rows="3">' + contents + '</textarea> </label> </div>';

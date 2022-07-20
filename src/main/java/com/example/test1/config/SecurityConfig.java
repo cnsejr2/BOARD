@@ -87,7 +87,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(myAuthenticationEntryPoint())
                 .accessDeniedHandler(myAccessDeniedHandler);
 
-            return http.build();
+        return http.build();
     }
 //    @Bean
 //    public PasswordEncoder passwordEncoder() {

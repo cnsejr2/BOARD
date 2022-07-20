@@ -19,6 +19,7 @@
             <div class="mt-5">
                 <h3 class="mb-1 h-1">글 수정</h3>
                 <form action="/board/update/${board.id}" method="POST">
+                    <input type="hidden" name="_method" value="put"/>
                     <div class="mb-5">
                         <label class="form-label" for="title">제목</label>
                         <input class="form-control" type="text" name="title" id="title" value="${board.title}"/>
@@ -27,8 +28,8 @@
                         <label class="form-label" for="contents">내용</label>
                         <input class="form-control" type="text" name="contents" id="contents" value="${board.contents}"/>
                     </div>
-                    <input type="hidden" name="memberId" value="${board.id }">
-                    <button type="submit" class="btn btn-outline-primary btn-sm login_button" value="submit"> 수정 완료</button>
+                    <input type="hidden" name="id" value="${board.id}">
+                    <button type="submit" class="btn btn-outline-primary btn-sm update_button" value="submit"> 수정 완료</button>
                 </form>
             </div>
         </div>
