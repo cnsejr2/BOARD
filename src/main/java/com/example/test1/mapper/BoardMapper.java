@@ -43,6 +43,6 @@ public interface BoardMapper {
 
     void saveRecommendBoard(@Param("bid") Long bid, @Param("mid") String mid);
 
-    int wasRecommend(@Param("bid") Long bid, @Param("mid") String mid);
+    int hadRecommend(@Param("bid") Long bid, @Param("mid") String mid);
 
 }

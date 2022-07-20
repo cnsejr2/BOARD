@@ -107,7 +107,7 @@
         VALUES (#{bid}, #{mid, jdbcType=VARCHAR})
     </insert>
     <!-- 게시글 추천 중복 방지 -->
-    <select id="wasRecommend" resultType="int">
+    <select id="hadRecommend" resultType="int">
         SELECT count(*) FROM RECOM_LYE WHERE BOARDID = #{bid} and MEMBERID = #{mid}
     </select>
 

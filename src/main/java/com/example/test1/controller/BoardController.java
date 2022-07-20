@@ -71,14 +71,14 @@ public class BoardController {
         return mav;
     }
 
-    @RequestMapping(value="/board/update/{id}", method=RequestMethod.POST)
+    @RequestMapping(value="/board/update/{id}", method=RequestMethod.PUT)
     public ModelAndView updateSubmit(Board board, @PathVariable("id") Long id) {
         ModelAndView mav = new ModelAndView("redirect:/board/view/" + id);
         boardService.updateBoard(board);
         return mav;
     }
     /* 게시글 삭제 페이지 */
-    @RequestMapping(value="/board/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value="/board/delete/{id}", method = RequestMethod.DELETE)
     public ModelAndView boardDelete(@PathVariable("id") Long id) throws Exception {
         ModelAndView mav = new ModelAndView("security/main");
         logger.info("delete ID : " + id);
@@ -96,7 +96,6 @@ public class BoardController {
         mav.addObject("bList", bList);
         mav.addObject("keyword", keyword);
         mav.addObject("sort", sort);
-        logger.info("bList : " + bList);
         return mav;
     }
 
@@ -105,7 +104,7 @@ public class BoardController {
     @ResponseBody
     private int getCommentList(Principal principal, @RequestParam("id") Long id) throws Exception {
         String user = principal.getName();
-        int isRecommend = boardService.wasRecommend(id, user);
+        int isRecommend = boardService.hadRecommend(id, user);
         if (isRecommend != 1) {
             boardService.updateRecommend(id);
             boardService.saveRecommendBoard(id, user);

@@ -46,5 +46,5 @@ public class BoardService {
 
     public  void saveRecommendBoard(Long bid, String mid) { boardMapper.saveRecommendBoard(bid, mid); }
 
-    public  int wasRecommend(Long bid, String mid) { return  boardMapper.wasRecommend(bid, mid); }
+    public  int hadRecommend(Long bid, String mid) { return  boardMapper.hadRecommend(bid, mid); }
 }
