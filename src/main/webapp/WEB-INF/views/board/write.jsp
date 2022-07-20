@@ -9,6 +9,18 @@
 <html>
 <head>
     <title>WRITE</title>
+    <style>
+        .ck-content {						/* ckeditor 높이 */
+            height: 170px;
+        }
+    </style>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/nav.jsp" %>
@@ -20,7 +32,7 @@
                     <div class="card-header">
                         <h3 class="card-title">General</h3>
                     </div>
-                    <form action="/board/write.do" method="POST">
+                    <form id="boardForm" action="/board/write.do" method="POST">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="title">Project Name</label>
@@ -30,8 +42,14 @@
                                 <label for="contents">Project Description</label>
                                 <textarea type="text" name="contents" id="contents" class="form-control" rows="4"></textarea>
                             </div>
+                            <div class="form-group">
+                                <label for="img">Project Image</label>
+                                <div class="form_section_content">
+                                    <input type="file" id ="img" name='uploadFile' style="height: 30px;">
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-outline-primary btn-sm login_button" value="submit"> 등록하기 </button>
+                        <input type="button" class="btn btn-outline-primary btn-sm write_button" value="등록하기" />
                         <!-- /.card-body -->
                     </form>
                 </div>
@@ -40,6 +58,106 @@
         </div>
     </div>
 </section>
+<script>
+    let theEditor = "";
+    ClassicEditor
+        .create(document.querySelector('#contents'))
+        .then( contents => {
+            theEditor = contents;
+        })
+        .catch(error=>{
+            console.error(error);
+        });
 
+    let tCheck = false;            // 이름
+    let cCheck = false;            // 이메일
+
+    $(document).ready(function() {
+        $(".write_button").click(function () {
+            console.log("쓰기 클릭");
+            const title = $('#title').val();                 // id 입력란
+            const contents = theEditor.getData();
+
+            if (title == "") {
+                tCheck = false;
+            } else {
+                tCheck = true;
+            }
+            if (contents == "") {
+                cCheck = false;
+            } else {
+                cCheck = true;
+            }
+            console.log("t : " + title);
+            console.log("c : " + contents);
+            console.log("tCheck 클릭" + tCheck);
+            console.log("cCheck 클릭" + cCheck);
+            if ( tCheck&&cCheck ) {
+                console.log("Error O")
+                //회원가입 버튼(회원가입 기능 작동
+                $("#boardForm").attr("action", "/board/write.do");
+                $("#boardForm").submit();
+            } else {
+                alert("제목과 내용을 모두 입력해주세요");
+            }
+            return false;
+        });
+    });
+
+    /* 이미지 업로드 */
+    $("input[type='file']").on("change", function(e){
+
+        let formData = new FormData();
+        let fileInput = $('input[name="uploadFile"]');
+        let fileList = fileInput[0].files;
+        let fileObj = fileList[0];
+
+        console.log("fileObj : " + fileObj);
+        console.log("fileList : " + fileList);
+
+        console.log("fileName : " + fileObj.name);
+        console.log("fileSize : " + fileObj.size);
+        console.log("fileType(MimeType) : " + fileObj.type);
+
+        // if(!fileCheck(fileObj.name, fileObj.size)){
+        //     return false;
+        // }
+        formData.append("uploadFile", fileObj);
+
+        $.ajax({
+            url: '/uploadAjaxAction',
+            processData : false,
+            contentType : false,
+            data : formData,
+            type : 'POST',
+            dataType : 'json',
+            success : function(result){
+                console.log(result);
+            },
+            error : function(result){
+                alert("이미지 파일이 아닙니다.");
+            }
+        });
+
+        alert("통과");
+    });
+
+    /* var, method related with attachFile */
+    let regex = new RegExp("(.*?)\.(jpg|png)$");
+    let maxSize = 1048576; //1MB
+
+    function fileCheck(fileName, fileSize){
+        if(fileSize >= maxSize){
+            alert("파일 사이즈 초과");
+            return false;
+        }
+        if(!regex.test(fileName)){
+            alert("해당 종류의 파일은 업로드할 수 없습니다.");
+            return false;
+        }
+        return true;
+
+    }
+</script>
 </body>
 </html>

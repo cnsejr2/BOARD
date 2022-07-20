@@ -32,7 +32,7 @@
         </tr>
         </c:forEach>
     </table>
-    <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/security/main'"> 내 페이지로 </button>
+    <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/security/main'"> 메인 페이지로 </button>
 </div>
 </body>
 </html>
