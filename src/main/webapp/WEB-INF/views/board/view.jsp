@@ -20,7 +20,7 @@
 <body>
 
 <%@ include file="/WEB-INF/views/nav.jsp" %>
-<sec:authentication property="principal" />
+<%--<sec:authentication property="principal" />--%>
 <input type="hidden" id="user" value="<sec:authentication property="principal" />">
 <div class="container" style='width:1000px;'>
     <div class="mb-4">
@@ -86,16 +86,22 @@
             if (com == "") {
                 alert('내용을 입력해주세요');
             } else {
-                $("#comment-form").attr("action", "/board/comment/write");
-                $("#comment-form").submit();
+                if (!isOpen) {
+                    alert("댓글 수정을 완료해주세요");
+                } else {
+                    alert("댓글 등록 완료");
+                    $("#comment-form").attr("action", "/board/comment/write");
+                    $("#comment-form").submit();
+                }
+
             }
         })
         $("#recommendBtn").click(function() {
             recommendBoard();
         })
 
-
     })
+
     function recommendBoard() {
         console.log("추천 클릭")
         $.ajax({
@@ -143,6 +149,16 @@
         isOpen = true;
         document.getElementById("writeView").remove();
     }
+    function deleteBtn() {
+        console.log("삭제 버튼 클릭");
+        if (isOpen) {
+            $("#delete-form").attr("action", "/comment/delete");
+            $("#delete-form").submit();
+        } else {
+            alert("수정을 완료해 주세요");
+        }
+
+    }
     function getCommentList() {
         let id = $('input[name=id]').val();
         const name = $('#user').val();
@@ -158,11 +174,11 @@
                     str += result[i].contents + "</div>";
                     if (result[i].writer == name) {
                         str += "<button type=\"button\" class=\"btn btn-success \" onclick=\"updateViewBtn('" +  result[i].id + "','" + result[i].contents + "','" + result[i].writer +"')\">수정</button>";
-                        str += "<form action=\"/comment/delete\" method=\"delete\">";
+                        str += "<form id=\"delete-form\" action=\"/comment/delete\" method=\"delete\">";
                         str += "<input type=\"hidden\" name=\"_method\" value=\"delete\"/>";
                         str += "<input type=\"hidden\" name=\"id\" value=\"" + result[i].id + "\"/>"
                         str += "<input type=\"hidden\" name=\"bid\" value=\"${board.id}\"/>"
-                        str += "<button type=\"submit\" class=\"btn btn-danger delete-btn\" >삭제</button>";
+                        str += "<input type=\"button\" class=\"btn btn-danger delete-btn \" onclick=\"deleteBtn()\" value=\"삭제\" />";
                         str += "</form>"
                     }
                     $("#comment").append(str);

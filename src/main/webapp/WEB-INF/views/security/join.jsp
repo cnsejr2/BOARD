@@ -32,7 +32,7 @@
                     <span class="id_input_re_1">사용 가능한 아이디입니다.</span>
                     <span class="id_input_re_2">아이디가 이미 존재합니다.</span>
                     <span class="final_id_ck_1">아이디를 입력해주세요.</span>
-                    <span class="final_id_ck_2">아이디는 5글자 이상입니다.</span>
+                    <span class="final_id_ck_2">아이디는 5글자 이상이여야 합니다.</span>
                 </div>
                 <div class="pw_wrap">
                     <div class="pw_name">비밀번호</div>
@@ -163,16 +163,22 @@
                 // console.log("성공 여부" + result);
                 if (id.length >= 5) {
                     if(result != 'fail'){
-                        $('.id_input_re_1').css("display","inline-block");
-                        $('.id_input_re_2').css("display", "none");
                         // 아이디 중복이 없는 경우
                         idckCheck = true;
+                        $('.id_input_re_1').css("display","inline-block");
+                        $('.id_input_re_2').css("display", "none");
+                        $('.final_id_ck_2').css('display','none');
                     } else {
-                        $('.id_input_re_2').css("display","inline-block");
-                        $('.id_input_re_1').css("display", "none");
                         // 아이디 중복된 경우
                         idckCheck = false;
+                        $('.id_input_re_2').css("display","inline-block");
+                        $('.id_input_re_1').css("display", "none");
+                        $('.final_id_ck_2').css('display','none');
                     }
+                } else {
+                    idCheck = false;
+                    $('.id_input_re_1').css("display","none");
+                    $('.final_id_ck_2').css('display','block');
                 }
 
             }// success 종료
