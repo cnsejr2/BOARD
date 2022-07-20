@@ -81,7 +81,7 @@ public class BoardController {
     /* 게시글 삭제 페이지 */
     @RequestMapping(value="/board/delete/{id}", method = RequestMethod.DELETE)
     public ModelAndView boardDelete(@PathVariable("id") Long id) throws Exception {
-        ModelAndView mav = new ModelAndView("security/main");
+        ModelAndView mav = new ModelAndView("redirect:/security/main");
         logger.info("delete ID : " + id);
         boardService.deleteBoard(id);
         return mav;

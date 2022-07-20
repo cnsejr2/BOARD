@@ -46,7 +46,7 @@ public class CommentController {
     }
 
     /* 댓글 수정 */
-    @PostMapping("/board/{id}/comment/update/{cid}")
+    @RequestMapping(value = "/board/{id}/comment/update/{cid}", method = RequestMethod.PUT)
     public String updateComment(@PathVariable("id") Long id,
                                 @PathVariable("cid") String cid,
                                  @RequestParam("contents") String contents) throws Exception {

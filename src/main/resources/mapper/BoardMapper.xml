@@ -82,9 +82,9 @@
 
     <select id="getListPaging" resultType="java.util.LinkedHashMap">
     <![CDATA[
-        select * from(
+        select * from (
         select rownum  as rn, id, title, contents, writer, view_cnt
-        from BOARD_LYE where rownum <= #{pageNum} * #{amount})
+        from BOARD_LYE where rownum <= #{pageNum} * #{amount} order by id)
         where rn > (#{pageNum} -1) * #{amount}
         ]]>
     </select>

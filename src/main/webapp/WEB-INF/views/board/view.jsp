@@ -40,7 +40,10 @@
                     <div class="board-footer">
                         <c:if test="${isWriter eq 1}">
                             <button type="button" class="btn btn-primary update-btn" onclick="location.href='/board/update/${board.id}'">수정</button>
-                            <button type="button" class="btn btn-danger delete-btn" onclick="location.href='/board/delete/${board.id}'">삭제</button>
+                            <form action="/board/delete/${board.id}" method="post">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <button type="submit" class="btn btn-danger delete-btn">삭제</button>
+                            </form>
                         </c:if>
                         <button type="button" class="btn btn-primary list-btn" onclick="location.href='/security/main'">메인으로</button>
                         <button type="button" class="btn btn-primary list-btn" id="recommendBtn">추천 ${board.recom_cnt}</button>
@@ -90,6 +93,8 @@
         $("#recommendBtn").click(function() {
             recommendBoard();
         })
+
+
     })
     function recommendBoard() {
         console.log("추천 클릭")
@@ -120,8 +125,8 @@
             cView += '<div class="card my-4" id="writeView">';
             cView += '<h5 class="card-header">Update a Comment:</h5>';
             cView += '<div class="card-body">';
-            cView += '<form name="comment-form" action="/board/${board.id}/comment/update/' + cid + '"method="PUT" autocomplete="off">';
-            // cView += '<input type="hidden" name="_method" value="PUT"/>';
+            cView += '<form name="comment-form" action="/board/${board.id}/comment/update/' + cid + '"method="POST" autocomplete="off">';
+            cView += '<input type="hidden" name="_method" value="put"/>';
             cView += '<div class="form-group">';
             cView += '<input type="hidden" name="id" value="${board.id}" />';
             cView += '<label> <textarea name="contents" class="form-control" rows="3">' + contents + '</textarea> </label> </div>';
@@ -153,7 +158,12 @@
                     str += result[i].contents + "</div>";
                     if (result[i].writer == name) {
                         str += "<button type=\"button\" class=\"btn btn-success \" onclick=\"updateViewBtn('" +  result[i].id + "','" + result[i].contents + "','" + result[i].writer +"')\">수정</button>";
-                        str += "<button type=\"button\" class=\"btn btn-danger delete-btn\" onclick=\"location.href='/comment/delete?id=" + result[i].id + "&bid=${board.id}'\">삭제</button>";
+                        str += "<form action=\"/comment/delete\" method=\"delete\">";
+                        str += "<input type=\"hidden\" name=\"_method\" value=\"delete\"/>";
+                        str += "<input type=\"hidden\" name=\"id\" value=\"" + result[i].id + "\"/>"
+                        str += "<input type=\"hidden\" name=\"bid\" value=\"${board.id}\"/>"
+                        str += "<button type=\"submit\" class=\"btn btn-danger delete-btn\" >삭제</button>";
+                        str += "</form>"
                     }
                     $("#comment").append(str);
                 }
