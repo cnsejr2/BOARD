@@ -34,11 +34,15 @@ public interface BoardMapper {
     /* 게시판 목록(페이징 적용) */
     List<Board> getListPaging(Criteria cri);
 
+    List<Board> getListPagingByWriter(@Param("writer") String writer, Criteria cri);
+
 
     List<Board> selectBoardSearchList(@Param("keyword") String keyword, @Param("sort") String sort);
 
     /* 게시판 총 갯수 */
     int getTotal();
+
+    int getTotalByWriter(String writer);
 
     void updateRecommend(Long id);
 

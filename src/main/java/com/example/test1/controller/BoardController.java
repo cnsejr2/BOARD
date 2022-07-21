@@ -2,6 +2,8 @@ package com.example.test1.controller;
 
 import com.example.test1.domain.Board;
 import com.example.test1.domain.Comment;
+import com.example.test1.domain.Criteria;
+import com.example.test1.domain.Paging;
 import com.example.test1.service.AttachService;
 import com.example.test1.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
@@ -48,11 +50,18 @@ public class BoardController {
         return mav;
     }
     @GetMapping("/board/myList")
-    public ModelAndView boardList(Principal principal) {
+    public ModelAndView boardList(Principal principal, Criteria cri) {
         String writer = principal.getName();
         ModelAndView mav = new ModelAndView("/board/myList");
-        List<Board> bList = boardService.findByWriter(writer);
+//        List<Board> bList = boardService.findByWriter(writer);
+        List<Board> bList = boardService.getListPagingByWriter(writer, cri);
         mav.addObject("bList", bList);
+
+        int total = boardService.getTotalByWriter(writer);
+        logger.info("total : " + total);
+        Paging pageMake = new Paging(cri, total);
+
+        mav.addObject("pageMaker", pageMake);
         return mav;
     }
     /* 게시글 상세 페이지 */

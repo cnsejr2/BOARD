@@ -41,6 +41,8 @@ public class BoardService {
     /* 게시판 목록(페이징 적용) */
     public List<Board> getListPaging(Criteria cri) { return boardMapper.getListPaging(cri); }
 
+    public List<Board> getListPagingByWriter(String writer, Criteria cri) { return boardMapper.getListPagingByWriter(writer, cri); }
+
     public int getTotal() { return boardMapper.getTotal(); }
 
     public  void updateRecommend(Long bid) { boardMapper.updateRecommend(bid);}
@@ -50,5 +52,9 @@ public class BoardService {
     public  int hadRecommend(Long bid, String mid) { return  boardMapper.hadRecommend(bid, mid); }
 
     public void imageEnroll(AttachImage attachImage) { boardMapper.imageEnroll(attachImage); }
+
+    public int getTotalByWriter(String writer) { return boardMapper.getTotalByWriter(writer); }
+
+
 
 }

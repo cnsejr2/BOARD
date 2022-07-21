@@ -45,6 +45,12 @@
         WHERE writer=#{writer, jdbcType=VARCHAR}
     </select>
 
+    <select id="getTotalByWriter" parameterType="String" resultType="int">
+        SELECT
+            count(*)
+        FROM BOARD_LYE
+        WHERE writer=#{writer, jdbcType=VARCHAR}
+    </select>
     <select id="selectBoardDetail" parameterType="Long" resultType="com.example.test1.domain.Board">
         select * FROM BOARD_LYE WHERE id = #{id}
     </select>
@@ -80,11 +86,20 @@
         ORDER BY ${sort} DESC
     </select>
 
-    <select id="getListPaging" resultType="java.util.LinkedHashMap">
+    <select id="getListPagingByWriter" resultType="java.util.LinkedHashMap">
     <![CDATA[
         select * from (
         select rownum  as rn, id, title, contents, writer, view_cnt
-        from BOARD_LYE where rownum <= #{pageNum} * #{amount} order by id)
+        from BOARD_LYE where rownum <= #{cri.pageNum} * #{cri.amount} order by id)
+        where rn > (#{cri.pageNum} -1) * #{cri.amount} AND writer = #{writer, jdbcType=VARCHAR}
+        ]]>
+    </select>
+
+    <select id="getListPaging" resultType="java.util.LinkedHashMap">
+    <![CDATA[
+        select * from (
+                          select rownum  as rn, id, title, contents, writer, view_cnt
+                          from BOARD_LYE where rownum <= #{pageNum} * #{amount} order by id)
         where rn > (#{pageNum} -1) * #{amount}
         ]]>
     </select>
