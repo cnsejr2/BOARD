@@ -7,11 +7,13 @@ import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -97,7 +100,7 @@ public class SecurityLoginController {
 
 
     /* 첨부 파일 업로드 */
-    @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AttachImage>> uploadAjaxActionPOST(MultipartFile uploadFile) throws IOException {
 
         logger.info("uploadAjaxActionPOST..........");
@@ -134,7 +137,7 @@ public class SecurityLoginController {
         /* 파일 이름 */
         String uploadFileName = uploadFile.getOriginalFilename();
         aImage.setFileName(uploadFileName);
-        aImage.setUploadPath(datePath);
+        aImage.setUpload(datePath);
 
         /* uuid 적용 파일 이름 */
         String uuid = UUID.randomUUID().toString();
@@ -182,6 +185,27 @@ public class SecurityLoginController {
         list.add(aImage);
 
         ResponseEntity<List<AttachImage>> result = new ResponseEntity<List<AttachImage>>(list, HttpStatus.OK);
+        return result;
+    }
+
+    @GetMapping("/display")
+    public ResponseEntity<byte[]> getImage(String fileName){
+        File file = new File("c:\\upload\\" + fileName);
+
+        ResponseEntity<byte[]> result = null;
+
+        try {
+
+            HttpHeaders header = new HttpHeaders();
+
+            header.add("Content-type", Files.probeContentType(file.toPath()));
+
+            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
 }

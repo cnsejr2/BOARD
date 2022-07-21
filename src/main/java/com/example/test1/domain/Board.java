@@ -3,6 +3,8 @@ package com.example.test1.domain;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 @Slf4j
 @Data
 public class Board {
@@ -35,5 +37,10 @@ public class Board {
 
     /** 추천 수 */
     private int recom_cnt;
+
+    /** 이미지 정보 */
+    private List<AttachImage> imageList;
+
+
 
 }

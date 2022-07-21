@@ -1,5 +1,6 @@
 package com.example.test1.mapper;
 
+import com.example.test1.domain.AttachImage;
 import com.example.test1.domain.Board;
 import com.example.test1.domain.Comment;
 import com.example.test1.domain.Criteria;
@@ -44,5 +45,8 @@ public interface BoardMapper {
     void saveRecommendBoard(@Param("bid") Long bid, @Param("mid") String mid);
 
     int hadRecommend(@Param("bid") Long bid, @Param("mid") String mid);
+
+    /* 이미지 등록 */
+    void imageEnroll(AttachImage attachImage);
 
 }

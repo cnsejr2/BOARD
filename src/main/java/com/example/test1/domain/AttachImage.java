@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class AttachImage {
     /* 경로 */
-    private String uploadPath;
+    private String upload;
 
     /* uuid */
     private String uuid;
@@ -14,5 +14,5 @@ public class AttachImage {
     private String fileName;
 
     /* 상품 id */
-    private int bookId;
+    private Long bId;
 }

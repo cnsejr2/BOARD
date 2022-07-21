@@ -1,5 +1,6 @@
 package com.example.test1.service;
 
+import com.example.test1.domain.AttachImage;
 import com.example.test1.domain.Board;
 import com.example.test1.domain.Criteria;
 import com.example.test1.mapper.BoardMapper;
@@ -47,4 +48,6 @@ public class BoardService {
     public  void saveRecommendBoard(Long bid, String mid) { boardMapper.saveRecommendBoard(bid, mid); }
 
     public  int hadRecommend(Long bid, String mid) { return  boardMapper.hadRecommend(bid, mid); }
+
+    public void imageEnroll(AttachImage attachImage) { boardMapper.imageEnroll(attachImage); }
 }
