@@ -2,9 +2,11 @@ package com.example.test1.controller;
 
 import com.example.test1.domain.Board;
 import com.example.test1.mapper.BoardMapper;
+import com.example.test1.service.AttachService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,9 @@ public class AdminController {
     @Resource
     private BoardMapper boardMapper;
 
+    @Resource
+    AttachService attachService;
+
     @GetMapping("/admin/board/list")
     public ModelAndView boardForm() {
         ModelAndView mav = new ModelAndView("admin/list");
@@ -35,13 +40,14 @@ public class AdminController {
 
     /* 이미지 파일 삭제 */
     @PostMapping("/deleteFile")
-    public ResponseEntity<String> deleteFile(String fileName){
+    public ResponseEntity<String> deleteFile(String fileName, Long id){
 
         logger.info("deleteFile........" + fileName);
 
         File file = null;
 
         try {
+            attachService.deleteImage(id);
             /* 썸네일 파일 삭제 */
             file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
             file.delete();

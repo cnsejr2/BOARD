@@ -50,4 +50,5 @@ public class BoardService {
     public  int hadRecommend(Long bid, String mid) { return  boardMapper.hadRecommend(bid, mid); }
 
     public void imageEnroll(AttachImage attachImage) { boardMapper.imageEnroll(attachImage); }
+
 }

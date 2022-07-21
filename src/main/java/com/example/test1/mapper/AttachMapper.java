@@ -11,4 +11,10 @@ public interface AttachMapper {
 
     /* 이미지 데이터 반환 */
     List<AttachImage> getAttachList(Long bId);
+
+    void deleteImage(Long bId);
+
+    void imageReEnroll(AttachImage attachImage);
+    /* 지정 상품 이미지 전체 삭제 */
+    void deleteImageAll(Long bId);
 }

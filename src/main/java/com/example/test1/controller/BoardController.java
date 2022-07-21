@@ -2,6 +2,7 @@ package com.example.test1.controller;
 
 import com.example.test1.domain.Board;
 import com.example.test1.domain.Comment;
+import com.example.test1.service.AttachService;
 import com.example.test1.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -21,6 +22,8 @@ public class BoardController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     BoardService boardService;
+    @Resource
+    AttachService attachService;
 
     @GetMapping("/board/write.do")
     public String boardForm() {
@@ -80,7 +83,19 @@ public class BoardController {
     public ModelAndView updateSubmit(Board board, @PathVariable("id") Long id) {
         ModelAndView mav = new ModelAndView("redirect:/board/view/" + id);
         logger.info("updating");
-        boardService.updateBoard(board);
+        int result = boardService.updateBoard(board);
+        if(result == 1 && board.getImageList() != null && board.getImageList().size() > 0) {
+
+            attachService.deleteImageAll(board.getId());
+
+            board.getImageList().forEach(attach -> {
+
+                attach.setBId(board.getId());
+                attachService.imageReEnroll(attach);
+
+            });
+
+        }
         return mav;
     }
     /* 게시글 삭제 페이지 */

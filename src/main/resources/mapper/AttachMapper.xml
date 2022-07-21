@@ -4,4 +4,24 @@
     <select id="getAttachList" resultType="com.example.test1.domain.AttachImage">
         SELECT * FROM IMAGE_LYE WHERE bId = #{bId}
     </select>
+
+    <!-- 지정 상품 이미지 전체 삭제 -->
+    <delete id="deleteImageAll">
+        delete FROM IMAGE_LYE where bId = #{bId}
+    </delete>
+
+    <!-- 이미지 재 등록 -->
+    <insert id="imageReEnroll" parameterType="com.example.test1.domain.AttachImage">
+        INSERT INTO IMAGE_LYE (bid, filename, upload, uuid)
+        values (
+        #{bId, jdbcType=NUMERIC},
+        #{fileName, jdbcType=VARCHAR},
+        #{upload,jdbcType=VARCHAR},
+        #{uuid,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="deleteImage" parameterType="Long">
+        delete from IMAGE_LYE where bId = #{id}
+    </delete>
 </mapper>

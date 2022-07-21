@@ -117,11 +117,12 @@
             SELECT MAX(ID) + 1 FROM BOARD_LYE
         </selectKey>
         INSERT INTO IMAGE_LYE (bid, filename, upload, uuid)
-               values (
-                    BOARD_SEQ.currval,
-                    #{fileName, jdbcType=VARCHAR},
-                    #{upload,jdbcType=VARCHAR},
-                    #{uuid,jdbcType=VARCHAR}
-               )
+        values (
+        BOARD_SEQ.currval,
+        #{fileName, jdbcType=VARCHAR},
+        #{upload,jdbcType=VARCHAR},
+        #{uuid,jdbcType=VARCHAR}
+        )
     </insert>
+
 </mapper>

@@ -45,8 +45,8 @@ public interface BoardMapper {
     void saveRecommendBoard(@Param("bid") Long bid, @Param("mid") String mid);
 
     int hadRecommend(@Param("bid") Long bid, @Param("mid") String mid);
-
     /* 이미지 등록 */
     void imageEnroll(AttachImage attachImage);
+
 
 }

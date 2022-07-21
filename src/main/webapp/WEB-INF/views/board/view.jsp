@@ -115,17 +115,12 @@
         $("#recommendBtn").click(function() {
             recommendBoard();
         })
-        /* 이미지 정보 호출 */
-        let bookId = '<c:out value="${goodsInfo.bookId}"/>';
+        /* 이미지 정보 호출 */;
         let uploadResult = $("#uploadResult");
         $.getJSON("/getAttachList", {bId : ${board.id}}, function(arr){
+            console.log("view : " + arr);
             if(arr.length === 0){
-                let str = "";
-                str += "<div id='result_card'>";
-                str += "<img src='/img/milkyway.jpg'>";
-                str += "</div>";
-
-                uploadResult.html(str);
+                return;
             }
             let str = "";
             let obj = arr[0];
