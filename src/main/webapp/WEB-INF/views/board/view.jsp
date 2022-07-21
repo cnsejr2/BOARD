@@ -15,6 +15,13 @@
         #comment {
             width : 75%;
         }
+        #result_card img{
+            max-width: 100%;
+            height: auto;
+            display: block;
+            padding: 5px;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
@@ -36,6 +43,15 @@
                         <p class="content" style="word-break:break-all;">
                             ${board.contents}
                         </p>
+                    </div>
+                    <div class="form_section">
+                        <div class="form_section_title">
+                            <label>상품 이미지</label>
+                        </div>
+                        <div class="form_section_content">
+                            <div id="uploadResult">
+                            </div>
+                        </div>
                     </div>
                     <div class="board-footer">
                         <c:if test="${isWriter eq 1}">
@@ -99,6 +115,30 @@
         $("#recommendBtn").click(function() {
             recommendBoard();
         })
+        /* 이미지 정보 호출 */
+        let bookId = '<c:out value="${goodsInfo.bookId}"/>';
+        let uploadResult = $("#uploadResult");
+        $.getJSON("/getAttachList", {bId : ${board.id}}, function(arr){
+            if(arr.length === 0){
+                let str = "";
+                str += "<div id='result_card'>";
+                str += "<img src='/img/milkyway.jpg'>";
+                str += "</div>";
+
+                uploadResult.html(str);
+            }
+            let str = "";
+            let obj = arr[0];
+
+            let fileCallPath = encodeURIComponent(obj.upload + "/s_" + obj.uuid + "_" + obj.fileName);
+            str += "<div id='result_card'";
+            str += "data-path='" + obj.upload + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
+            str += ">";
+            str += "<img src='/display?fileName=" + fileCallPath +"'>";
+            str += "</div>";
+
+            uploadResult.html(str);
+        });
 
     })
 
@@ -123,6 +163,7 @@
             }
         });
     }
+
     let isOpen = true;
     function updateViewBtn(cid, contents, writer) {
         if (isOpen) {

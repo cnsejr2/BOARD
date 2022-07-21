@@ -75,10 +75,6 @@
                                 <div class="form_section_content">
                                     <input type="file" id ="img" name='uploadFile' style="height: 30px;">
                                     <div id="uploadResult">
-<%--                                        <div id="result_card">--%>
-<%--                                            <div class="imgDeleteBtn">x</div>--%>
-<%--                                            <img src="/img/milkyway.jpg">--%>
-<%--                                        </div>--%>
                                     </div>
                                 </div>
                             </div>
@@ -147,13 +143,6 @@
         let fileList = fileInput[0].files;
         let fileObj = fileList[0];
 
-        console.log("fileObj : " + fileObj);
-        console.log("fileList : " + fileList);
-
-        console.log("fileName : " + fileObj.name);
-        console.log("fileSize : " + fileObj.size);
-        console.log("fileType(MimeType) : " + fileObj.type);
-
         if(!fileCheck(fileObj.name, fileObj.size)){
             return false;
         }
@@ -181,7 +170,7 @@
     function showUploadImage(uploadResultArr){
         console.log("showUploadImage : " + uploadResultArr);
         /* 전달받은 데이터 검증 */
-        if(!uploadResultArr || uploadResultArr.length == 0){return}
+        if(!uploadResultArr || uploadResultArr.length == 0){ return; }
 
         let uploadResult = $("#uploadResult");
 

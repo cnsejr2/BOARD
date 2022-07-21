@@ -34,18 +34,14 @@ public class BoardController {
         board.setWriter(writer);
         boardService.insertBoard(board);
         ModelAndView mav = new ModelAndView("/board/myList");
-        if(board.getImageList() != null || board.getImageList().size() > 0) {
-            board.getImageList().forEach(attach ->{
-
-//                attach.setBId(board.getId());
-//                logger.info(String.valueOf(attach.getBId()));
-                boardService.imageEnroll(attach);
-
-            });
-        }
-        logger.info(String.valueOf(board.getImageList().get(0)));
         List<Board> bList = boardService.findByWriter(writer);
         mav.addObject("bList", bList);
+        if(board.getImageList() == null || board.getImageList().size() <= 0) {
+            return mav;
+        }
+        board.getImageList().forEach(attach ->{
+            boardService.imageEnroll(attach);
+        });
         return mav;
     }
     @GetMapping("/board/myList")

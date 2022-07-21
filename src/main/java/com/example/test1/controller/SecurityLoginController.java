@@ -1,6 +1,7 @@
 package com.example.test1.controller;
 
 import com.example.test1.domain.*;
+import com.example.test1.service.AttachService;
 import com.example.test1.service.BoardService;
 import com.example.test1.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,8 @@ public class SecurityLoginController {
     SecurityService securityService;
     @Resource
     BoardService boardService;
+    @Resource
+    AttachService attachService;
 
     @GetMapping("/security")
     public String getIndex() {
@@ -208,4 +211,15 @@ public class SecurityLoginController {
 
         return result;
     }
+
+    /* 이미지 정보 반환 */
+    @GetMapping(value="/getAttachList")
+    public ResponseEntity<List<AttachImage>> getAttachList(Long bId){
+        logger.info("getAttachList.........." + bId);
+
+        return new ResponseEntity(attachService.getAttachList(bId), HttpStatus.OK);
+    }
+
+
 }
+
