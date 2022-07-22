@@ -212,32 +212,32 @@
     });
     /* 파일 삭제 메서드 */
     function deleteFile(){
-        $("#result_card").remove();
-        // let targetFile = $(".imgDeleteBtn").data("file");
-        //
-        // let targetDiv = $("#result_card");
-        //
-        // console.log("targetFile : " + targetFile)
-        // console.log("targetDiv : " + targetDiv)
-        //
-        // $.ajax({
-        //     url: '/deleteFile',
-        //     data : {fileName : targetFile},
-        //     dataType : 'text',
-        //     type : 'POST',
-        //     success : function(result){
-        //         console.log(result);
-        //
-        //         targetDiv.remove();
-        //         $("input[type='file']").val("");
-        //
-        //     },
-        //     error : function(result){
-        //         console.log(result);
-        //
-        //         alert("파일을 삭제하지 못하였습니다.")
-        //     }
-        // });
+        // $("#result_card").remove();
+        let targetFile = $(".imgDeleteBtn").data("file");
+
+        let targetDiv = $("#result_card");
+
+        console.log("targetFile : " + targetFile)
+        console.log("targetDiv : " + targetDiv)
+
+        $.ajax({
+            url: '/deleteFile',
+            data : {fileName : targetFile, id : null},
+            dataType : 'text',
+            type : 'POST',
+            success : function(result){
+                console.log(result);
+
+                targetDiv.remove();
+                $("input[type='file']").val("");
+
+            },
+            error : function(result){
+                console.log(result);
+
+                alert("파일을 삭제하지 못하였습니다.")
+            }
+        });
     }
 </script>
 </body>

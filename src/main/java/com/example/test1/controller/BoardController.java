@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.net.URLDecoder;
 import java.security.Principal;
 import java.util.List;
 
@@ -111,10 +113,23 @@ public class BoardController {
     }
     /* 게시글 삭제 페이지 */
     @RequestMapping(value="/board/delete/{id}", method = RequestMethod.DELETE)
-    public ModelAndView boardDelete(@PathVariable("id") Long id) throws Exception {
+    public ModelAndView boardDelete(@PathVariable("id") Long id,
+                                    @RequestParam("filename") String fileName) throws Exception {
         ModelAndView mav = new ModelAndView("redirect:/security/main");
         logger.info("delete ID : " + id);
         boardService.deleteBoard(id);
+        File file = null;
+
+        attachService.deleteImage(id);
+        /* 썸네일 파일 삭제 */
+        file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+        file.delete();
+
+        /* 원본 파일 삭제 */
+        String originFileName = file.getAbsolutePath().replace("s_", "");
+        logger.info("originFileName : " + originFileName);
+        file = new File(originFileName);
+        file.delete();
         return mav;
     }
 

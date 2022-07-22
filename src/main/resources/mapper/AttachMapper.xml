@@ -22,7 +22,7 @@
     </insert>
 
     <delete id="deleteImage" parameterType="Long">
-        delete from IMAGE_LYE where bId = #{id}
+        delete from IMAGE_LYE where bId = #{bId, jdbcType=NUMERIC}
     </delete>
 
     <!-- 어제자 날자 이미지 리스트 -->

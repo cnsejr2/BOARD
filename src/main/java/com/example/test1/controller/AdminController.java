@@ -47,7 +47,7 @@ public class AdminController {
         File file = null;
 
         try {
-//            attachService.deleteImage(id);
+            attachService.deleteImage(id);
             /* 썸네일 파일 삭제 */
             file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
             file.delete();

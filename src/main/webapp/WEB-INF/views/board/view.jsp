@@ -56,9 +56,9 @@
                     <div class="board-footer">
                         <c:if test="${isWriter eq 1}">
                             <button type="button" class="btn btn-primary update-btn" onclick="location.href='/board/update/${board.id}'">수정</button>
-                            <form action="/board/delete/${board.id}" method="post">
+                            <form id = "deleteBoardForm" action="/board/delete/${board.id}" method="post">
                                 <input type="hidden" name="_method" value="delete"/>
-                                <button type="submit" class="btn btn-danger delete-btn">삭제</button>
+                                <button type="button" class="btn btn-danger deleteBoardBtn">삭제</button>
                             </form>
                         </c:if>
                         <button type="button" class="btn btn-primary list-btn" onclick="location.href='/security/main'">메인으로</button>
@@ -115,6 +115,9 @@
         $("#recommendBtn").click(function() {
             recommendBoard();
         })
+        $(".deleteBoardBtn").click(function() {
+            deleteBoardBtn()
+        })
         /* 이미지 정보 호출 */;
         let uploadResult = $("#uploadResult");
         $.getJSON("/getAttachList", {bId : ${board.id}}, function(arr){
@@ -129,10 +132,13 @@
             str += "<div id='result_card'";
             str += "data-path='" + obj.upload + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
             str += ">";
+            str += "<div type='hidden' class='imgDeleteBtn' data-file='" + fileCallPath + "'></div>";
             str += "<img src='/display?fileName=" + fileCallPath +"'>";
             str += "</div>";
-
             uploadResult.html(str);
+            let deleteHidden = $("#deleteBoardForm");
+            let delStr = "<input type='hidden' name='filename' value='" + fileCallPath+ "'/>"
+            deleteHidden.append(delStr);
         });
 
     })
@@ -180,6 +186,11 @@
             isOpen = !isOpen;
         }
 
+    }
+    function deleteBoardBtn() {
+        console.log("게시글 삭제 버튼 클릭");
+        $("#deleteBoardForm").attr("action", "/board/delete/${board.id}");
+        $("#deleteBoardForm").submit();
     }
     function offDisplay() {
         isOpen = true;
