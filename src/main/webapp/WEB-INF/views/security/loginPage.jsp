@@ -35,7 +35,6 @@
             <p class=" fourth "><input type="checkbox" name="remember"> 로그인 유지</p>
             <input type="button" id="login_button" class="fourth" value="로그인">
             <c:if test="${result eq 'fail'}">
-<%--                <script>alert("ID 또는 비밀번호가 잘못입력되었습니다.")</script>--%>
                 <p>ID 또는 비밀번호가 잘못입력되었습니다.</p>
                 <% session.invalidate(); %>
             </c:if>

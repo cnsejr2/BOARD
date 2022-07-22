@@ -12,7 +12,7 @@ public class Criteria {
     /* 한 페이지 당 보여질 게시물 갯수 */
     private int amount;
 
-    /* 기본 생성자 -> 기봅 세팅 : pageNum = 1, amount = 10 */
+    /* 기본 생성자 -> 기봅 세팅 : pageNum = 1, amount = 5 */
     public Criteria() {
         this(1,5);
     }

@@ -37,19 +37,26 @@ public class BoardController {
 
     @PostMapping("/board/write.do")
     @ResponseBody
-    public ModelAndView boardFormPost(Board board, Principal principal) {
+    public ModelAndView boardFormPost(Board board, Principal principal, Criteria cri) {
         String writer = principal.getName();
         board.setWriter(writer);
         boardService.insertBoard(board);
-        ModelAndView mav = new ModelAndView("/board/myList");
+        if (!(board.getImageList() == null || board.getImageList().size() <= 0)) {
+            board.getImageList().forEach(attach ->{
+                boardService.imageEnroll(attach);
+            });
+        }
+//        board.getImageList().forEach(attach ->{
+//            boardService.imageEnroll(attach);
+//        });
+        ModelAndView mav = new ModelAndView("redirect:/board/myList");
         List<Board> bList = boardService.findByWriter(writer);
         mav.addObject("bList", bList);
-        if(board.getImageList() == null || board.getImageList().size() <= 0) {
-            return mav;
-        }
-        board.getImageList().forEach(attach ->{
-            boardService.imageEnroll(attach);
-        });
+        int total = boardService.getTotalByWriter(writer);
+        logger.info("total : " + total);
+        Paging pageMake = new Paging(cri, total);
+
+        mav.addObject("pageMaker", pageMake);
         return mav;
     }
     @GetMapping("/board/myList")

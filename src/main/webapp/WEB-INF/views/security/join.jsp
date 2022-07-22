@@ -129,13 +129,16 @@
             /* 이메일 유효성 검사 */
             if (email == "") {
                 $('.final_mail_ck').css('display','block');
+                $('.mail_input_box_warn').css('display','none');
                 mailCheck = false;
             } else if (!mailFormCheck(email)) {
+                $('.final_mail_ck').css('display', 'none');
                 warnMsg.html("올바르지 못한 이메일 형식입니다.");
                 warnMsg.css("display", "inline-block");
                 mailCheck = false;
             } else {
                 $('.final_mail_ck').css('display', 'none');
+                $('.mail_input_box_warn').css('display','none');
                 mailCheck = true;
             }
             console.log("Error X")
@@ -167,17 +170,21 @@
                         idckCheck = true;
                         $('.id_input_re_1').css("display","inline-block");
                         $('.id_input_re_2').css("display", "none");
+                        $('.final_id_ck_1').css("display", "none");
                         $('.final_id_ck_2').css('display','none');
                     } else {
                         // 아이디 중복된 경우
                         idckCheck = false;
-                        $('.id_input_re_2').css("display","inline-block");
-                        $('.id_input_re_1').css("display", "none");
+                        $('.id_input_re_1').css("display","none");
+                        $('.id_input_re_2').css("display", "inline-block");
+                        $('.final_id_ck_1').css("display", "none");
                         $('.final_id_ck_2').css('display','none');
                     }
                 } else {
                     idCheck = false;
                     $('.id_input_re_1').css("display","none");
+                    $('.id_input_re_2').css("display", "none");
+                    $('.final_id_ck_1').css("display", "none");
                     $('.final_id_ck_2').css('display','block');
                 }
 

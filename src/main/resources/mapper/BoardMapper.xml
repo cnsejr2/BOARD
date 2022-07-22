@@ -100,8 +100,8 @@
     <![CDATA[
         select * from (
         select rownum  as rn, id, title, contents, writer, view_cnt
-        from BOARD_LYE where rownum <= #{cri.pageNum} * #{cri.amount} order by id)
-        where rn > (#{cri.pageNum} -1) * #{cri.amount} AND writer = #{writer, jdbcType=VARCHAR}
+        from (select * from BOARD_LYE WHERE writer = #{writer, jdbcType=VARCHAR}) where rownum <= #{cri.pageNum} * #{cri.amount} order by id)
+        where rn > (#{cri.pageNum} -1) * #{cri.amount}
         ]]>
     </select>
 
