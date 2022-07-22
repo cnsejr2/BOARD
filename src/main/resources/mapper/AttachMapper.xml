@@ -27,6 +27,6 @@
 
     <!-- 어제자 날자 이미지 리스트 -->
     <select id="checkFileList" resultType="com.example.test1.domain.AttachImage">
-        select * from IMAGE_LYE where upload = to_char(sysdate -1, 'yyyy\mm\dd')
+        select * from IMAGE_LYE where upload = to_char(sysdate, 'yyyy\mm\dd')
     </select>
 </mapper>
