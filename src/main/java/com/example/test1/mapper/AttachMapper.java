@@ -17,4 +17,6 @@ public interface AttachMapper {
     void imageReEnroll(AttachImage attachImage);
     /* 지정 상품 이미지 전체 삭제 */
     void deleteImageAll(Long bId);
+
+    List<AttachImage> checkFileList();
 }

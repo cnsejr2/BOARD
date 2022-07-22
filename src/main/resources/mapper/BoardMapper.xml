@@ -78,6 +78,16 @@
     <delete id="deleteBoard" parameterType="Long">
         delete from BOARD_LYE where id = #{id}
     </delete>
+    <!-- 게시글 여러 개 삭제 -->
+    <delete id="deleteMultiBoard" parameterType="java.util.List">
+        DELETE FROM BOARD_LYE
+        <where>
+            <foreach collection="list" item="board" open="" close="" separator="OR">
+                (id = #{board, jdbcType=NUMERIC})
+            </foreach>
+        </where>
+    </delete>
+
 
     <select id="selectBoardSearchList" resultType="java.util.LinkedHashMap">
         SELECT *

@@ -38,7 +38,7 @@
         <tr>
             <td>
                 <label class="checkbox-inline">
-                    <input type="checkbox" class="chk" name="cchk" onclick="cchkClicked()"  value="${b.id}">
+                    <input type="checkbox" class="chk" name="oneChk" onclick="oneChkClicked()"  value="${b.ID}">
                 </label>
             </td>
             <td>${b.ID}</td>
@@ -70,6 +70,8 @@
         <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
         <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
     </form>
+    <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/board/write.do'"> 글 쓰기 </button>
+    <button type="button" class="btn btn-primary update-btn float-right" onclick="boardDelete();"> 글 삭제 </button>
     <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/security/main'"> 메인 페이지로 </button>
 </div>
 <script>
@@ -96,13 +98,13 @@
         }
     }
     //자식 체크박스 클릭 이벤트
-    function cchkClicked(){
+    function oneChkClicked(){
 
         //체크박스 전체개수
-        let allCount = $("input:checkbox[name=cchk]").length;
+        let allCount = $("input:checkbox[name=oneChk]").length;
 
         //체크된 체크박스 전체개수
-        let checkedCount = $("input:checkbox[name=cchk]:checked").length;
+        let checkedCount = $("input:checkbox[name=oneChk]:checked").length;
 
         //체크박스 전체개수와 체크된 체크박스 전체개수가 같으면 체크박스 전체 체크
         if(allCount == checkedCount){
@@ -119,13 +121,15 @@
 
         let boardIdxArray = [];
 
-        $("input:checkbox[name=cchk]:checked").each(function(){
-            boardIdxArray.push($(this).val());
+        $("input:checkbox[name='oneChk']:checked").each(function(){
+            console.log("배열 추가" + $(this).val())
+            boardIdxArray.push($(this).val())
+            // boardIdxArray.push($(this).val());
         });
 
         console.log(boardIdxArray);
 
-        if(boardIdxArray === ""){
+        if(boardIdxArray.length === 0){
             alert("삭제할 항목을 선택해주세요.");
             return false;
         }
@@ -134,14 +138,14 @@
         if(confirmAlert){
 
             $.ajax({
-                type : 'POST'
-                ,url : "/board/delete"
+                type : 'DELETE'
+                ,url : "/board/multi/delete"
                 ,dataType : 'json'
                 ,data : JSON.stringify(boardIdxArray)
                 ,contentType: 'application/json'
                 ,success : function(result) {
                     alert("해당글이 정상적으로 삭제되었습니다.");
-                    location.href="/security/main";
+                    location.href="/board/myList";
                 },
                 error: function(request, status, error) {
 

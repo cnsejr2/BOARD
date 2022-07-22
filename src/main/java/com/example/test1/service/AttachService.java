@@ -20,8 +20,8 @@ public class AttachService {
 
     public List<AttachImage> getAttachList(Long bId) { return attachMapper.getAttachList(bId); }
     public void imageReEnroll(AttachImage attachImage) { attachMapper.imageReEnroll(attachImage); }
-
     public void deleteImage(Long bId) { attachMapper.deleteImage(bId); }
-
     public void deleteImageAll(Long bId) { attachMapper.deleteImageAll(bId); }
+    /* 어제자 날짜 이미지 리스트 */
+    public List<AttachImage> checkFileList() { return attachMapper.checkFileList(); }
 }

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -88,6 +89,7 @@ public class BoardController {
         return mav;
     }
 
+    @Transactional
     @RequestMapping(value="/board/update/{id}", method=RequestMethod.PUT)
     public ModelAndView updateSubmit(Board board, @PathVariable("id") Long id) {
         ModelAndView mav = new ModelAndView("redirect:/board/view/" + id);
@@ -114,6 +116,14 @@ public class BoardController {
         logger.info("delete ID : " + id);
         boardService.deleteBoard(id);
         return mav;
+    }
+
+    @ResponseBody
+    @DeleteMapping("/board/multi/delete")
+    public List<Long> deleteSubmit(@RequestBody List<Long> boardIdxArray){
+        log.info("boardIdxArray={}", boardIdxArray);
+        boardService.deleteMultiBoard(boardIdxArray);
+        return boardIdxArray;
     }
 
     /* 검색 목록 불러오기 */

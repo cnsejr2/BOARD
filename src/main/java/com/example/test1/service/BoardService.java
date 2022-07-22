@@ -30,6 +30,7 @@ public class BoardService {
     public int updateBoard(Board board) { return boardMapper.updateBoard(board); }
     public void deleteBoard(Long id) { boardMapper.deleteBoard(id); }
 
+    public void deleteMultiBoard(List<Long> idx) { boardMapper.deleteMultiBoard(idx); }
     public List<Board> findAll() { return boardMapper.findAll(); }
 
     public Board selectBoardDetail(Long id) { return boardMapper.selectBoardDetail(id); }

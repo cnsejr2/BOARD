@@ -25,6 +25,8 @@ public interface BoardMapper {
 
     void deleteBoard(Long id);
 
+    void deleteMultiBoard(List<Long> idx);
+
     int boardListCnt();
 
     List<Board> findAll();

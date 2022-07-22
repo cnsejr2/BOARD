@@ -93,24 +93,25 @@
 
     /* 파일 삭제 메서드 */
     function deleteFile(){
-        let targetFile = $(".imgDeleteBtn").data("file");
-        let targetDiv = $("#result_card");
-        $.ajax({
-            url: '/deleteFile',
-            data : {fileName : targetFile, id : ${board.id}},
-            dataType : 'text',
-            type : 'POST',
-            success : function(result){
-                console.log(result);
-                targetDiv.remove();
-                $("input[type='file']").val("");
+        $("#result_card").remove();
+        <%--let targetFile = $(".imgDeleteBtn").data("file");--%>
+        <%--let targetDiv = $("#result_card");--%>
+        <%--$.ajax({--%>
+        <%--    url: '/deleteFile',--%>
+        <%--    data : {fileName : targetFile, id : ${board.id}},--%>
+        <%--    dataType : 'text',--%>
+        <%--    type : 'POST',--%>
+        <%--    success : function(result){--%>
+        <%--        console.log(result);--%>
+        <%--        targetDiv.remove();--%>
+        <%--        $("input[type='file']").val("");--%>
 
-            },
-            error : function(result){
-                console.log(result);
-                alert("파일을 삭제하지 못하였습니다.")
-            }
-        });
+        <%--    },--%>
+        <%--    error : function(result){--%>
+        <%--        console.log(result);--%>
+        <%--        alert("파일을 삭제하지 못하였습니다.")--%>
+        <%--    }--%>
+        <%--});--%>
     }
     /* 이미지 업로드 */
     $("input[type='file']").on("change", function(e){
