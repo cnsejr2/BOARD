@@ -18,41 +18,20 @@ public interface BoardMapper {
 
     void viewCntBoard(Board board);
     void insertBoard(Board board);
-
     Board selectBoardDetail(Long id);
-
     int updateBoard(Board board);
-
     void deleteBoard(Long id);
-
     void deleteMultiBoard(List<Long> idx);
-
     int boardListCnt();
-
     List<Board> findAll();
-
     List<Board> findByWriter(String writer);
-
-    /* 게시판 목록(페이징 적용) */
     List<Board> getListPaging(Criteria cri);
-
     List<Board> getListPagingByWriter(@Param("writer") String writer, Criteria cri);
-
-
     List<Board> selectBoardSearchList(@Param("keyword") String keyword, @Param("sort") String sort);
-
-    /* 게시판 총 갯수 */
     int getTotal();
-
     int getTotalByWriter(String writer);
-
     void updateRecommend(Long id);
-
     void saveRecommendBoard(@Param("bid") Long bid, @Param("mid") String mid);
-
     int hadRecommend(@Param("bid") Long bid, @Param("mid") String mid);
-    /* 이미지 등록 */
     void imageEnroll(AttachImage attachImage);
-
-
 }

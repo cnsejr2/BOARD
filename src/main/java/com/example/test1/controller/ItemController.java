@@ -1,21 +1,15 @@
 package com.example.test1.controller;
 
-import com.example.test1.domain.Board;
 import com.example.test1.domain.Criteria;
 import com.example.test1.domain.Item;
-import com.example.test1.domain.Paging;
-import com.example.test1.service.AttachService;
-import com.example.test1.service.BoardService;
+import com.example.test1.domain.ItemImage;
 import com.example.test1.service.ItemImageService;
 import com.example.test1.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -30,18 +24,43 @@ public class ItemController {
     ItemService itemService;
     @Resource
     ItemImageService itemImageService;
-//    @RequestMapping(value="/item/view/{id}", method = RequestMethod.GET)
-//    public ModelAndView selectItemDetail(@PathVariable("id") Long id) throws Exception {
-//        ModelAndView mav = new ModelAndView("/item/view");
-//        logger.info("item ID : " + id);
-//        Item item = itemService.selectItemDetail(id);
-//        mav.addObject("item", item);
-//        return mav;
+    @GetMapping("/item/write.do")
+    public String itemForm() {
+        return "/item/write";
+    }
+
+    @PostMapping("/item/write.do")
+    @ResponseBody
+    public ModelAndView itemFormPost(Item item, Principal principal, Criteria cri) {
+        item.setPrice("500,000");
+        item.setColor("black");
+        item.setItemCategory("Life");
+        itemService.insertItem(item);
+        logger.info("item: " + item);
+        if (!(item.getImageList() == null || item.getImageList().size() <= 0)) {
+            item.getImageList().forEach(attach ->{
+                itemService.imageEnroll(attach);
+            });
+        }
+        ModelAndView mav = new ModelAndView("redirect:/item/list");
+        List<Item> itemList = itemService.findAll();
+        mav.addObject("itemList", itemList);
+        List<ItemImage> itemImageList = itemImageService.findAllImage();
+        mav.addObject("itemImageList", itemImageList);
+        logger.info("itemImageList.size() : " + itemImageList.size());
+//        int total = itemService.getTotalByWriter(writer);
+//        Paging pageMake = new Paging(cri, total);
 //
-//    }
-    @GetMapping("/item/view")
-    public String getIndex() {
-        return "/item/view";
+//        mav.addObject("pageMaker", pageMake);
+        return mav;
+    }
+    @RequestMapping(value="/item/view/{id}", method = RequestMethod.GET)
+    public ModelAndView selectItemDetail(@PathVariable("id") Long id) throws Exception {
+        ModelAndView mav = new ModelAndView("/item/view");
+        Item item = itemService.selectItemDetail(id);
+        mav.addObject("item", item);
+        return mav;
+
     }
 
     @RequestMapping("/item/list")

@@ -91,28 +91,27 @@
             //체크박스 전체 체크
             $(".chk").prop("checked", true);
         }
-
         else{
             //체크박스 전체 해제
             $(".chk").prop("checked", false);
         }
     }
-    //자식 체크박스 클릭 이벤트
-    function oneChkClicked(){
 
-        //체크박스 전체개수
+    //자식 체크박스 클릭 이벤트
+    function oneChkClicked() {
+
+        // 체크박스 전체개수
         let allCount = $("input:checkbox[name=oneChk]").length;
 
-        //체크된 체크박스 전체개수
+        // 체크된 체크박스 전체개수
         let checkedCount = $("input:checkbox[name=oneChk]:checked").length;
 
-        //체크박스 전체개수와 체크된 체크박스 전체개수가 같으면 체크박스 전체 체크
-        if(allCount == checkedCount){
+        // 체크박스 전체개수와 체크된 체크박스 전체개수가 같으면 체크박스 전체 체크
+        if(allCount == checkedCount) {
             $(".chk").prop("checked", true);
         }
-
-        //같지않으면 전체 체크박스 해제
-        else{
+        // 같지않으면 전체 체크박스 해제
+        else {
             $("#allCheckBox").prop("checked", false);
         }
     }

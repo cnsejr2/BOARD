@@ -32,14 +32,4 @@ public class SHA_256 {//implements PasswordEncoder {
             throw new RuntimeException();
         }
     }
-
-//    @Override
-//    public String encode(CharSequence rawPassword) {
-//        return null;
-//    }
-//
-//    @Override
-//    public boolean matches(CharSequence rawPassword, String encodedPassword) {
-//        return false;
-//    }
 }

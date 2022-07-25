@@ -20,11 +20,9 @@ public class SearchController {
     BoardService boardService;
     /* 검색 목록 불러오기 */
     @GetMapping("/getSearch")
-    private ModelAndView getSearchList(@RequestParam(value = "keyword") String keyword,
+    public ModelAndView getSearchList(@RequestParam(value = "keyword") String keyword,
                                        @RequestParam(required = false, defaultValue="id") String sort) throws Exception {
         ModelAndView mav = new ModelAndView("/board/searchResult");
-        log.info("sort : " + sort);
-        log.info("keyword : " + keyword);
         List<Board> bList = boardService.selectBoardSearchList(keyword, sort);
         mav.addObject("bList", bList);
         mav.addObject("keyword", keyword);

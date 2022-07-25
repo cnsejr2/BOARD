@@ -53,7 +53,7 @@
     </ul>
 
     <!-- SEARCH FORM -->
-<%--    <%@ include file="/WEB-INF/views/search.jsp" %>--%>
+    <%@ include file="/WEB-INF/views/search.jsp" %>
 
 
     <!-- Right navbar links -->
@@ -421,10 +421,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
+                    <a href="/item/list" class="nav-link">
                         <i class="nav-icon far fa-image"></i>
                         <p>
-                            Gallery
+                            ItemList
                         </p>
                     </a>
                 </li>

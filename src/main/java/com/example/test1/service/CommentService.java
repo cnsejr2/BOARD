@@ -17,12 +17,8 @@ public class CommentService {
 
     @Resource
     CommentMapper commentMapper;
-
     public void insertComment(Comment comment) { commentMapper.insertComment(comment); }
-
     public List<Comment> selectCommentList(Long id) { return commentMapper.selectCommentList(id); }
-
     public void deleteComment(Long id) { commentMapper.deleteComment(id); }
-
     public void updateComment(Map input) { commentMapper.updateComment(input); }
 }

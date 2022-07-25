@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.test1.mapper.ItemMapper">
+    <sql id="itemColumns">
+        id
+        , name
+        , info
+        , itemsize
+        , price
+        , color
+        , itemCategory
+        , regdate
+    </sql>
+
+    <insert id="insertItem" parameterType="com.example.test1.domain.Item">
+        INSERT INTO LYE_ITEM (
+        <include refid="itemColumns"></include>
+        ) VALUES (
+        LYE_ITEM_SEQ.nextval
+        , #{name, jdbcType=VARCHAR}
+        , #{info, jdbcType=VARCHAR}
+        , 'S,M,L,XL'
+        , #{price, jdbcType=VARCHAR}
+        , #{color, jdbcType=VARCHAR}
+        , 'Life'
+        , sysdate
+        )
+    </insert>
+
+    <select id="findAll" resultType="java.util.HashMap">
+        SELECT
+            *
+        FROM LYE_ITEM
+        ORDER BY id
+    </select>
+
+    <!-- 이미지 등록 -->
+    <insert id="imageEnroll">
+        <selectKey resultType="Long" keyProperty="itemId" order="AFTER">
+            SELECT MAX(ID) + 1 FROM LYE_ITEM
+        </selectKey>
+        INSERT INTO LYE_ITEM_IMAGE (itemid, filename, upload, uuid)
+        values (
+        LYE_ITEM_SEQ.currval,
+        #{fileName, jdbcType=VARCHAR},
+        #{upload,jdbcType=VARCHAR},
+        #{uuid,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
     <select id="selectItemDetail" parameterType="Long" resultType="com.example.test1.domain.Item">
         select * FROM LYE_ITEM WHERE id = #{id}
     </select>

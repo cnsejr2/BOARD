@@ -7,11 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface LoginMapper {
-    // 회원정보조회
     SecurityMember getSelectMemberInfo(String id);
-
-    // 비밀번호 틀린 횟수 증가
     int setUpdatePasswordLockCnt(String id);
-    // 비밀번호 틀린 횟수 초기화
     int setUpdatePasswordLockCntReset(String id);
 }

@@ -49,7 +49,6 @@ public class BoardController {
         List<Board> bList = boardService.findByWriter(writer);
         mav.addObject("bList", bList);
         int total = boardService.getTotalByWriter(writer);
-        logger.info("total : " + total);
         Paging pageMake = new Paging(cri, total);
 
         mav.addObject("pageMaker", pageMake);
@@ -59,18 +58,16 @@ public class BoardController {
     public ModelAndView boardList(Principal principal, Criteria cri) {
         String writer = principal.getName();
         ModelAndView mav = new ModelAndView("/board/myList");
-        log.info("MyList boardService : " + boardService);
         List<Board> bList = boardService.getListPagingByWriter(writer, cri);
         mav.addObject("bList", bList);
 
         int total = boardService.getTotalByWriter(writer);
-        logger.info("total : " + total);
         Paging pageMake = new Paging(cri, total);
 
         mav.addObject("pageMaker", pageMake);
         return mav;
     }
-    /* 게시글 상세 페이지 */
+
     @RequestMapping(value="/board/view/{id}", method = RequestMethod.GET)
     public ModelAndView selectBoardDetail(Principal principal, @PathVariable("id") Long id) throws Exception {
         ModelAndView mav = new ModelAndView("/board/view");
@@ -126,19 +123,24 @@ public class BoardController {
     @ResponseBody
     @DeleteMapping("/board/multi/delete")
     public List<Long> deleteSubmit(@RequestBody List<Long> boardIdxArray){
-        log.info("boardIdxArray={}", boardIdxArray);
         boardService.deleteMultiBoard(boardIdxArray);
         return boardIdxArray;
     }
 
 
     /* 게시글 추천 */
+
+    /**
+     * 게시글 추천
+     * @param principal
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/board/updateRecommend")
     @ResponseBody
-    private int getCommentList(Principal principal, @RequestParam("id") Long id) throws Exception {
+    public int getCommentList(Principal principal, @RequestParam("id") Long id) throws Exception {
         String user = principal.getName();
-        log.info("boardService:" + boardService);
-        log.info("id:" + id);
         int isRecommend = boardService.hadRecommend(id, user);
         if (isRecommend != 1) {
             boardService.updateRecommend(id);

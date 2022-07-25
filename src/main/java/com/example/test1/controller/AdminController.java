@@ -46,9 +46,7 @@ public class AdminController {
 
     /* 이미지 파일 삭제 */
     @PostMapping("/deleteFile")
-    public ResponseEntity<String> deleteFile(String fileName, Long id){
-
-        logger.info("deleteFile........" + fileName);
+    public ResponseEntity<String> deleteFile(String fileName, Long id) {
 
         File file = null;
 
@@ -60,7 +58,6 @@ public class AdminController {
 
             /* 원본 파일 삭제 */
             String originFileName = file.getAbsolutePath().replace("s_", "");
-            logger.info("originFileName : " + originFileName);
             file = new File(originFileName);
             file.delete();
 
@@ -88,7 +85,7 @@ public class AdminController {
     }
 
     @Scheduled(fixedDelay=600000)
-    public void checkFiles() throws Exception{
+    public void checkFiles() throws Exception {
 
         logger.warn("File Check Task Run..........");
         logger.warn(String.valueOf(new Date()));
@@ -117,17 +114,14 @@ public class AdminController {
 
         // 삭제 대상 파일 리스트(분류)
         List<File> removeFileList = new ArrayList<File>(Arrays.asList(targetFile));
-        for(File file : targetFile){
+        for (File file : targetFile){
             checkFilePath.forEach(checkFile ->{
                 if(file.toPath().equals(checkFile))
                     removeFileList.remove(file);
             });
         }
 
-
-        // 삭제 대상 파일 제거
-        logger.warn("file Delete : ");
-        for(File file : removeFileList) {
+        for (File file : removeFileList) {
             logger.warn(String.valueOf(file));
             file.delete();
         }

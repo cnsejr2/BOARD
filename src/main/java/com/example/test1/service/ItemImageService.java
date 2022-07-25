@@ -17,11 +17,10 @@ public class ItemImageService {
 
     @Resource
     ItemImageMapper itemImageMapper;
-
-    public List<ItemImage> getAttachList(Long itemId) { return itemImageMapper.getAttachList(itemId); }
+    public List<ItemImage> getItemImageList(Long itemId) { return itemImageMapper.getItemImageList(itemId); }
+    public List<ItemImage> findAllImage() { return itemImageMapper.findAllImage(); }
     public void imageReEnroll(ItemImage itemImage) { itemImageMapper.imageReEnroll(itemImage); }
     public void deleteImage(Long bId) { itemImageMapper.deleteImage(bId); }
     public void deleteImageAll(Long bId) { itemImageMapper.deleteImageAll(bId); }
-    /* 어제자 날짜 이미지 리스트 */
     public List<ItemImage> checkFileList() { return itemImageMapper.checkFileList(); }
 }

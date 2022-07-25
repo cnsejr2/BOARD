@@ -22,38 +22,23 @@ public class BoardService {
     BoardMapper boardMapper;
 
     public void viewCntBoard(Board board) { boardMapper.viewCntBoard(board); }
-
     public void insertBoard(Board board){
         boardMapper.insertBoard(board);
     }
-
     public int updateBoard(Board board) { return boardMapper.updateBoard(board); }
     public void deleteBoard(Long id) { boardMapper.deleteBoard(id); }
-
     public void deleteMultiBoard(List<Long> idx) { boardMapper.deleteMultiBoard(idx); }
     public List<Board> findAll() { return boardMapper.findAll(); }
-
     public Board selectBoardDetail(Long id) { return boardMapper.selectBoardDetail(id); }
-
     public List<Board> findByWriter(String writer) { return boardMapper.findByWriter(writer); }
-
     public List<Board> selectBoardSearchList(String keyword, String sort) { return  boardMapper.selectBoardSearchList(keyword, sort); }
-
-    /* 게시판 목록(페이징 적용) */
     public List<Board> getListPaging(Criteria cri) { return boardMapper.getListPaging(cri); }
-
     public List<Board> getListPagingByWriter(String writer, Criteria cri) { return boardMapper.getListPagingByWriter(writer, cri); }
-
     public int getTotal() { return boardMapper.getTotal(); }
-
     public  void updateRecommend(Long bid) { boardMapper.updateRecommend(bid);}
-
     public  void saveRecommendBoard(Long bid, String mid) { boardMapper.saveRecommendBoard(bid, mid); }
-
     public  int hadRecommend(Long bid, String mid) { return boardMapper.hadRecommend(bid, mid); }
-
     public void imageEnroll(AttachImage attachImage) { boardMapper.imageEnroll(attachImage); }
-
     public int getTotalByWriter(String writer) { return boardMapper.getTotalByWriter(writer); }
 
 

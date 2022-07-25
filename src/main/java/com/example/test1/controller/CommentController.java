@@ -38,7 +38,6 @@ public class CommentController {
                 .contents(contents)
                 .bid(id)
                 .build();
-        logger.info(String.valueOf(comment));
         commentService.insertComment(comment);
         return "redirect:/board/view/" + id;
     }

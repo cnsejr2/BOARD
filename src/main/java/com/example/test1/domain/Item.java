@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Slf4j
@@ -17,4 +18,5 @@ public class Item {
     private String color;
     private String itemCategory;
     private Timestamp regDate;
+    private List<ItemImage> imageList;
 }

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.test1.mapper.ItemImageMapper">
-    <select id="getAttachList" resultType="com.example.test1.domain.AttachImage">
-        SELECT * FROM LYE_IMAGE WHERE bId = #{bId}
+    <select id="getItemImageList" resultType="com.example.test1.domain.ItemImage">
+        SELECT * FROM LYE_ITEM_IMAGE WHERE itemId = #{itemId}
     </select>
 
     <!-- 지정 상품 이미지 전체 삭제 -->
     <delete id="deleteImageAll">
-        delete FROM LYE_IMAGE where bId = #{bId}
+        delete FROM LYE_ITEM_IMAGE where itemId = #{itemId}
     </delete>
 
     <!-- 이미지 재 등록 -->
-    <insert id="imageReEnroll" parameterType="com.example.test1.domain.AttachImage">
-        INSERT INTO LYE_IMAGE (bid, filename, upload, uuid)
+    <insert id="imageReEnroll" parameterType="com.example.test1.domain.ItemImage">
+        INSERT INTO LYE_ITEM_IMAGE (itemId, filename, upload, uuid)
         values (
-                   #{bId, jdbcType=NUMERIC},
+        #{itemId, jdbcType=NUMERIC},
         #{fileName, jdbcType=VARCHAR},
         #{upload,jdbcType=VARCHAR},
         #{uuid,jdbcType=VARCHAR}
@@ -22,11 +22,17 @@
     </insert>
 
     <delete id="deleteImage" parameterType="Long">
-        delete from LYE_IMAGE where bId = #{bId, jdbcType=NUMERIC}
+        delete from LYE_ITEM_IMAGE where itemId = #{itemId, jdbcType=NUMERIC}
     </delete>
 
-    <!-- 어제자 날자 이미지 리스트 -->
-    <select id="checkFileList" resultType="com.example.test1.domain.AttachImage">
-        select * from LYE_IMAGE where upload = to_char(sysdate, 'yyyy\mm\dd')
+    <select id="checkFileList" resultType="com.example.test1.domain.ItemImage">
+        select * from LYE_ITEM_IMAGE where upload = to_char(sysdate, 'yyyy\mm\dd')
+    </select>
+
+    <select id="findAllImage" resultType="java.util.HashMap">
+        SELECT
+            *
+        FROM LYE_ITEM_IMAGE
+        ORDER BY itemId
     </select>
 </mapper>

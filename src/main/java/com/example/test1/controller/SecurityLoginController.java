@@ -36,7 +36,6 @@ public class SecurityLoginController {
         mav.addObject("bList", bList);
 
         int total = boardService.getTotal();
-        logger.info("total : " + total);
         Paging pageMake = new Paging(cri, total);
 
         mav.addObject("pageMaker", pageMake);

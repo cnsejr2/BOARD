@@ -1,8 +1,10 @@
 package com.example.test1.controller;
 
 import com.example.test1.domain.AttachImage;
+import com.example.test1.domain.ItemImage;
 import com.example.test1.service.AttachService;
 import com.example.test1.service.BoardService;
+import com.example.test1.service.ItemImageService;
 import com.example.test1.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -36,7 +38,9 @@ public class AttachImageController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     AttachService attachService;
-    /* 첨부 파일 업로드 */
+    @Resource
+    ItemImageService itemImageService;
+
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AttachImage>> uploadAjaxActionPOST(MultipartFile uploadFile) throws IOException {
 
@@ -51,7 +55,7 @@ public class AttachImageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(!type.startsWith("image")) {
+        if (!type.startsWith("image")) {
             List<AttachImage> list = null;
             return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
         }
@@ -62,39 +66,35 @@ public class AttachImageController {
         String str = sdf.format(date);
         String datePath = str.replace("-", File.separator);
 
-        /* 폴더 생성 */
         File uploadPath = new File(uploadFolder, datePath);
 
         if (uploadPath.exists() == false) {
             uploadPath.mkdirs();
         }
-        /* 이미저 정보 담는 객체 */
+
         List<AttachImage> list = new ArrayList();
         AttachImage aImage = new AttachImage();
-        /* 파일 이름 */
+
         String uploadFileName = uploadFile.getOriginalFilename();
         aImage.setFileName(uploadFileName);
         aImage.setUpload(datePath);
 
-        /* uuid 적용 파일 이름 */
         String uuid = UUID.randomUUID().toString();
         aImage.setUuid(uuid);
 
         uploadFileName = uuid + "_" + uploadFileName;
 
-        /* 파일 위치, 파일 이름을 합친 File 객체 */
         File saveFile = new File(uploadPath, uploadFileName);
 
-        /* 파일 저장 */
         try {
             uploadFile.transferTo(saveFile);
 
             File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
             BufferedImage bo_image = ImageIO.read(saveFile);
 
-            //비율
+
             double ratio = 3;
-            //넓이 높이
+
             int width = (int) (bo_image.getWidth() / ratio);
             int height = (int) (bo_image.getHeight() / ratio);
             Thumbnails.of(saveFile)
@@ -110,7 +110,7 @@ public class AttachImageController {
     }
 
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getImage(String fileName){
+    public ResponseEntity<byte[]> getImage(String fileName) {
         File file = new File("c:\\upload\\" + fileName);
 
         ResponseEntity<byte[]> result = null;
@@ -120,7 +120,7 @@ public class AttachImageController {
             header.add("Content-type", Files.probeContentType(file.toPath()));
             result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -129,9 +129,7 @@ public class AttachImageController {
 
     /* 이미지 정보 반환 */
     @GetMapping(value="/getAttachList")
-    public ResponseEntity<List<AttachImage>> getAttachList(Long bId){
-        logger.info("getAttachList.........." + bId);
-
+    public ResponseEntity<List<AttachImage>> getAttachList(Long bId) {
         return new ResponseEntity(attachService.getAttachList(bId), HttpStatus.OK);
     }
 }

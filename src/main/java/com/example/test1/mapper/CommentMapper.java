@@ -11,10 +11,7 @@ import java.util.Map;
 @Mapper
 public interface CommentMapper {
     void insertComment(Comment comment);
-
     List<Comment> selectCommentList(Long id);
-
     void deleteComment(Long id);
-
     void updateComment(Map input);
 }

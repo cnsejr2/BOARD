@@ -33,16 +33,11 @@ public class SecurityService implements UserDetailsService {
     SecurityMemberMapper securityMemberMapper;
     @Resource
     SHA_256 sha_256;
-//    @Resource
-//    PasswordEncoder passwordEncoder;
-
     public SecurityMember getSelectMemberInfo(String id) {
         return loginMapper.getSelectMemberInfo(id);
     }
-
     public void setInsertMember(SecurityMember member) {
         String pw = sha_256.encrypt(member.getPassword());
-//        String pw = member.getPassword();
         SecurityMember sMember = SecurityMember.builder()
                 .id(member.getId())
                 .password("{sha256}" + pw)
@@ -61,11 +56,8 @@ public class SecurityService implements UserDetailsService {
         return loginMapper.setUpdatePasswordLockCntReset(id);
     }
 
-    // login form에서 입력한 username을 이용해서 UserDetails 객체를 생성해주는 역할을 한다.
-    // login 요청시에 해당 User에 대한 정보를 가져오기 위해서 호출이 발생한다.
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         SecurityMember m = securityMemberMapper.findSecurityMember(id);
-//        m.setPassword(passwordEncoder.encode(m.getPassword()));
         logger.info("loadUserByUsername");
         if (m != null) {
             return new org.springframework.security.core.userdetails.User(m.getUserName(), m.getPassword(),
