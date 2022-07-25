@@ -92,6 +92,7 @@
             /* 아이디 유효성검사 */
             if (id == "") {
                 $('.final_id_ck_1').css('display','block');
+                $('.final_id_ck_2').css('display', 'none');
                 idCheck = false;
             } else if (id.length < 5) {
                 $('.final_id_ck_2').css('display','block');

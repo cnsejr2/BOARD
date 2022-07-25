@@ -149,6 +149,8 @@
         $.ajax({
             type : "GET",
             url : "/board/updateRecommend",
+            contentsType : "application/json",
+            dataType : 'json',
             data : {'id' : ${board.id} },
             success : function(likeCheck) {
                 if(likeCheck != 1){

@@ -53,7 +53,7 @@
     </ul>
 
     <!-- SEARCH FORM -->
-    <%@ include file="/WEB-INF/views/search.jsp" %>
+<%--    <%@ include file="/WEB-INF/views/search.jsp" %>--%>
 
 
     <!-- Right navbar links -->

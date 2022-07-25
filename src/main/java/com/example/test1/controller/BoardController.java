@@ -9,6 +9,7 @@ import com.example.test1.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Controller
 @Slf4j
+@Transactional
 public class BoardController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
@@ -92,7 +94,7 @@ public class BoardController {
         return mav;
     }
 
-    @Transactional
+
     @RequestMapping(value="/board/update/{id}", method=RequestMethod.PUT)
     public ModelAndView updateSubmit(Board board, @PathVariable("id") Long id) {
         ModelAndView mav = new ModelAndView("redirect:/board/view/" + id);
@@ -135,6 +137,8 @@ public class BoardController {
     @ResponseBody
     private int getCommentList(Principal principal, @RequestParam("id") Long id) throws Exception {
         String user = principal.getName();
+        log.info("boardService:" + boardService);
+        log.info("id:" + id);
         int isRecommend = boardService.hadRecommend(id, user);
         if (isRecommend != 1) {
             boardService.updateRecommend(id);
