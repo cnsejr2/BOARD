@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.test1.mapper.ItemMapper">
+    <select id="selectItemDetail" parameterType="Long" resultType="com.example.test1.domain.Item">
+        select * FROM LYE_ITEM WHERE id = #{id}
+    </select>
+
+    <select id="getListPaging" resultType="java.util.LinkedHashMap">
+    <![CDATA[
+        select * from (
+                          select rownum  as rn, id, NAME, PRICE
+                          from LYE_ITEM where rownum <= #{pageNum} * #{amount} order by id)
+        where rn > (#{pageNum} -1) * #{amount}
+        ]]>
+    </select>
 </mapper>

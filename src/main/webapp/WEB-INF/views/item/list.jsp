@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="container" style='width:1000px;'>
-    <h1>게시판목록</h1>
+    <h1>아이템 목록</h1>
     <table class="table">
         <tr>
             <th>ID</th>

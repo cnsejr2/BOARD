@@ -1,8 +1,12 @@
 package com.example.test1.domain;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+
+import java.sql.Timestamp;
 
 @Data
+@Slf4j
 public class Item {
 
     private Long id;
@@ -12,5 +16,5 @@ public class Item {
     private String price;
     private String color;
     private String itemCategory;
-
+    private Timestamp regDate;
 }
