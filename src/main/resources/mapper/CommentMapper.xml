@@ -9,10 +9,10 @@
         , bid
     </sql>
     <insert id="insertComment" parameterType="com.example.test1.domain.Comment">
-        INSERT INTO COMMENT_LYE (
+        INSERT INTO LYE_COMMENT (
         <include refid="commentColumns"></include>
         ) VALUES (
-        COMMENT_SEQ.nextval
+        LYE_COMMENT_SEQ.nextval
         , #{writer,jdbcType=VARCHAR}
         , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
         , #{contents,jdbcType=VARCHAR}
@@ -22,13 +22,13 @@
 
     <select id="selectCommentList" resultType="com.example.test1.domain.Comment">
         SELECT *
-        FROM COMMENT_LYE
+        FROM LYE_COMMENT
         WHERE bid=#{id}
         ORDER BY id
     </select>
 
     <update id="updateComment" parameterType="java.util.HashMap">
-        update COMMENT_LYE
+        update LYE_COMMENT
         <set>
             contents = #{contents,jdbcType=VARCHAR}
         </set>
@@ -36,6 +36,6 @@
     </update>
 
     <delete id="deleteComment" parameterType="Long">
-        delete from COMMENT_LYE where id = #{id}
+        delete from LYE_COMMENT where id = #{id}
     </delete>
 </mapper>

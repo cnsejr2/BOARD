@@ -15,10 +15,10 @@
     </sql>
 
     <insert id="insertBoard" parameterType="com.example.test1.domain.Board">
-        INSERT INTO BOARD_LYE (
+        INSERT INTO LYE_BOARD (
             <include refid="boardColumns"></include>
         ) VALUES (
-            BOARD_SEQ.nextval
+            LYE_BOARD_SEQ.nextval
             , #{title,jdbcType=VARCHAR}
             , #{contents,jdbcType=VARCHAR}
             , #{writer,jdbcType=VARCHAR}
@@ -34,29 +34,29 @@
     <select id="findAll" resultType="java.util.HashMap">
         SELECT
             *
-        FROM BOARD_LYE
+        FROM LYE_BOARD
         ORDER BY id
     </select>
 
     <select id="findByWriter" parameterType="String" resultType="java.util.HashMap">
         SELECT
             *
-        FROM BOARD_LYE
+        FROM LYE_BOARD
         WHERE writer=#{writer, jdbcType=VARCHAR}
     </select>
 
     <select id="getTotalByWriter" parameterType="String" resultType="int">
         SELECT
             count(*)
-        FROM BOARD_LYE
+        FROM LYE_BOARD
         WHERE writer=#{writer, jdbcType=VARCHAR}
     </select>
     <select id="selectBoardDetail" parameterType="Long" resultType="com.example.test1.domain.Board">
-        select * FROM BOARD_LYE WHERE id = #{id}
+        select * FROM LYE_BOARD WHERE id = #{id}
     </select>
 
     <update id="updateBoard" parameterType="com.example.test1.domain.Board">
-        update BOARD_LYE
+        update LYE_BOARD
         <set>
             <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>
             <if test="contents != null">contents = #{contents,jdbcType=VARCHAR},</if>
@@ -68,7 +68,7 @@
     </update>
 
     <update id="viewCntBoard" parameterType="com.example.test1.domain.Board">
-        update BOARD_LYE
+        update LYE_BOARD
         <set>
             view_cnt = view_cnt + 1
         </set>
@@ -76,11 +76,11 @@
     </update>
 
     <delete id="deleteBoard" parameterType="Long">
-        delete from BOARD_LYE where id = #{id}
+        delete from LYE_BOARD where id = #{id}
     </delete>
     <!-- 게시글 여러 개 삭제 -->
     <delete id="deleteMultiBoard" parameterType="java.util.List">
-        DELETE FROM BOARD_LYE
+        DELETE FROM LYE_BOARD
         <where>
             <foreach collection="list" item="board" open="" close="" separator="OR">
                 (id = #{board, jdbcType=NUMERIC})
@@ -91,7 +91,7 @@
 
     <select id="selectBoardSearchList" resultType="java.util.LinkedHashMap">
         SELECT *
-        FROM BOARD_LYE
+        FROM LYE_BOARD
         WHERE TITLE LIKE '%'|| #{keyword, jdbcType=VARCHAR} ||'%'
         ORDER BY ${sort} DESC
     </select>
@@ -100,7 +100,7 @@
     <![CDATA[
         select * from (
         select rownum  as rn, id, title, contents, writer, view_cnt
-        from (select * from BOARD_LYE WHERE writer = #{writer, jdbcType=VARCHAR}) where rownum <= #{cri.pageNum} * #{cri.amount} order by id)
+        from (select * from LYE_BOARD WHERE writer = #{writer, jdbcType=VARCHAR}) where rownum <= #{cri.pageNum} * #{cri.amount} order by id)
         where rn > (#{cri.pageNum} -1) * #{cri.amount}
         ]]>
     </select>
@@ -109,19 +109,19 @@
     <![CDATA[
         select * from (
                           select rownum  as rn, id, title, contents, writer, view_cnt
-                          from BOARD_LYE where rownum <= #{pageNum} * #{amount} order by id)
+                          from LYE_BOARD where rownum <= #{pageNum} * #{amount} order by id)
         where rn > (#{pageNum} -1) * #{amount}
         ]]>
     </select>
 
     <!-- 게시물 총 갯수 -->
     <select id="getTotal" resultType="int">
-        select count(*) from BOARD_LYE
+        select count(*) from LYE_BOARD
     </select>
 
     <!-- 게시글 추천수 -->
     <update id="updateRecommend" parameterType="Long">
-        UPDATE BOARD_LYE SET
+        UPDATE LYE_BOARD SET
             RECOM_CNT = RECOM_CNT + 1
         WHERE ID = #{id}
     </update>
@@ -139,11 +139,11 @@
     <!-- 이미지 등록 -->
     <insert id="imageEnroll">
         <selectKey resultType="Long" keyProperty="bId" order="AFTER">
-            SELECT MAX(ID) + 1 FROM BOARD_LYE
+            SELECT MAX(ID) + 1 FROM LYE_BOARD
         </selectKey>
         INSERT INTO IMAGE_LYE (bid, filename, upload, uuid)
         values (
-        BOARD_SEQ.currval,
+        LYE_BOARD_SEQ.currval,
         #{fileName, jdbcType=VARCHAR},
         #{upload,jdbcType=VARCHAR},
         #{uuid,jdbcType=VARCHAR}

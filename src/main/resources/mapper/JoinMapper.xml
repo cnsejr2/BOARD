@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.test1.mapper.JoinMapper">
     <insert id="setInsertMember" parameterType="com.example.test1.domain.SecurityMember">
-        INSERT INTO SECURITY_MEMBER (
+        INSERT INTO LYE_SECURITY_MEMBER (
             SEQ
             , ID
             , PASSWORD
@@ -15,7 +15,7 @@
             , MOD_DATE
             , STATUS
         ) VALUES (
-            ID_SEQ.nextval
+            LYE_ID_SEQ.nextval
             , #{id,jdbcType=VARCHAR}
             , #{password,jdbcType=VARCHAR}
             , #{memberName,jdbcType=VARCHAR}

@@ -1,9 +1,9 @@
 package com.example.test1.controller;
 
 import com.example.test1.domain.Board;
-import com.example.test1.domain.Comment;
 import com.example.test1.domain.Criteria;
 import com.example.test1.domain.Paging;
+import com.example.test1.mapper.BoardMapper;
 import com.example.test1.service.AttachService;
 import com.example.test1.service.BoardService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,13 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.net.URLDecoder;
 import java.security.Principal;
 import java.util.List;
 
@@ -46,9 +43,6 @@ public class BoardController {
                 boardService.imageEnroll(attach);
             });
         }
-//        board.getImageList().forEach(attach ->{
-//            boardService.imageEnroll(attach);
-//        });
         ModelAndView mav = new ModelAndView("redirect:/board/myList");
         List<Board> bList = boardService.findByWriter(writer);
         mav.addObject("bList", bList);
@@ -63,7 +57,7 @@ public class BoardController {
     public ModelAndView boardList(Principal principal, Criteria cri) {
         String writer = principal.getName();
         ModelAndView mav = new ModelAndView("/board/myList");
-//        List<Board> bList = boardService.findByWriter(writer);
+        log.info("MyList boardService : " + boardService);
         List<Board> bList = boardService.getListPagingByWriter(writer, cri);
         mav.addObject("bList", bList);
 
@@ -124,18 +118,6 @@ public class BoardController {
         ModelAndView mav = new ModelAndView("redirect:/security/main");
         logger.info("delete ID : " + id);
         boardService.deleteBoard(id);
-//        File file = null;
-//
-//        attachService.deleteImage(id);
-//        /* 썸네일 파일 삭제 */
-//        file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
-//        file.delete();
-//
-//        /* 원본 파일 삭제 */
-//        String originFileName = file.getAbsolutePath().replace("s_", "");
-//        logger.info("originFileName : " + originFileName);
-//        file = new File(originFileName);
-//        file.delete();
         return mav;
     }
 
@@ -147,18 +129,6 @@ public class BoardController {
         return boardIdxArray;
     }
 
-    /* 검색 목록 불러오기 */
-    @GetMapping("/getSearchList")
-    private ModelAndView getSearchList(@RequestParam("keyword") String keyword,
-                                        @RequestParam(required = false, defaultValue="id") String sort) throws Exception {
-        ModelAndView mav = new ModelAndView("/board/searchResult");
-        logger.info("keyword : " + keyword);
-        List<Board> bList = boardService.selectBoardSearchList(keyword, sort);
-        mav.addObject("bList", bList);
-        mav.addObject("keyword", keyword);
-        mav.addObject("sort", sort);
-        return mav;
-    }
 
     /* 게시글 추천 */
     @GetMapping("/board/updateRecommend")

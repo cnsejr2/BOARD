@@ -55,6 +55,7 @@
     <!-- SEARCH FORM -->
     <%@ include file="/WEB-INF/views/search.jsp" %>
 
+
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->

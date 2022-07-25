@@ -1,14 +1,12 @@
 package com.example.test1.controller;
 
 import com.example.test1.domain.Comment;
-import com.example.test1.service.BoardService;
 import com.example.test1.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
