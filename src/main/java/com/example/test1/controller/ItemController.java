@@ -5,6 +5,8 @@ import com.example.test1.domain.Item;
 import com.example.test1.domain.ItemImage;
 import com.example.test1.service.ItemImageService;
 import com.example.test1.service.ItemService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -63,19 +66,29 @@ public class ItemController {
 
     }
 
-    @RequestMapping("/item/list")
+    @GetMapping("/item/list")
     public ModelAndView getMain(Criteria cri) throws Exception {
         ModelAndView mav = new ModelAndView("/item/list");
 
-        List<Item> itemList = itemService.getListPaging(cri);
-        mav.addObject("itemList", itemList);
+        List<Item> list = itemService.findAll();
 
 //        int total = itemService.getTotal();
 //        logger.info("total : " + total);
 //        Paging pageMake = new Paging(cri, total);
 //
 //        mav.addObject("pageMaker", pageMake);
+        list.forEach(item -> {
 
+            Long itemId = item.getId();
+
+            List<ItemImage> imageList = itemImageService.getItemImage(itemId);
+
+            item.setImageList(imageList);
+
+            logger.info("itemId : " + item.getImageList());
+
+        });
+        mav.addObject("itemList", list);
         return mav;
     }
 }

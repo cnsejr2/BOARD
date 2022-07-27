@@ -38,8 +38,6 @@ public class AttachImageController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     AttachService attachService;
-    @Resource
-    ItemImageService itemImageService;
 
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AttachImage>> uploadAjaxActionPOST(MultipartFile uploadFile) throws IOException {

@@ -2,8 +2,10 @@ package com.example.test1.controller;
 
 import com.example.test1.domain.AttachImage;
 import com.example.test1.domain.Board;
+import com.example.test1.domain.ItemImage;
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.service.AttachService;
+import com.example.test1.service.ItemImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,9 @@ public class AdminController {
 
     @Resource
     AttachService attachService;
+
+    @Resource
+    ItemImageService itemImageService;
 
     @GetMapping("/admin/board/list")
     public ModelAndView boardForm() {
@@ -70,6 +75,31 @@ public class AdminController {
         }
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
+    @PostMapping("/deleteItemFile")
+    public ResponseEntity<String> deleteItemFile(String fileName, Long id) {
+
+        File file = null;
+
+        try {
+            attachService.deleteImage(id);
+            /* 썸네일 파일 삭제 */
+            file = new File("C:\\upload\\item\\" + URLDecoder.decode(fileName, "UTF-8"));
+            file.delete();
+
+            /* 원본 파일 삭제 */
+            String originFileName = file.getAbsolutePath().replace("s_", "");
+            file = new File(originFileName);
+            file.delete();
+
+        } catch(Exception e) {
+
+            e.printStackTrace();
+
+            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+
+        }
+        return new ResponseEntity<String>("success", HttpStatus.OK);
+    }
 
     private String getFolderToDay() {
 
@@ -84,7 +114,7 @@ public class AdminController {
         return str.replace("-", File.separator);
     }
 
-    @Scheduled(fixedDelay=600000)
+    @Scheduled(fixedDelay=10000)
     public void checkFiles() throws Exception {
 
         logger.warn("File Check Task Run..........");
@@ -111,21 +141,21 @@ public class AdminController {
         // 디렉토리 파일 리스트
         File targetDir = Paths.get("C:\\upload", getFolderToDay()).toFile();
         File[] targetFile = targetDir.listFiles();
+        if(targetFile != null) {
+            // 삭제 대상 파일 리스트(분류)
+            List<File> removeFileList = new ArrayList<File>(Arrays.asList(targetFile));
+            for (File file : targetFile) {
+                checkFilePath.forEach(checkFile -> {
+                    if (file.toPath().equals(checkFile))
+                        removeFileList.remove(file);
+                });
+            }
 
-        // 삭제 대상 파일 리스트(분류)
-        List<File> removeFileList = new ArrayList<File>(Arrays.asList(targetFile));
-        for (File file : targetFile){
-            checkFilePath.forEach(checkFile ->{
-                if(file.toPath().equals(checkFile))
-                    removeFileList.remove(file);
-            });
+            for (File file : removeFileList) {
+                logger.warn(String.valueOf(file));
+                file.delete();
+            }
         }
-
-        for (File file : removeFileList) {
-            logger.warn(String.valueOf(file));
-            file.delete();
-        }
-
         log.warn("========================================");
 
     }

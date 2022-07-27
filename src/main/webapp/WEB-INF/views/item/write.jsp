@@ -149,7 +149,7 @@
         formData.append("uploadFile", fileObj);
 
         $.ajax({
-            url: '/uploadAjaxAction',
+            url: '/uploadItemAjaxAction',
             processData : false,
             contentType : false,
             data : formData,
@@ -181,7 +181,7 @@
         let fileCallPath = encodeURIComponent(obj.upload.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName);
 
         str += "<div id='result_card'>";
-        str += "<img src='/display?fileName=" + fileCallPath +"'>";
+        str += "<img src='/displayItem?fileName=" + fileCallPath +"'>";
         str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
         str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.fileName +"'>";
         str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
@@ -221,7 +221,7 @@
         console.log("targetDiv : " + targetDiv)
 
         $.ajax({
-            url: '/deleteFile',
+            url: '/deleteItemFile',
             data : {fileName : targetFile, id : null},
             dataType : 'text',
             type : 'POST',

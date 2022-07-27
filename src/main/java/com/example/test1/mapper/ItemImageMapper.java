@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface ItemImageMapper {
 
-    List<ItemImage> getItemImageList(Long itemId);
+    List<ItemImage> getItemImage(Long itemId);
     List<ItemImage> findAllImage();
     void deleteImage(Long itemId);
     void imageReEnroll(ItemImage itemImage);

@@ -17,7 +17,7 @@ public class ItemImageService {
 
     @Resource
     ItemImageMapper itemImageMapper;
-    public List<ItemImage> getItemImageList(Long itemId) { return itemImageMapper.getItemImageList(itemId); }
+    public List<ItemImage> getItemImage(Long itemId) { return itemImageMapper.getItemImage(itemId); }
     public List<ItemImage> findAllImage() { return itemImageMapper.findAllImage(); }
     public void imageReEnroll(ItemImage itemImage) { itemImageMapper.imageReEnroll(itemImage); }
     public void deleteImage(Long bId) { itemImageMapper.deleteImage(bId); }

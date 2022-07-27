@@ -27,7 +27,7 @@
         )
     </insert>
 
-    <select id="findAll" resultType="java.util.HashMap">
+    <select id="findAll" resultType="com.example.test1.domain.Item">
         SELECT
             *
         FROM LYE_ITEM
@@ -53,11 +53,11 @@
         select * FROM LYE_ITEM WHERE id = #{id}
     </select>
 
-    <select id="getListPaging" resultType="java.util.LinkedHashMap">
+    <select id="getListPaging" resultType="com.example.test1.domain.Item">
     <![CDATA[
         select * from (
-                          select rownum  as rn, id, NAME, PRICE
-                          from LYE_ITEM where rownum <= #{pageNum} * #{amount} order by id)
+                          select rownum  as rn, ID, NAME, PRICE
+                          from LYE_ITEM where rownum <= #{pageNum} * #{amount} order by ID)
         where rn > (#{pageNum} -1) * #{amount}
         ]]>
     </select>
