@@ -14,38 +14,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
 <%@ include file="/WEB-INF/views/nav.jsp" %>
-<div class="col-12">
-    <div class="card card-primary">
-        <div class="card-header">
-            <div class="card-title">
-                ITEM 목록
+<div class="container" style='width:1000px;'>
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <div class="card-title">
+                    ITEM 목록
+                </div>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <c:forEach var="item" items="${itemList}">
-                    <div class="col-md-10 col-sm-6 col-12">
-                        <div class="info-box">
-                            <span class="bg-info">
-                                <div class="image_wrap" data-itemid="${item.imageList[0].itemId}" data-path="${item.imageList[0].upload}" data-uuid="${item.imageList[0].uuid}" data-filename="${item.imageList[0].fileName}">
-                                    <img>
+            <div class="card-body">
+                <div class="row">
+                    <c:forEach var="item" items="${itemList}">
+                        <div class="col-md-10 col-sm-6 col-12">
+                            <div class="info-box">
+                                <span class="bg-info">
+                                    <div class="image_wrap" data-itemid="${item.imageList[0].itemId}" data-path="${item.imageList[0].upload}" data-uuid="${item.imageList[0].uuid}" data-filename="${item.imageList[0].fileName}">
+                                        <img>
+                                    </div>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">${item.name}</span>
+                                    <span class="info-box-number">${item.price}</span>
+                                    <div class="mt-4">
+                                        <div class="btn btn-default btn-lg btn-flat">
+                                            <i class="far fa-file-alt fa-lg mr-2"></i>
+                                            <a href="/item/view/${item.id}">View Product</a>
+                                        </div>
+                                        <div class="btn btn-primary btn-lg btn-flat">
+                                            <i class="fas fa-cart-plus fa-lg mr-2"></i>
+                                            Add to Cart
+                                        </div>
+                                    </div>
                                 </div>
-                            </span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">${item.name}</span>
-                                <span class="info-box-number">${item.price}</span>
                             </div>
                         </div>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
+                </div>
             </div>
         </div>
     </div>
+    <%@ include file="/WEB-INF/views/footer.jsp" %>
 </div>
-<%@ include file="/WEB-INF/views/footer.jsp" %>
-
 <!-- Ekko Lightbox -->
 <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <script>

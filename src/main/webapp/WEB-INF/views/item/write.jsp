@@ -50,7 +50,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
 <%@ include file="/WEB-INF/views/nav.jsp" %>
 <section class="content">
     <div class="container" style='width:1000px;'>

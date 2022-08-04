@@ -61,6 +61,11 @@ public class ItemController {
     public ModelAndView selectItemDetail(@PathVariable("id") Long id) throws Exception {
         ModelAndView mav = new ModelAndView("/item/view");
         Item item = itemService.selectItemDetail(id);
+        Long itemId = item.getId();
+
+        List<ItemImage> imageList = itemImageService.getItemImage(itemId);
+
+        item.setImageList(imageList);
         mav.addObject("item", item);
         return mav;
 

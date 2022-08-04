@@ -20,7 +20,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/updateViewForm.css">
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
 <%@ include file="/WEB-INF/views/nav.jsp" %>
 <div class="container container-table">
     <div class="body d-md-flex align-items-center justify-content-center">

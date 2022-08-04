@@ -11,7 +11,7 @@
 <head>
     <title>Title</title>
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
 <div class="container" style='width:1000px;'>
     <h1>게시판목록</h1>
     <table class="table">

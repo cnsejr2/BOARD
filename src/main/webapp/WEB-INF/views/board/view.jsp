@@ -10,7 +10,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
-    <title>Title</title>
+    <title>게시글 상세보기</title>
     <style>
         #comment {
             width : 75%;
@@ -23,84 +23,79 @@
             margin: auto;
         }
     </style>
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-            crossorigin="anonymous">
-    </script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
 
-<%@ include file="/WEB-INF/views/nav.jsp" %>
-<%--<sec:authentication property="principal" />--%>
-<input type="hidden" id="user" value="<sec:authentication property="principal" />">
-<div class="container" style='width:1000px;'>
-    <div class="mb-4">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="container List-container">
-                    <div class="row mt-1 header">
-                        <h5 class="col-1 board-title">제목</h5>
-                        <p class="col-8" style="word-break:break-all;">${board.title}</p>
-                    </div>
-                    <div class="board-container">
-                        <h5 class="content-title">내용</h5>
-                        <p class="content" style="word-break:break-all;">
-                            ${board.contents}
-                        </p>
-                    </div>
-                    <div class="form_section">
-                        <div class="form_section_title">
-                            <label>상품 이미지</label>
+    <%@ include file="/WEB-INF/views/nav.jsp" %>
+    <%--<sec:authentication property="principal" />--%>
+    <input type="hidden" id="user" value="<sec:authentication property="principal" />">
+    <div class="container" style='width:1000px;'>
+        <div class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="container List-container">
+                        <div class="row mt-1 header">
+                            <h5 class="col-1 board-title">제목</h5>
+                            <p class="col-8" style="word-break:break-all;">${board.title}</p>
                         </div>
-                        <div class="form_section_content">
-                            <div id="uploadResult">
+                        <div class="board-container">
+                            <h5 class="content-title">내용</h5>
+                            <p class="content" style="word-break:break-all;">
+                                ${board.contents}
+                            </p>
+                        </div>
+                        <div class="form_section">
+                            <div class="form_section_title">
+                                <label>상품 이미지</label>
+                            </div>
+                            <div class="form_section_content">
+                                <div id="uploadResult">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="board-footer">
-                        <c:if test="${isWriter eq 1}">
-                            <button type="button" class="btn btn-primary update-btn" onclick="location.href='/board/update/${board.id}'">수정</button>
-                            <form id = "deleteBoardForm" action="/board/delete/${board.id}" method="post">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <button type="button" class="btn btn-danger deleteBoardBtn">삭제</button>
-                            </form>
-                        </c:if>
-                        <button type="button" class="btn btn-primary list-btn" onclick="location.href='/board/myList'">내 글 쓴 목록으로</button>
-                        <button type="button" class="btn btn-primary list-btn" onclick="location.href='/security/main'">메인으로</button>
-                        <button type="button" class="btn btn-primary list-btn" id="recommendBtn">추천 ${board.recom_cnt}</button>
+                        <div class="board-footer">
+                            <c:if test="${isWriter eq 1}">
+                                <button type="button" class="btn btn-primary update-btn" onclick="location.href='/board/update/${board.id}'">수정</button>
+                                <form id = "deleteBoardForm" action="/board/delete/${board.id}" method="post">
+                                    <input type="hidden" name="_method" value="delete"/>
+                                    <button type="button" class="btn btn-danger deleteBoardBtn">삭제</button>
+                                </form>
+                            </c:if>
+                            <button type="button" class="btn btn-primary list-btn" onclick="location.href='/board/myList'">내 글 쓴 목록으로</button>
+                            <button type="button" class="btn btn-primary list-btn" onclick="location.href='/security/main'">메인으로</button>
+                            <button type="button" class="btn btn-primary list-btn" id="recommendBtn">추천 ${board.recom_cnt}</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card my-4">
-        <h5 class="card-header">Comments</h5>
-        <div class="card-body" id="comment">
-        </div>
-    </div>
-
-    <div id="updateComment"></div>
-    <div id="writeComment">
         <div class="card my-4">
-            <h5 class="card-header">Leave a Comment:</h5>
-            <div class="card-body">
-                <form name="comment-form" id="comment-form" action="/board/comment/write" method="post" autocomplete="off">
-                    <div class="form-group">
-                        <input type="hidden" name="id" value="${board.id}" />
-                        <label>
-                            <textarea name="contents" class="form-control cLeave" rows="3"></textarea>
-                        </label>
-                    </div>
-                    <input type="button" class="btn btn-primary cSubmit" value="Submit">
-                </form>
+            <h5 class="card-header">Comments</h5>
+            <div class="card-body" id="comment">
+            </div>
+        </div>
+
+        <div id="updateComment"></div>
+        <div id="writeComment">
+            <div class="card my-4">
+                <h5 class="card-header">Leave a Comment:</h5>
+                <div class="card-body">
+                    <form name="comment-form" id="comment-form" action="/board/comment/write" method="post" autocomplete="off">
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="${board.id}" />
+                            <label>
+                                <textarea name="contents" class="form-control cLeave" rows="3"></textarea>
+                            </label>
+                        </div>
+                        <input type="button" class="btn btn-primary cSubmit" value="Submit">
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
 
     $(document).ready(function () {
@@ -246,6 +241,5 @@
     }
 
 </script>
-<%@ include file="/WEB-INF/views/footer.jsp" %>
 </body>
 </html>
