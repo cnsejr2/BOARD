@@ -63,44 +63,39 @@
                                 <div class="col-sm-6">
                                     <!-- select -->
                                     <div class="form-group">
-                                        <label>Select</label>
-                                        <select class="form-control">
-                                            <option>check icon</option>
-                                            <option id="green"class="fas" style="font-size:15px; color:green;"> &#xf111; Green</option>
-                                            <option id="blue" class="fas" style="font-size:15px; color:blue; "> &#xf111; Blue</option>
-                                            <option id="purple" class="fas" style="font-size:15px; color:purple; "> &#xf111; Purple</option>
-                                            <option id="red" class="fas" style="font-size:15px; color:red; "> &#xf111; Red</option>
-                                            <option id="orange" class="fas" style="font-size:15px; color:orange; "> &#xf111; Orange</option>
-                                        </select>
+                                        <label>
+                                            Select
+                                            <select id="size-select" class="form-control">
+                                                <option value="">Check Color</option>
+                                                <c:forEach var="color" items="${iColor}">
+                                                    <option id="color_${color}" value="${color}" class="fas"
+                                                            style="font-size:15px; color:${color};"> ${color}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
                             <h4 class="mt-3">Size <small>Please select one</small></h4>
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-default text-center">
-                                    <input type="radio" name="color_option" id="size_option1" autocomplete="off">
-                                    <span class="text-xl">S</span>
-                                    <br>
-                                    Small
-                                </label>
-                                <label class="btn btn-default text-center">
-                                    <input type="radio" name="color_option" id="size_option2" autocomplete="off">
-                                    <span class="text-xl">M</span>
-                                    <br>
-                                    Medium
-                                </label>
-                                <label class="btn btn-default text-center">
-                                    <input type="radio" name="color_option" id="size_option3" autocomplete="off">
-                                    <span class="text-xl">L</span>
-                                    <br>
-                                    Large
-                                </label>
-                                <label class="btn btn-default text-center">
-                                    <input type="radio" name="color_option" id="size_option4" autocomplete="off">
-                                    <span class="text-xl">XL</span>
-                                    <br>
-                                    Xtra-Large
-                                </label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <!-- select -->
+                                    <div class="form-group">
+                                        <label>
+                                            Select
+                                            <select id="color-select" class="form-control">
+                                                <option value="">Check Size</option>
+                                                <c:forEach var="size" items="${iSize}">
+                                                    <option id="size_${size}" value="${size}" class="fas"
+                                                            style="font-size:15px; color:${color};"> ${size}
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
+                                        </label>
+
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="bg-gray py-2 px-3 mt-4">
@@ -113,12 +108,12 @@
                             </div>
 
                             <div class="mt-4">
-                                <div class="btn btn-primary btn-lg btn-flat">
+                                <div class="btn btn-primary btn-lg btn-flat cartBtn">
                                     <i class="fas fa-cart-plus fa-lg mr-2"></i>
                                     Add to Cart
                                 </div>
 
-                                <div class="btn btn-default btn-lg btn-flat">
+                                <div class="btn btn-default btn-lg btn-flat wishBtn">
                                     <i class="fas fa-heart fa-lg mr-2"></i>
                                     Add to Wishlist
                                 </div>
@@ -134,7 +129,7 @@
                                 <a href="#" class="text-gray">
                                     <i class="fas fa-envelope-square fa-2x"></i>
                                 </a>
-                                <a href="#" class="text-gray">
+                                <a id="btnKakao" href="javascript:shareSNSKakao();" class="text-gray">
                                     <i class="fas fa-rss-square fa-2x"></i>
                                 </a>
                             </div>
@@ -164,10 +159,73 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 <!-- Ekko Lightbox -->
 <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script>
+
+    let itemSize
+    let itemColor
+    $(document).ready(function () {
+        $(".cartBtn").click(function() {
+            itemSize = $("#size-select").val();
+            itemColor = $("#color-select").val();
+            if (itemColor == "" || itemSize == "") {
+                alert("사이즈와 색상을 선택해주세요")
+            } else {
+                cartItem()
+            }
+        });
+
+        $(".wishBtn").click(function() {
+            wishBtn()
+        })
+    });
+
+    function wishBtn() {
+        console.log("wish 클릭")
+        $.ajax({
+            type : "GET",
+            url : "/item/hadWishItem",
+            data : {'id' : ${item.id} },
+            success : function(likeCheck) {
+                if(likeCheck != 1){
+                    alert("wish 추가완료.");
+                    location.reload();
+                }
+                else {
+                    alert("이미 추가한 아이템입니다");
+                    location.reload();
+                }
+            },
+            error : function(){
+                alert("통신 에러");
+            }
+        });
+    }
+    function cartItem() {
+        $.ajax({
+            type : "GET",
+            url : "/item/saveCartItem",
+            data : {'id' : ${item.id}, 'itemSize' : itemSize, 'itemColor' : itemColor},
+            success : function(cartCheck) {
+                if(cartCheck != 1){
+                    alert("카트추가완료.");
+                    location.reload();
+                }
+                else {
+                    alert("이미 추가한 아이템 입니다");
+                    location.reload();
+                }
+            },
+            error : function(){
+                alert("통신 에러");
+            }
+        });
+    }
+
     /* 이미지 삽입 */
     $(".image_wrap").each(function(i, obj){
 
@@ -182,6 +240,25 @@
 
     });
 
+    function shareSNSKakao() {
+        // 사용할 앱의 JavaScript 키 설정
+        Kakao.init('c17b5563968f2fffd356919521833ce2');
+
+        // 카카오링크 버튼 생성
+        Kakao.Link.createDefaultButton({
+            container: '#btnKakao', // 카카오공유버튼ID
+            objectType: 'feed',
+            content: {
+                title: "${item.name}", // 보여질 제목
+                description: "아이템 정보 공유", // 보여질 설명
+                imageUrl: "https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg", // 콘텐츠 URL
+                link: {
+                    mobileWebUrl: "http://localhost:8080/item/view/${item.id}",
+                    webUrl: "http://localhost:8080/item/view/${item.id}"
+                }
+            }
+        });
+    }
 
 </script>
 </body>

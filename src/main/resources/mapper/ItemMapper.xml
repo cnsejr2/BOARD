@@ -61,4 +61,29 @@
         where rn > (#{pageNum} -1) * #{amount}
         ]]>
     </select>
+
+    <!-- 아이템 카트 중복 방지 -->
+    <select id="hadItem" resultType="int">
+        SELECT count(*) FROM LYE_ITEM_CART WHERE ITEMID = #{itemId} and MEMBERID = #{mId}
+    </select>
+    <insert id="saveCartItem" parameterType="java.util.Map">
+        INSERT INTO LYE_ITEM_CART (memberid, itemid, itemsize, color, cnt)
+        VALUES (
+                #{memberId, jdbcType=VARCHAR},
+                #{id},
+                #{itemSize, jdbcType=VARCHAR},
+                #{itemColor, jdbcType=VARCHAR},
+                1
+               )
+    </insert>
+
+    <!-- 추천 id 와 게시글 id 테이블 저장-->
+    <insert id="saveWishItem">
+        INSERT INTO LYE_ITEM_WISH (ITEMID, MEMBERID)
+        VALUES (#{itemId}, #{mId, jdbcType=VARCHAR})
+    </insert>
+    <!-- 게시글 추천 중복 방지 -->
+    <select id="hadWishItem" resultType="int">
+        SELECT count(*) FROM LYE_ITEM_WISH WHERE ITEMID = #{itemId} and MEMBERID = #{mId}
+    </select>
 </mapper>

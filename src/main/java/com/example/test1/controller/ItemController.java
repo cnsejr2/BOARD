@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,12 +62,18 @@ public class ItemController {
     public ModelAndView selectItemDetail(@PathVariable("id") Long id) throws Exception {
         ModelAndView mav = new ModelAndView("/item/view");
         Item item = itemService.selectItemDetail(id);
+
         Long itemId = item.getId();
-
         List<ItemImage> imageList = itemImageService.getItemImage(itemId);
-
         item.setImageList(imageList);
         mav.addObject("item", item);
+
+        String iSize[] = item.getItemSize().split(", ");
+        mav.addObject("iSize", iSize);
+
+        String iColor[] = item.getColor().split(", ");
+        mav.addObject("iColor", iColor);
+
         return mav;
 
     }
@@ -95,5 +102,35 @@ public class ItemController {
         });
         mav.addObject("itemList", list);
         return mav;
+    }
+
+    @GetMapping("/item/plusCartItem")
+    @ResponseBody
+    public int getCommentList(Principal principal,
+                              @RequestParam("id") Long id,
+                              @RequestParam("itemSize") String iSize,
+                              @RequestParam("itemColor") String iColor) throws Exception {
+        String user = principal.getName();
+        int hadItem = itemService.hadItem(id, user);
+        if (hadItem != 1) {
+            Map<String, String> cartItem = new HashMap<String, String>();
+            cartItem.put("memberId", user);
+            cartItem.put("id", String.valueOf(id));
+            cartItem.put("itemSize", iSize);
+            cartItem.put("itemColor", iColor);
+            itemService.saveCartItem(cartItem);
+        }
+        return hadItem;
+    }
+
+    @GetMapping("/item/hadWishItem")
+    @ResponseBody
+    public int hadWishItem(Principal principal, @RequestParam("id") Long id) throws Exception {
+        String user = principal.getName();
+        int hadWishItem = itemService.hadWishItem(id, user);
+        if (hadWishItem != 1) {
+            itemService.saveWishItem(id, user);
+        }
+        return hadWishItem;
     }
 }
