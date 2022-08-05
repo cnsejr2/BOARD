@@ -62,12 +62,20 @@
         ]]>
     </select>
 
-    <!-- 아이템 카트 중복 방지 -->
+    <!-- 아이템 카트  -->
+    <select id="findAllCartItem" resultType="com.example.test1.domain.CartItem">
+        SELECT
+            *
+        FROM LYE_ITEM_CART
+        ORDER BY itemId
+    </select>
+
+
     <select id="hadItem" resultType="int">
         SELECT count(*) FROM LYE_ITEM_CART WHERE ITEMID = #{itemId} and MEMBERID = #{mId}
     </select>
     <insert id="saveCartItem" parameterType="java.util.Map">
-        INSERT INTO LYE_ITEM_CART (memberid, itemid, itemsize, color, cnt)
+        INSERT INTO LYE_ITEM_CART (memberid, itemid, itemsize, itemcolor, cnt)
         VALUES (
                 #{memberId, jdbcType=VARCHAR},
                 #{id},
@@ -77,13 +85,31 @@
                )
     </insert>
 
-    <!-- 추천 id 와 게시글 id 테이블 저장-->
     <insert id="saveWishItem">
         INSERT INTO LYE_ITEM_WISH (ITEMID, MEMBERID)
         VALUES (#{itemId}, #{mId, jdbcType=VARCHAR})
     </insert>
-    <!-- 게시글 추천 중복 방지 -->
     <select id="hadWishItem" resultType="int">
         SELECT count(*) FROM LYE_ITEM_WISH WHERE ITEMID = #{itemId} and MEMBERID = #{mId}
     </select>
+    <delete id="deleteCartItem" parameterType="Long">
+        delete from LYE_ITEM_CART where ITEMID = #{id}
+    </delete>
+
+    <delete id="deleteMultiCartItem" parameterType="java.util.List">
+        DELETE FROM LYE_ITEM_CART
+        <where>
+            <foreach collection="list" item="cartItem" open="" close="" separator="OR">
+                (itemId = #{cartItem, jdbcType=NUMERIC})
+            </foreach>
+        </where>
+    </delete>
+
+    <update id="updateCartItem">
+        update LYE_ITEM_CART
+        <set>
+            cnt = #{cnt, jdbcType=NUMERIC}
+        </set>
+        where id = #{itemId}
+    </update>
 </mapper>

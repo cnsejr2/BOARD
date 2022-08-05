@@ -1,9 +1,6 @@
 package com.example.test1.mapper;
 
-import com.example.test1.domain.AttachImage;
-import com.example.test1.domain.Criteria;
-import com.example.test1.domain.Item;
-import com.example.test1.domain.ItemImage;
+import com.example.test1.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -16,7 +13,7 @@ import java.util.Map;
 public interface ItemMapper {
 
     List<Item> getListPaging(Criteria cri);
-    Item selectItemDetail(Long item);
+    Item selectItemDetail(Long id);
     void insertItem(Item item);
     void imageEnroll(ItemImage itemImage);
     List<Item> findAll();
@@ -24,4 +21,7 @@ public interface ItemMapper {
     void saveCartItem(Map cartItem);
     int hadWishItem(@Param("itemId") Long itemId, @Param("mId") String mid);
     void saveWishItem(@Param("itemId") Long itemId, @Param("mId") String mid);
+    void deleteMultiCartItem(List<Long> idx);
+    List<CartItem> findAllCartItem();
+    void updateCartItem(@Param("itemId") Long itemId, @Param("cnt") int cnt);
 }

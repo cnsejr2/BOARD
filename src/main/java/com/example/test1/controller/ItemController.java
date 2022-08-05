@@ -1,5 +1,6 @@
 package com.example.test1.controller;
 
+import com.example.test1.domain.CartItem;
 import com.example.test1.domain.Criteria;
 import com.example.test1.domain.Item;
 import com.example.test1.domain.ItemImage;
@@ -104,7 +105,30 @@ public class ItemController {
         return mav;
     }
 
-    @GetMapping("/item/plusCartItem")
+    @GetMapping("/item/cart")
+    public ModelAndView getCart(Criteria cri) throws Exception {
+        ModelAndView mav = new ModelAndView("/item/cart");
+
+        List<CartItem> list = itemService.findAllCartItem();
+
+        list.forEach(item -> {
+
+            Long itemId = item.getItemId();
+
+            List<ItemImage> imageList = itemImageService.getItemImage(itemId);
+
+            item.setImageList(imageList);
+
+            Item i = itemService.selectItemDetail(itemId);
+            item.setItem(i);
+            logger.info("itemId : " + item.getItemColor());
+
+        });
+        mav.addObject("itemList", list);
+        return mav;
+    }
+
+    @GetMapping("/item/saveCartItem")
     @ResponseBody
     public int getCommentList(Principal principal,
                               @RequestParam("id") Long id,
@@ -132,5 +156,19 @@ public class ItemController {
             itemService.saveWishItem(id, user);
         }
         return hadWishItem;
+    }
+
+    @ResponseBody
+    @DeleteMapping("/item/cart/multi/delete")
+    public List<Long> deleteSubmit(@RequestBody List<Long> itemIdxArray){
+        itemService.deleteMultiCartItem(itemIdxArray);
+        return itemIdxArray;
+    }
+
+    @RequestMapping(value = "/item/cart/update/{itemId}", method = RequestMethod.PUT)
+    public String updateCartItem(@PathVariable("itemId") Long id,
+                                @RequestParam("cnt") int cnt) throws Exception {
+        itemService.updateCartItem(id, cnt);
+        return "redirect:/board/view/" + id;
     }
 }

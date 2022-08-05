@@ -39,7 +39,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-sm-6">
-                            <h3 class="d-inline-block d-sm-none">LOWA Men’s Renegade GTX Mid Hiking Boots Review</h3>
+                            <h3 class="d-inline-block d-sm-none"></h3>
                             <div>
                                 <div class="image_wrap" data-itemid="${item.imageList[0].itemId}" data-path="${item.imageList[0].upload}" data-uuid="${item.imageList[0].uuid}" data-filename="${item.imageList[0].fileName}">
                                     <img>
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <h3 class="my-3">LOWA Men’s Renegade GTX Mid Hiking Boots Review</h3>
+                            <h3 class="my-3">${item.name}</h3>
                             <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.</p>
 
                             <hr>
@@ -65,7 +65,7 @@
                                     <div class="form-group">
                                         <label>
                                             Select
-                                            <select id="size-select" class="form-control">
+                                            <select id="color-select" class="form-control">
                                                 <option value="">Check Color</option>
                                                 <c:forEach var="color" items="${iColor}">
                                                     <option id="color_${color}" value="${color}" class="fas"
@@ -84,7 +84,7 @@
                                     <div class="form-group">
                                         <label>
                                             Select
-                                            <select id="color-select" class="form-control">
+                                            <select id="size-select" class="form-control">
                                                 <option value="">Check Size</option>
                                                 <c:forEach var="size" items="${iSize}">
                                                     <option id="size_${size}" value="${size}" class="fas"
@@ -205,6 +205,7 @@
             }
         });
     }
+
     function cartItem() {
         $.ajax({
             type : "GET",
@@ -236,6 +237,7 @@
         const fileName = itemObj.data("filename");
 
         const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
+        console.log("file" + fileCallPath)
         $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
 
     });

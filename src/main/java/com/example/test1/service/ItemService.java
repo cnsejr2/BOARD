@@ -1,9 +1,6 @@
 package com.example.test1.service;
 
-import com.example.test1.domain.Board;
-import com.example.test1.domain.Criteria;
-import com.example.test1.domain.Item;
-import com.example.test1.domain.ItemImage;
+import com.example.test1.domain.*;
 import com.example.test1.mapper.ItemMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
@@ -30,6 +27,9 @@ public class ItemService {
     public void saveCartItem(Map cartItem) { itemMapper.saveCartItem(cartItem); }
     public int hadWishItem(Long itemId, String mid) { return itemMapper.hadWishItem(itemId, mid); }
     public void saveWishItem(Long itemId, String mid) { itemMapper.saveWishItem(itemId, mid);}
+    public void deleteMultiCartItem(List<Long> idx) { itemMapper.deleteMultiCartItem(idx); }
+    public List<CartItem> findAllCartItem() { return itemMapper.findAllCartItem(); }
+    public void updateCartItem(Long id, int cnt) { itemMapper.updateCartItem(id, cnt); }
 
 
 }
