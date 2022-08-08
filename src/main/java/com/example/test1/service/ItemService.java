@@ -23,12 +23,13 @@ public class ItemService {
 
     public List<Item> findAll() { return itemMapper.findAll(); }
 
-    public int hadItem(Long itemId, String mid) { return itemMapper.hadItem(itemId, mid); }
+    public int hadItem(Map cItem) { return itemMapper.hadItem(cItem); }
     public void saveCartItem(Map cartItem) { itemMapper.saveCartItem(cartItem); }
     public int hadWishItem(Long itemId, String mid) { return itemMapper.hadWishItem(itemId, mid); }
     public void saveWishItem(Long itemId, String mid) { itemMapper.saveWishItem(itemId, mid);}
     public void deleteMultiCartItem(List<Long> idx) { itemMapper.deleteMultiCartItem(idx); }
-    public List<CartItem> findAllCartItem() { return itemMapper.findAllCartItem(); }
+    public List<CartItem> findAllCartItem(String user) { return itemMapper.findAllCartItem(user); }
+    public List<WishItem> findAllWishItem(String user) { return itemMapper.findAllWishItem(user); }
     public void updateCartItem(Long id, int cnt) { itemMapper.updateCartItem(id, cnt); }
 
 

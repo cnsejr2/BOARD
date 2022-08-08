@@ -19,4 +19,5 @@ public class Item {
     private String itemCategory;
     private Timestamp regDate;
     private List<ItemImage> imageList;
+
 }

@@ -1,9 +1,6 @@
 package com.example.test1.controller;
 
-import com.example.test1.domain.CartItem;
-import com.example.test1.domain.Criteria;
-import com.example.test1.domain.Item;
-import com.example.test1.domain.ItemImage;
+import com.example.test1.domain.*;
 import com.example.test1.service.ItemImageService;
 import com.example.test1.service.ItemService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -37,11 +34,9 @@ public class ItemController {
     @PostMapping("/item/write.do")
     @ResponseBody
     public ModelAndView itemFormPost(Item item, Principal principal, Criteria cri) {
-        item.setPrice("500,000");
-        item.setColor("black");
-        item.setItemCategory("Life");
-        itemService.insertItem(item);
         logger.info("item: " + item);
+        logger.info("item: " + item.getItemSize());
+        itemService.insertItem(item);
         if (!(item.getImageList() == null || item.getImageList().size() <= 0)) {
             item.getImageList().forEach(attach ->{
                 itemService.imageEnroll(attach);
@@ -106,10 +101,12 @@ public class ItemController {
     }
 
     @GetMapping("/item/cart")
-    public ModelAndView getCart(Criteria cri) throws Exception {
+    public ModelAndView getCart(Principal principal, Criteria cri) throws Exception {
+        String user = principal.getName();
+
         ModelAndView mav = new ModelAndView("/item/cart");
 
-        List<CartItem> list = itemService.findAllCartItem();
+        List<CartItem> list = itemService.findAllCartItem(user);
 
         list.forEach(item -> {
 
@@ -119,9 +116,9 @@ public class ItemController {
 
             item.setImageList(imageList);
 
-            Item i = itemService.selectItemDetail(itemId);
-            item.setItem(i);
-            logger.info("itemId : " + item.getItemColor());
+//            Item i = itemService.selectItemDetail(itemId);
+//            item.setItem(i);
+            logger.info("imageList : " + item.getImageList());
 
         });
         mav.addObject("itemList", list);
@@ -133,15 +130,21 @@ public class ItemController {
     public int getCommentList(Principal principal,
                               @RequestParam("id") Long id,
                               @RequestParam("itemSize") String iSize,
-                              @RequestParam("itemColor") String iColor) throws Exception {
+                              @RequestParam("itemColor") String iColor,
+                              @RequestParam("itemCnt") String iCnt,
+                              @RequestParam("itemName") String iName,
+                              @RequestParam("itemPrice") String iPrice) throws Exception {
         String user = principal.getName();
-        int hadItem = itemService.hadItem(id, user);
+        Map<String, String> cartItem = new HashMap<String, String>();
+        cartItem.put("memberId", user);
+        cartItem.put("id", String.valueOf(id));
+        cartItem.put("itemSize", iSize);
+        cartItem.put("itemColor", iColor);
+        int hadItem = itemService.hadItem(cartItem);
         if (hadItem != 1) {
-            Map<String, String> cartItem = new HashMap<String, String>();
-            cartItem.put("memberId", user);
-            cartItem.put("id", String.valueOf(id));
-            cartItem.put("itemSize", iSize);
-            cartItem.put("itemColor", iColor);
+            cartItem.put("itemCnt", iCnt);
+            cartItem.put("itemName", iName);
+            cartItem.put("itemPrice", iPrice);
             itemService.saveCartItem(cartItem);
         }
         return hadItem;
@@ -165,10 +168,39 @@ public class ItemController {
         return itemIdxArray;
     }
 
-    @RequestMapping(value = "/item/cart/update/{itemId}", method = RequestMethod.PUT)
+    @PutMapping(value = "/item/cart/update/{itemId}")
+    @ResponseBody
     public String updateCartItem(@PathVariable("itemId") Long id,
-                                @RequestParam("cnt") int cnt) throws Exception {
+                                 @RequestParam("cnt") int cnt) throws Exception {
         itemService.updateCartItem(id, cnt);
-        return "redirect:/board/view/" + id;
+        logger.info("수정");
+        return "redirect:/item/cart";
+    }
+
+    @GetMapping("/item/myWish")
+    public ModelAndView goMyWish(Principal principal) {
+
+        String user = principal.getName();
+
+        ModelAndView mav = new ModelAndView("/item/wish");
+
+        List<WishItem> list = itemService.findAllWishItem(user);
+
+        list.forEach(item -> {
+
+            Long itemId = item.getItemId();
+
+            Item i = itemService.selectItemDetail(itemId);
+            item.setItem(i);
+
+            List<ItemImage> imageList = itemImageService.getItemImage(itemId);
+            item.getItem().setImageList(imageList);
+
+
+            logger.info("imageList : " + item.getItem().getImageList());
+
+        });
+        mav.addObject("itemList", list);
+        return mav;
     }
 }

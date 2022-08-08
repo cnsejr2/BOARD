@@ -32,6 +32,9 @@
                     <a class="nav-link" href="/board/myList">내가 쓴 글</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/item/cart">장바구니</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/doLogout">로그아웃</a>
                 </li>
             </ul>

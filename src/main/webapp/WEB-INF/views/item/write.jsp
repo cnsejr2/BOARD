@@ -64,14 +64,29 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Item Name</label>
-                                <input type="text" type="text" name="name" id="name" class="form-control">
+                                <input type="text" name="name" id="name" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="info">Item Description</label>
                                 <textarea type="text" name="info" id="info" class="form-control" rows="4"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="img">Project Image</label>
+                                <label for="price">Item Price</label>
+                                <input type="text" placeholder="숫자만 입력가능" name="price" id="price" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            <div class="form-group">
+                                <label for="color">Item Color</label>
+                                <input type="text" placeholder="색명 뒤에 바로,를 쓰고 띄어쓰기를 해주세요, 예)Black, Green, " name="color" id="color" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <%--@declare id="itemsize"--%><label for="itemSize">Item Size</label>
+                                <input type="" name="itemSize" id="S"><label for="itemSize">S</label>
+                                <input type="radio" name="itemSize" id="M"><label for="itemSize">M</label>
+                                <input type="radio" name="itemSize" id="L"><label for="itemSize">L</label>
+                                <input type="radio" name="itemSize" id="XL"><label for="itemSize">XL</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="img">Item Image</label>
                                 <div class="form_section_content">
                                     <input type="file" id ="img" name='uploadFile' style="height: 30px;">
                                     <div id="uploadResult">

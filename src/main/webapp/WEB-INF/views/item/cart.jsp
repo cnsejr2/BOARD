@@ -30,7 +30,7 @@
                         <tr>
                             <th style="width: 10px;">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" id="allCheckBox" class="chk" onclick="allChecked(this)">
+                                    <input type="checkbox" checked="checked" id="allCheckBox" class="chk" onclick="allChecked(this)">
                                 </label>
                             </th>
                             <th>ITEM</th>
@@ -41,9 +41,14 @@
                         <c:forEach var="item" items="${itemList}">
                             <tr>
                                 <td>
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox" class="chk" name="oneChk" onclick="oneChkClicked()"  value="${item.itemId}">
-                                    </label>
+                                    <div class="cart_info">
+                                        <input type="hidden" class="individual_price_input" value="${item.itemPrice}">
+                                        <input type="hidden" class="individual_cnt_input" value="${item.cnt}">
+                                        <input type="hidden" class="individual_total_input" value="${item.cnt * item.itemPrice}">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" checked="checked" class="chk" name="oneChk" onclick="oneChkClicked()"  value="${item.itemId}">
+                                        </label>
+                                        </div>
                                 </td>
                                 <td>
                                     <table class="table-borderless">
@@ -54,8 +59,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p><span class="info-box-text">${item.item.name}</span></p>
-                                                <p><span class="info-box-number">${item.item.price}</span></p>
+                                                <p><span class="info-box-text">${item.itemName}</span></p>
+                                                <p><span class="info-box-number">${item.itemPrice}</span></p>
                                                 <p>
                                                     <div class="mt-4">
                                                     <div class="btn btn-default btn-lg btn-flat">
@@ -73,8 +78,8 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <input type="number" name="num" min="1" max="9" value="${item.cnt}">
-                                    <button type="button" class="btn btn-primary update-btn" onclick="updateCnt();">수정</button>
+                                    <input type="number" id="num_${item.cartItemId}" min="1" max="9" value="${item.cnt}">
+                                    <button type="button" class="btn btn-primary update-btn" onclick="updateItem(${item.cartItemId})">수정</button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -84,6 +89,22 @@
             </span>
         </span>
     </div>
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+
+    <div class="col-12 col-sm-6 col-md-12">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Total Price</span>
+                <span class="info-box-number finalTotalPrice"></span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
     <%@ include file="/WEB-INF/views/footer.jsp" %>
 </div>
 <!-- Ekko Lightbox -->
@@ -134,7 +155,29 @@
             $("#allCheckBox").prop("checked", false);
         }
     }
-    //게시판 삭제하기
+    $(document).ready(function () {
+        calculateTotal();
+    });
+
+    $(".chk").on("change", function(){
+        /* 총 주문 정보 세팅(배송비, 총 가격, 마일리지, 물품 수, 종류) */
+        calculateTotal();
+    });
+    function calculateTotal() {
+        /* 종합 정보 섹션 정보 삽입 */
+        let totalPrice = 0;
+
+        $(".cart_info").each(function (index, element) {
+            if($(element).find(".chk").is(":checked") === true) {
+                // 총 가격
+                let total = $(element).find(".individual_total_input").val()
+                totalPrice += parseInt(total);
+            }
+            console.log("total : " + totalPrice)
+        });
+
+        $(".finalTotalPrice").text(totalPrice.toLocaleString());
+    }
     function cartItemDelete(){
 
         let itemIdxArray = [];
@@ -171,11 +214,26 @@
             })
         }
     }
-
-    function updateCnt() {
-        const cnt = $('input[name=num]').val();
+    function updateItem(item) {
+        const cnt = $("#num_" + item).val();
         console.log("cnt : " + cnt);
+        console.log("ItemId : " + item);
+
+        $.ajax({
+            type : 'PUT'
+            ,url : "/item/cart/update/" + item
+            ,data : {'itemId' : item, 'cnt' : cnt }
+            ,success : function(result) {
+                alert("수정 완료되었습니다.");
+                location.href="/item/cart";
+            },
+            error: function(request, status, error) {
+
+            }
+        })
     }
+
+
 </script>
 
 </body>

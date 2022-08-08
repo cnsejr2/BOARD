@@ -19,8 +19,8 @@
         LYE_ITEM_SEQ.nextval
         , #{name, jdbcType=VARCHAR}
         , #{info, jdbcType=VARCHAR}
-        , 'S,M,L,XL'
-        , #{price, jdbcType=VARCHAR}
+        , 'S, M, L, XL'
+        , #{price, jdbcType=NUMERIC}
         , #{color, jdbcType=VARCHAR}
         , 'Life'
         , sysdate
@@ -63,25 +63,35 @@
     </select>
 
     <!-- 아이템 카트  -->
-    <select id="findAllCartItem" resultType="com.example.test1.domain.CartItem">
+    <select id="findAllCartItem" parameterType="String" resultType="com.example.test1.domain.CartItem">
         SELECT
             *
         FROM LYE_ITEM_CART
+        WHERE memberid = #{user, jdbcType=VARCHAR}
         ORDER BY itemId
     </select>
 
 
     <select id="hadItem" resultType="int">
-        SELECT count(*) FROM LYE_ITEM_CART WHERE ITEMID = #{itemId} and MEMBERID = #{mId}
+        SELECT count(*) FROM LYE_ITEM_CART
+                        WHERE ITEMID = #{id} and
+                              MEMBERID = #{memberId} and
+                              ITEMSIZE = #{itemSize} and
+                              ITEMCOLOR = #{itemColor}
+
     </select>
+
     <insert id="saveCartItem" parameterType="java.util.Map">
-        INSERT INTO LYE_ITEM_CART (memberid, itemid, itemsize, itemcolor, cnt)
+        INSERT INTO LYE_ITEM_CART (memberid, itemid, itemsize, itemcolor, cnt, cartitemid, itemname, itemprice)
         VALUES (
                 #{memberId, jdbcType=VARCHAR},
                 #{id},
                 #{itemSize, jdbcType=VARCHAR},
                 #{itemColor, jdbcType=VARCHAR},
-                1
+                #{itemCnt, jdbcType=VARCHAR},
+                LYE_ITEM_CART_SEQ.nextval,
+                #{itemName, jdbcType=VARCHAR},
+                #{itemPrice}
                )
     </insert>
 
@@ -110,6 +120,14 @@
         <set>
             cnt = #{cnt, jdbcType=NUMERIC}
         </set>
-        where id = #{itemId}
+        where cartitemid = #{itemId, jdbcType=NUMERIC}
     </update>
+
+    <select id="findAllWishItem" resultType="com.example.test1.domain.WishItem">
+        SELECT
+            *
+        FROM LYE_ITEM_WISH
+        WHERE MEMBERID = #{user, jdbcType=VARCHAR}
+        ORDER BY itemid
+    </select>
 </mapper>

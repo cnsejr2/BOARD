@@ -17,11 +17,12 @@ public interface ItemMapper {
     void insertItem(Item item);
     void imageEnroll(ItemImage itemImage);
     List<Item> findAll();
-    int hadItem(@Param("itemId") Long itemId, @Param("mId") String mid);
+    int hadItem(Map cItem);
     void saveCartItem(Map cartItem);
     int hadWishItem(@Param("itemId") Long itemId, @Param("mId") String mid);
     void saveWishItem(@Param("itemId") Long itemId, @Param("mId") String mid);
     void deleteMultiCartItem(List<Long> idx);
-    List<CartItem> findAllCartItem();
+    List<CartItem> findAllCartItem(String user);
+    List<WishItem> findAllWishItem(String user);
     void updateCartItem(@Param("itemId") Long itemId, @Param("cnt") int cnt);
 }
