@@ -27,7 +27,7 @@
             <div class="card-body">
                 <div class="row">
                     <c:forEach var="item" items="${itemList}">
-                        <div class="col-md-10 col-sm-6 col-12">
+                        <div class="col-md-12 col-sm-6 col-12">
                             <div class="info-box">
                                 <span class="bg-info">
                                     <div class="image_wrap" data-itemid="${item.imageList[0].itemId}" data-path="${item.imageList[0].upload}" data-uuid="${item.imageList[0].uuid}" data-filename="${item.imageList[0].fileName}">
@@ -41,10 +41,6 @@
                                         <div class="btn btn-default btn-lg btn-flat">
                                             <i class="far fa-file-alt fa-lg mr-2"></i>
                                             <a href="/item/view/${item.id}">View Product</a>
-                                        </div>
-                                        <div class="btn btn-primary btn-lg btn-flat">
-                                            <i class="fas fa-cart-plus fa-lg mr-2"></i>
-                                            Add to Cart
                                         </div>
                                     </div>
                                 </div>

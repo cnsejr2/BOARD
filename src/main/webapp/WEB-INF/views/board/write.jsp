@@ -40,7 +40,6 @@
             display: block;
             cursor: pointer;
         }
-
     </style>
     <script
             src="https://code.jquery.com/jquery-3.4.1.js"
@@ -98,16 +97,13 @@
         .catch(error=>{
             console.error(error);
         });
-
     let tCheck = false;            // 이름
     let cCheck = false;            // 이메일
-
     $(document).ready(function() {
         $(".write_button").click(function () {
             console.log("쓰기 클릭");
             const title = $('#title').val();                 // id 입력란
             const contents = theEditor.getData();
-
             if (title == "") {
                 tCheck = false;
             } else {
@@ -129,25 +125,20 @@
             return false;
         });
     });
-
     /* 이미지 업로드 */
     $("input[type='file']").on("change", function(e){
-
         /* 이미지 존재시 삭제 */
         if($(".imgDeleteBtn").length > 0){
             deleteFile();
         }
-
         let formData = new FormData();
         let fileInput = $('input[name="uploadFile"]');
         let fileList = fileInput[0].files;
         let fileObj = fileList[0];
-
         if(!fileCheck(fileObj.name, fileObj.size)){
             return false;
         }
         formData.append("uploadFile", fileObj);
-
         $.ajax({
             url: '/uploadAjaxAction',
             processData : false,
@@ -163,7 +154,6 @@
                 alert("이미지 파일이 아닙니다.");
             }
         });
-
         alert("통과");
     });
     /* 이미지 출력 */
@@ -171,15 +161,10 @@
         console.log("showUploadImage : " + uploadResultArr);
         /* 전달받은 데이터 검증 */
         if(!uploadResultArr || uploadResultArr.length == 0){ return; }
-
         let uploadResult = $("#uploadResult");
-
         let obj = uploadResultArr[0];
-
         let str = "";
-
         let fileCallPath = encodeURIComponent(obj.upload.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName);
-
         str += "<div id='result_card'>";
         str += "<img src='/display?fileName=" + fileCallPath +"'>";
         str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
@@ -187,13 +172,11 @@
         str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
         str += "<input type='hidden' name='imageList[0].upload' value='"+ obj.upload +"'>";
         str += "</div>";
-
         uploadResult.append(str);
     }
     /* var, method related with attachFile */
     let regex = new RegExp("(.*?)\.(jpg|png)$");
     let maxSize = 1048576; //1MB
-
     function fileCheck(fileName, fileSize){
         if(fileSize >= maxSize){
             alert("파일 사이즈 초과");
@@ -204,7 +187,6 @@
             return false;
         }
         return true;
-
     }
     /* 이미지 삭제 버튼 동작 */
     $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
@@ -214,12 +196,9 @@
     function deleteFile(){
         // $("#result_card").remove();
         let targetFile = $(".imgDeleteBtn").data("file");
-
         let targetDiv = $("#result_card");
-
         console.log("targetFile : " + targetFile)
         console.log("targetDiv : " + targetDiv)
-
         $.ajax({
             url: '/deleteFile',
             data : {fileName : targetFile, id : null},
@@ -227,14 +206,11 @@
             type : 'POST',
             success : function(result){
                 console.log(result);
-
                 targetDiv.remove();
                 $("input[type='file']").val("");
-
             },
             error : function(result){
                 console.log(result);
-
                 alert("파일을 삭제하지 못하였습니다.")
             }
         });

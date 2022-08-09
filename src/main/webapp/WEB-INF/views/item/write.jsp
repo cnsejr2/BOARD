@@ -79,11 +79,11 @@
                                 <input type="text" placeholder="색명 뒤에 바로,를 쓰고 띄어쓰기를 해주세요, 예)Black, Green, " name="color" id="color" class="form-control">
                             </div>
                             <div class="form-group">
-                                <%--@declare id="itemsize"--%><label for="itemSize">Item Size</label>
-                                <input type="" name="itemSize" id="S"><label for="itemSize">S</label>
-                                <input type="radio" name="itemSize" id="M"><label for="itemSize">M</label>
-                                <input type="radio" name="itemSize" id="L"><label for="itemSize">L</label>
-                                <input type="radio" name="itemSize" id="XL"><label for="itemSize">XL</label>
+                                Item Size
+                                <input type="checkbox" name="itemSize" id="S" value="S">S
+                                <input type="checkbox" name="itemSize" id="M" value="M">M
+                                <input type="checkbox" name="itemSize" id="L" value="L">L
+                                <input type="checkbox" name="itemSize" id="XL" value="XL">XL
                             </div>
                             <div class="form-group">
                                 <label for="img">Item Image</label>
@@ -133,8 +133,15 @@
             } else {
                 infoCheck = true;
             }
+            const arr = new Array();
+
+            $('input:checkbox[name=itemSize]:checked').each(function() {
+                arr.push(this.value);
+            });
+
             if ( nameCheck&&infoCheck ) {
-                console.log("Error O")
+                console.log("Error O");
+                alert(arr);
                 //회원가입 버튼(회원가입 기능 작동
                 $("#itemForm").attr("action", "/item/write.do");
                 $("#itemForm").submit();

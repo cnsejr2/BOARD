@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -35,14 +36,14 @@ public class ItemController {
     @ResponseBody
     public ModelAndView itemFormPost(Item item, Principal principal, Criteria cri) {
         logger.info("item: " + item);
-        logger.info("item: " + item.getItemSize());
+        logger.info("itemSize: " + item.getItemSize());
         itemService.insertItem(item);
         if (!(item.getImageList() == null || item.getImageList().size() <= 0)) {
             item.getImageList().forEach(attach ->{
                 itemService.imageEnroll(attach);
             });
         }
-        ModelAndView mav = new ModelAndView("redirect:/item/list");
+        ModelAndView mav = new ModelAndView("redirect:/security/main");
         List<Item> itemList = itemService.findAll();
         mav.addObject("itemList", itemList);
         List<ItemImage> itemImageList = itemImageService.findAllImage();
@@ -64,7 +65,7 @@ public class ItemController {
         item.setImageList(imageList);
         mav.addObject("item", item);
 
-        String iSize[] = item.getItemSize().split(", ");
+        String iSize[] = item.getItemSize().split(",");
         mav.addObject("iSize", iSize);
 
         String iColor[] = item.getColor().split(", ");

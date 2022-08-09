@@ -97,7 +97,6 @@
 </div>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
-
     $(document).ready(function () {
         getCommentList();
         $(".cSubmit").click(function() {
@@ -112,7 +111,6 @@
                     $("#comment-form").attr("action", "/board/comment/write");
                     $("#comment-form").submit();
                 }
-
             }
         })
         $("#recommendBtn").click(function() {
@@ -130,7 +128,6 @@
             }
             let str = "";
             let obj = arr[0];
-
             let fileCallPath = encodeURIComponent(obj.upload + "/s_" + obj.uuid + "_" + obj.fileName);
             str += "<div id='result_card'";
             str += "data-path='" + obj.upload + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "'";
@@ -143,9 +140,7 @@
             let delStr = "<input type='hidden' name='filename' value='" + fileCallPath+ "'/>"
             deleteHidden.append(delStr);
         });
-
     })
-
     function recommendBoard() {
         console.log("추천 클릭")
         $.ajax({
@@ -167,7 +162,6 @@
             }
         });
     }
-
     let isOpen = true;
     function updateViewBtn(cid, contents, writer) {
         if (isOpen) {
@@ -184,11 +178,9 @@
             cView += '<button type="submit" class="btn btn-primary">수정 완료</button>';
             cView += '<button type="button" class="btn btn-primary" onclick="offDisplay()">수정 취소</button>';
             cView += '</form></div></div>';
-
             $("#updateComment").append(cView);
             isOpen = !isOpen;
         }
-
     }
     function deleteBoardBtn() {
         console.log("게시글 삭제 버튼 클릭");
@@ -207,7 +199,6 @@
         } else {
             alert("수정을 완료해 주세요");
         }
-
     }
     function getCommentList() {
         let id = $('input[name=id]').val();
@@ -237,9 +228,7 @@
             error: function (result) { },
             complete: function () { }
         })
-
     }
-
 </script>
 </body>
 </html>

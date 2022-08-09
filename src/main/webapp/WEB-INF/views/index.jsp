@@ -59,6 +59,7 @@
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
+                    <%@ include file="/WEB-INF/views/security/main.jsp" %>
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
                         <div class="small-box bg-info">
@@ -636,7 +637,6 @@
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
-                        <%@ include file="/WEB-INF/views/security/main.jsp" %>
                     </section>
                     <!-- right col -->
                 </div>

@@ -1,10 +1,10 @@
 package com.example.test1.controller;
 
-import com.example.test1.domain.AttachImage;
-import com.example.test1.domain.Board;
-import com.example.test1.domain.ItemImage;
+import com.example.test1.domain.*;
 import com.example.test1.mapper.BoardMapper;
+import com.example.test1.service.AdminService;
 import com.example.test1.service.AttachService;
+import com.example.test1.service.BoardService;
 import com.example.test1.service.ItemImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -15,7 +15,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -23,6 +25,7 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -32,6 +35,10 @@ import java.util.*;
 public class AdminController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Resource
+    AdminService adminService;
+    @Resource
+    BoardService boardService;
     @Resource
     BoardMapper boardMapper;
 
@@ -46,6 +53,36 @@ public class AdminController {
         ModelAndView mav = new ModelAndView("admin/list");
         List<Board> bList = boardMapper.findAll();
         mav.addObject("bList", bList);
+        return mav;
+    }
+    @GetMapping("/admin/main")
+    public ModelAndView adminMain() {
+        ModelAndView mav = new ModelAndView("admin/main");
+        logger.info("service : " + adminService);
+        List<SecurityMember> mList = adminService.findMemberList();
+        mav.addObject("mList", mList);
+        return mav;
+    }
+    @RequestMapping("/admin/profile/{id}")
+    public ModelAndView viewMemberProfile(@PathVariable("id") String id, Criteria cri) throws Exception {
+
+        ModelAndView mav = new ModelAndView("/admin/profile");
+
+        SecurityMember sMember = adminService.findMember(id);
+        mav.addObject("member", sMember);
+
+        List<Board> bList = boardService.getListPagingByWriter(id, cri);
+        int total = boardService.getTotalByWriter(id);
+
+        mav.addObject("bList", bList);
+        Paging pageMake = new Paging(cri, total);
+
+        mav.addObject("pageMaker", pageMake);
+
+
+
+
+
         return mav;
     }
 
@@ -114,7 +151,7 @@ public class AdminController {
         return str.replace("-", File.separator);
     }
 
-    @Scheduled(fixedDelay=10000)
+    @Scheduled(fixedDelay=500000)
     public void checkFiles() throws Exception {
 
         logger.warn("File Check Task Run..........");

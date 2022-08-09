@@ -25,6 +25,6 @@ public class MyLoginSuccessHandler implements AuthenticationSuccessHandler {
         logger.info("Hi MyLoginSuccessHandler");
         session.setAttribute("greeting", authentication.getName());
 
-        response.sendRedirect("/security/main");
+        response.sendRedirect("/main");
     }
 }

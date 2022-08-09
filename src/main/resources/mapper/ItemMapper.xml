@@ -19,7 +19,7 @@
         LYE_ITEM_SEQ.nextval
         , #{name, jdbcType=VARCHAR}
         , #{info, jdbcType=VARCHAR}
-        , 'S, M, L, XL'
+        , #{itemSize, jdbcType=VARCHAR}
         , #{price, jdbcType=NUMERIC}
         , #{color, jdbcType=VARCHAR}
         , 'Life'

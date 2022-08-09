@@ -72,7 +72,7 @@
     </form>
     <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/board/write.do'"> 글 쓰기 </button>
     <button type="button" class="btn btn-primary update-btn float-right" onclick="boardDelete();"> 글 삭제 </button>
-    <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/security/main'"> 메인 페이지로 </button>
+    <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/main'"> 메인 페이지로 </button>
 </div>
 
 <script>

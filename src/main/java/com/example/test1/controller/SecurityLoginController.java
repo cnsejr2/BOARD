@@ -28,7 +28,7 @@ public class SecurityLoginController {
         return "security/index";
     }
 
-    @RequestMapping("/security/main")
+    @RequestMapping("/main")
     public ModelAndView getMain(Criteria cri) throws Exception {
         ModelAndView mav = new ModelAndView("/index");
 
@@ -43,7 +43,6 @@ public class SecurityLoginController {
 //        mav.addObject("keyword", "");
         return mav;
     }
-
     @GetMapping("/security/login")
     public String getLoginForm() {
         return "security/loginPage";

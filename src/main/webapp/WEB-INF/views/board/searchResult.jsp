@@ -44,7 +44,7 @@
             </tr>
         </c:forEach>
     </table>
-    <a href="/security/main">메인으로가기</a>
+    <a href="/main">메인으로가기</a>
 </div>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 </body>

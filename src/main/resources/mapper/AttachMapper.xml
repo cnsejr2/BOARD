@@ -14,7 +14,7 @@
     <insert id="imageReEnroll" parameterType="com.example.test1.domain.AttachImage">
         INSERT INTO LYE_IMAGE (bid, filename, upload, uuid)
         values (
-                   #{bId, jdbcType=NUMERIC},
+        #{bId, jdbcType=NUMERIC},
         #{fileName, jdbcType=VARCHAR},
         #{upload,jdbcType=VARCHAR},
         #{uuid,jdbcType=VARCHAR}
@@ -25,7 +25,6 @@
         delete from LYE_IMAGE where bId = #{bId, jdbcType=NUMERIC}
     </delete>
 
-    <!-- 어제자 날자 이미지 리스트 -->
     <select id="checkFileList" resultType="com.example.test1.domain.AttachImage">
         select * from LYE_IMAGE where upload = to_char(sysdate, 'yyyy\mm\dd')
     </select>

@@ -40,6 +40,7 @@ public class BoardController {
         String writer = principal.getName();
         board.setWriter(writer);
         boardService.insertBoard(board);
+        logger.info("image : " + board.getImageList().size());
         if (!(board.getImageList() == null || board.getImageList().size() <= 0)) {
             board.getImageList().forEach(attach ->{
                 boardService.imageEnroll(attach);
@@ -90,21 +91,21 @@ public class BoardController {
         mav.addObject("board", board);
         return mav;
     }
-
-
     @RequestMapping(value="/board/update/{id}", method=RequestMethod.PUT)
     public ModelAndView updateSubmit(Board board, @PathVariable("id") Long id) {
         ModelAndView mav = new ModelAndView("redirect:/board/view/" + id);
         logger.info("updating");
         int result = boardService.updateBoard(board);
         if(result == 1 && board.getImageList() != null && board.getImageList().size() > 0) {
-
             attachService.deleteImageAll(board.getId());
 
             board.getImageList().forEach(attach -> {
-
                 attach.setBId(board.getId());
-                attachService.imageReEnroll(attach);
+                if (attach.getUuid() != null) {
+                    logger.info("attach: " + attach);
+                    attachService.imageReEnroll(attach);
+                }
+
 
             });
 
@@ -114,7 +115,7 @@ public class BoardController {
     /* 게시글 삭제 페이지 */
     @RequestMapping(value="/board/delete/{id}", method = RequestMethod.DELETE)
     public ModelAndView boardDelete(@PathVariable("id") Long id) throws Exception {
-        ModelAndView mav = new ModelAndView("redirect:/security/main");
+        ModelAndView mav = new ModelAndView("redirect:/main");
         logger.info("delete ID : " + id);
         boardService.deleteBoard(id);
         return mav;

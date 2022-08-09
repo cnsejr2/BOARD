@@ -58,7 +58,7 @@ public class SecurityConfig {
                         .antMatchers("/css/**").permitAll()
                         .antMatchers("/security/login/**", "/resources/css/**")
                             .permitAll()
-                        .antMatchers("/admin/board/list").hasAuthority("ROLE_ADMIN")
+                        .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest()
                         .authenticated()
                 .and()
