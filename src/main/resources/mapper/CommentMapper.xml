@@ -38,4 +38,20 @@
     <delete id="deleteComment" parameterType="Long">
         delete from LYE_COMMENT where id = #{id}
     </delete>
+
+    <select id="getTotalByWriter" parameterType="String" resultType="int">
+        SELECT
+            count(*)
+        FROM LYE_COMMENT
+        WHERE writer=#{writer, jdbcType=VARCHAR}
+    </select>
+
+    <select id="findCommentPagingByWriter" resultType="java.util.LinkedHashMap">
+    <![CDATA[
+        select * from (
+                          select rownum  as rn, id, contents, bid
+                          from (select * from LYE_COMMENT WHERE writer = #{writer, jdbcType=VARCHAR}) where rownum <= #{cri.pageNum} * #{cri.amount} order by id)
+        where rn > (#{cri.pageNum} -1) * #{cri.amount}
+        ]]>
+    </select>
 </mapper>

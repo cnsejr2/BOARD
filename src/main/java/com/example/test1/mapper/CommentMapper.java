@@ -1,7 +1,9 @@
 package com.example.test1.mapper;
 
 import com.example.test1.domain.Comment;
+import com.example.test1.domain.Criteria;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +16,7 @@ public interface CommentMapper {
     List<Comment> selectCommentList(Long id);
     void deleteComment(Long id);
     void updateComment(Map input);
+    List<Comment> findCommentPagingByWriter(@Param("writer") String writer, Criteria cri);
+    int getTotalByWriter(@Param("writer") String writer);
+
 }

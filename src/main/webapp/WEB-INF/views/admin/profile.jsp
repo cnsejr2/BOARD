@@ -191,7 +191,45 @@
                       <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
                     </form>
                   </div>
-
+                  <div class="container" style='width:1000px;'>
+                    <h1>댓글 목록</h1>
+                    <table class="table">
+                      <tr>
+                        <th>ID</th>
+                        <th>BID</th>
+                        <th>WRITER</th>
+                      </tr>
+                      <c:forEach var="c" items="${cList}">
+                        <tr>
+                          <td>${c.ID}</td>
+                          <td><a href="/board/view/${c.BID}">${c.BID}</a></td>
+                          <td>${c.writer}</td>
+                        </tr>
+                      </c:forEach>
+                    </table>
+                    <div class="pageInfo_wrap" >
+                      <div class="pageInfo_area">
+                        <ul id="pageInfoCom" class="pageInfo">
+                          <!-- 이전페이지 버튼 -->
+                          <c:if test="${pageComMaker.prev}">
+                            <li class="pageInfo_btn previous"><a href="${pageComMaker.startPage-1}">Previous</a></li>
+                          </c:if>
+                          <!-- 각 번호 페이지 버튼 -->
+                          <c:forEach var="num" begin="${pageComMaker.startPage}" end="${pageComMaker.endPage}">
+                            <li class="pageInfo_btn ${pageComMaker.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
+                          </c:forEach>
+                          <!-- 다음페이지 버튼 -->
+                          <c:if test="${pageComMaker.next}">
+                            <li class="pageInfo_btn next"><a href="${pageComMaker.endPage + 1 }">Next</a></li>
+                          </c:if>
+                        </ul>
+                      </div>
+                    </div>
+                    <form id="moveFormCom" method="get">
+                      <input type="hidden" name="pageNumCom" value="${pageComMaker.cri.pageNum }">
+                      <input type="hidden" name="amount" value="${pageComMaker.cri.amount }">
+                    </form>
+                  </div>
                 </div>
 
                 <!-- /.tab-pane -->
@@ -362,6 +400,16 @@
     moveForm.find("input[name='pageNum']").val($(this).attr("href"));
     moveForm.attr("action", "/admin/profile/${member.id}");
     moveForm.submit();
+
+  });
+
+  let moveFormCom = $("#moveFormCom");
+
+  $(".pageInfoCom a").on("click", function(e){
+    e.preventDefault();
+    moveFormCom.find("input[name='pageNumCom']").val($(this).attr("href"));
+    moveFormCom.attr("action", "/admin/profile/${member.id}");
+    moveFormCom.submit();
 
   });
   //체크박스 전체 선택 클릭 이벤트

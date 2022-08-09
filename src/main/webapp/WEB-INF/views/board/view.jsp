@@ -63,7 +63,7 @@
                                 </form>
                             </c:if>
                             <button type="button" class="btn btn-primary list-btn" onclick="location.href='/board/myList'">내 글 쓴 목록으로</button>
-                            <button type="button" class="btn btn-primary list-btn" onclick="location.href='/security/main'">메인으로</button>
+                            <button type="button" class="btn btn-primary list-btn" onclick="location.href='/main'">메인으로</button>
                             <button type="button" class="btn btn-primary list-btn" id="recommendBtn">추천 ${board.recom_cnt}</button>
                         </div>
                     </div>

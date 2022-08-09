@@ -2,10 +2,7 @@ package com.example.test1.controller;
 
 import com.example.test1.domain.*;
 import com.example.test1.mapper.BoardMapper;
-import com.example.test1.service.AdminService;
-import com.example.test1.service.AttachService;
-import com.example.test1.service.BoardService;
-import com.example.test1.service.ItemImageService;
+import com.example.test1.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +37,7 @@ public class AdminController {
     @Resource
     BoardService boardService;
     @Resource
-    BoardMapper boardMapper;
+    CommentService commentService;
 
     @Resource
     AttachService attachService;
@@ -51,7 +48,7 @@ public class AdminController {
     @GetMapping("/admin/board/list")
     public ModelAndView boardForm() {
         ModelAndView mav = new ModelAndView("admin/list");
-        List<Board> bList = boardMapper.findAll();
+        List<Board> bList = boardService.findAll();
         mav.addObject("bList", bList);
         return mav;
     }
@@ -72,14 +69,20 @@ public class AdminController {
         mav.addObject("member", sMember);
 
         List<Board> bList = boardService.getListPagingByWriter(id, cri);
-        int total = boardService.getTotalByWriter(id);
+        int bTotal = boardService.getTotalByWriter(id);
 
         mav.addObject("bList", bList);
-        Paging pageMake = new Paging(cri, total);
+        Paging pageMake = new Paging(cri, bTotal);
 
         mav.addObject("pageMaker", pageMake);
 
+        List<Comment> cList = commentService.findCommentPagingByWriter(id, cri);
+        int cTotal = commentService.getTotalByWriter(id);
 
+        mav.addObject("cList", cList);
+        Paging pageComMake = new Paging(cri, cTotal);
+
+        mav.addObject("pageComMake", pageComMake);
 
 
 
