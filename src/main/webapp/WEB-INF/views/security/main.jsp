@@ -26,7 +26,18 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/board/write.do">글쓰기</a>
+                    <%
+                        session = request.getSession();
+                        out.println("관리자 " + session.getAttribute("greeting") + "님, 반갑습니다.");
+                    %>
+                </li>
+                <li class="nav-item">
+                    <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+                        <a class="nav-link active" aria-current="page" href="/admin/main"> 회원 정보</a>
+                    </sec:authorize>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/board/write.do">글쓰기</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/board/myList">내가 쓴 글</a>
@@ -41,19 +52,6 @@
         </div>
     </div>
 </nav>
-
-    <%
-        session = request.getSession();
-        out.println(session.getAttribute("greeting") + "님, 반갑습니다.");
-    %>
-    <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-        <div class="grid-sample" style="height: 600px;">
-            <div id="grid_data" style="height: 600px;">
-                관리자 입니다.
-                <a href="/admin/main"> 회원 정보</a>
-            </div>
-        </div>
-    </sec:authorize>
 
     <div class="container">
         <h1>게시판목록</h1>

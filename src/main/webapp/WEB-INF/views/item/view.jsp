@@ -201,7 +201,7 @@
         $.ajax({
             type : "GET",
             url : "/item/hadWishItem",
-            data : {'id' : ${item.id}, 'size' : itemSize, 'color' : itemColor },
+            data : {'id' : ${item.id}},
             success : function(likeCheck) {
                 if(likeCheck != 1){
                     alert("wish 추가완료.");

@@ -204,4 +204,11 @@ public class ItemController {
         mav.addObject("itemList", list);
         return mav;
     }
+
+    @ResponseBody
+    @DeleteMapping("/wish/delete")
+    public Long deleteWishSubmit(@RequestParam("id") Long id){
+        itemService.deleteWishItem(id);
+        return id;
+    }
 }

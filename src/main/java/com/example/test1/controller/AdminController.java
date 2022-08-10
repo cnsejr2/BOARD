@@ -116,6 +116,12 @@ public class AdminController {
         return mav;
     }
 
+    @ResponseBody
+    @DeleteMapping("/admin/member/delete")
+    public String deleteWishSubmit(@RequestParam("id") String id){
+        adminService.deleteMember(id);
+        return id;
+    }
     /* 이미지 파일 삭제 */
     @PostMapping("/deleteFile")
     public ResponseEntity<String> deleteFile(String fileName, Long id) {
@@ -180,7 +186,6 @@ public class AdminController {
 
         return str.replace("-", File.separator);
     }
-
     @Scheduled(fixedDelay=500000)
     public void checkFiles() throws Exception {
 

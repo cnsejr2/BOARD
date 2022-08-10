@@ -16,11 +16,21 @@
     <h1>댓글목록</h1>
     <table class="table">
         <tr>
+            <th>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="allCheckBox" class="chk" onclick="allChecked(this)">
+                </label>
+            </th>
             <th>ID</th>
             <th>BID</th>
         </tr>
         <c:forEach var="c" items="${cList}">
         <tr>
+            <td>
+                <label class="checkbox-inline">
+                    <input type="checkbox" class="chk" name="oneChk" onclick="oneChkClicked()"  value="${c.ID}">
+                </label>
+            </td>
             <td>${c.ID}</td>
             <td><a href="/board/view/${c.BID}">${c.BID}</a></td>
         </tr>
@@ -49,6 +59,8 @@
         <input type="hidden" name="amount" value="${pageComMake.cri.amount }">
         <input type="hidden" name="type" value="comment">
     </form>
+    <button type="button" class="btn btn-primary update-btn float-right" onclick="commentDelete();"> 댓글 삭제 </button>
+
 </div>
 
 <script>
@@ -94,19 +106,19 @@
         }
     }
     //게시판 삭제하기
-    function boardDelete(){
+    function commentDelete(){
 
-        let boardIdxArray = [];
+        let comIdxArray = [];
 
         $("input:checkbox[name='oneChk']:checked").each(function(){
             console.log("배열 추가" + $(this).val())
-            boardIdxArray.push($(this).val())
+            comIdxArray.push($(this).val())
             // boardIdxArray.push($(this).val());
         });
 
-        console.log(boardIdxArray);
+        console.log(comIdxArray);
 
-        if(boardIdxArray.length === 0){
+        if(comIdxArray.length === 0){
             alert("삭제할 항목을 선택해주세요.");
             return false;
         }
@@ -116,13 +128,13 @@
 
             $.ajax({
                 type : 'DELETE'
-                ,url : "/board/multi/delete"
+                ,url : "/comment/multi/delete"
                 ,dataType : 'json'
-                ,data : JSON.stringify(boardIdxArray)
+                ,data : JSON.stringify(comIdxArray)
                 ,contentType: 'application/json'
                 ,success : function(result) {
                     alert("해당글이 정상적으로 삭제되었습니다.");
-                    location.href="/board/myList";
+                    location.reload();
                 },
                 error: function(request, status, error) {
 

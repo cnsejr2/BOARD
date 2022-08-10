@@ -13,4 +13,6 @@ public interface AdminMapper {
     List<SecurityMember> findMemberList();
 
     SecurityMember findMember(String id);
+
+    void deleteMember(String id);
 }

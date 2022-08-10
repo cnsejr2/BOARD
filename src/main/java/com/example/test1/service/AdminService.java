@@ -24,4 +24,6 @@ public class AdminService {
     }
 
     public SecurityMember findMember(String id) { return adminMapper.findMember(id); }
+
+    public void deleteMember(String id) { adminMapper.deleteMember(id); }
 }

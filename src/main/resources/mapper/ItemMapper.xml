@@ -148,4 +148,9 @@
         FROM LYE_ITEM_WISH
         WHERE MEMBERID = #{mId, jdbcType=VARCHAR}
     </select>
+
+    <delete id="deleteWishItem" parameterType="Long">
+        DELETE FROM LYE_ITEM_WISH
+        WHERE itemId= #{id}
+    </delete>
 </mapper>

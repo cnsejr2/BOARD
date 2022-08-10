@@ -68,9 +68,9 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="text-right">
-                                        <a href="#" class="btn btn-sm bg-teal">
-                                            <i class="fas fa-comments"></i>
-                                        </a>
+                                        <div class="btn btn-sm bg-teal" onclick="deleteMember('${member.ID}')">
+                                            <i class="fas fa-eraser"></i>
+                                        </div>
                                         <a href="/admin/profile/${member.ID}" class="btn btn-sm btn-primary">
                                             <i class="fas fa-user"></i> View Profile
                                         </a>
@@ -104,7 +104,33 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-
 <%@ include file="/WEB-INF/views/footer.jsp" %>
+
+<script>
+    // $(document).ready(function () {
+    //     $(".deleteBtn").click(function(id) {
+    //         deleteMember(id)
+    //     })
+    // });
+
+    function deleteMember(id) {
+        let confirmAlert = confirm('정말로 삭제하시겠습니까?');
+        if(confirmAlert){
+
+            $.ajax({
+                type : 'DELETE'
+                ,url : "/admin/member/delete"
+                ,data : {'id' : id}
+                ,success : function(result) {
+                    alert("회원이 탈퇴되었습니다.");
+                    location.reload();
+                },
+                error: function(request, status, error) {
+
+                }
+            })
+        }
+    }
+</script>
 </body>
 </html>

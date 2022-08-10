@@ -18,5 +18,6 @@ public interface CommentMapper {
     void updateComment(Map input);
     List<Comment> findCommentPagingByWriter(@Param("writer") String writer, Criteria cri);
     int getTotalCommentByWriter(@Param("writer") String writer);
+    void deleteMultiComment(List<Long> idx);
 
 }

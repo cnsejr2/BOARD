@@ -33,9 +33,9 @@
                                 <i class="far fa-file-alt fa-lg mr-2"></i>
                                 <a href="/item/view/${wish.item.id}">View Product</a>
                             </div>
-                            <div class="btn btn-primary btn-lg btn-flat">
-                                <i class="fas fa-cart-plus fa-lg mr-2"></i>
-                                Add to Cart
+                            <div class="btn btn-primary btn-lg btn-flat" onclick="removeBtn(${wish.item.id})">
+                                <i class="fas fa-cut fa-lg mr-2"></i>
+                                 Remove from Cart
                             </div>
                         </div>
                     </div>
@@ -70,6 +70,31 @@
 <!-- Ekko Lightbox -->
 <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <script>
+
+    $(document).ready(function () {
+        $(".removeBtn").click(function(id) {
+            removeBtn(id)
+        })
+    });
+
+    function removeBtn(id) {
+        let confirmAlert = confirm('정말로 삭제하시겠습니까?');
+        if(confirmAlert){
+
+            $.ajax({
+                type : 'DELETE'
+                ,url : "/wish/delete"
+                ,data : {'id' : id}
+                ,success : function(result) {
+                    alert("해당 아이템이 정상적으로 삭제되었습니다.");
+                    location.reload();
+                },
+                error: function(request, status, error) {
+
+                }
+            })
+        }
+    }
     /* 이미지 삽입 */
     $(".image_wrap").each(function(i, obj){
         const itemObj = $(obj);
@@ -92,6 +117,7 @@
         moveFormWish.submit();
 
     });
+
 </script>
 
 </body>

@@ -14,4 +14,9 @@
         FROM LYE_SECURITY_MEMBER
         WHERE id = #{id, jdbcType=VARCHAR}
     </select>
+
+    <delete id="deleteMember" parameterType="String">
+        DELETE FROM LYE_SECURITY_MEMBER
+        WHERE ID= #{id}
+    </delete>
 </mapper>

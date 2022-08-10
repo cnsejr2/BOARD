@@ -28,4 +28,5 @@ public interface ItemMapper {
     void updateCartItem(@Param("itemId") Long itemId, @Param("cnt") int cnt);
     List<WishItem> getListPagingWishItemById(@Param("mId") String mid, Criteria cri);
     int getTotalWishItemById(@Param("mId") String mid);
+    void deleteWishItem(Long idx);
 }

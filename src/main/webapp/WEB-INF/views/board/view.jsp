@@ -123,7 +123,7 @@
         let uploadResult = $("#uploadResult");
         $.getJSON("/getAttachList", {bId : ${board.id}}, function(arr){
             console.log("view : " + arr);
-            if(arr.length === 0){
+            if (arr.length === 0) {
                 return;
             }
             let str = "";
@@ -148,11 +148,10 @@
             url : "/board/updateRecommend",
             data : {'id' : ${board.id} },
             success : function(likeCheck) {
-                if(likeCheck != 1){
+                if (likeCheck != 1) {
                     alert("추천완료.");
                     location.reload();
-                }
-                else {
+                } else {
                     alert("이미 추천한 글 입니다.");
                     location.reload();
                 }

@@ -54,4 +54,13 @@
         where rn > (#{cri.pageNum} -1) * #{cri.amount}
         ]]>
     </select>
+
+    <delete id="deleteMultiComment" parameterType="java.util.List">
+        DELETE FROM LYE_COMMENT
+        <where>
+            <foreach collection="list" item="comment" open="" close="" separator="OR">
+                (id = #{comment, jdbcType=NUMERIC})
+            </foreach>
+        </where>
+    </delete>
 </mapper>

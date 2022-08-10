@@ -42,6 +42,10 @@
                                             <i class="far fa-file-alt fa-lg mr-2"></i>
                                             <a href="/item/view/${item.id}">View Product</a>
                                         </div>
+                                        <div class="btn btn-default btn-lg btn-flat wishBtn" onclick="wishBtn(${item.id})">
+                                            <i class="fas fa-heart fa-lg mr-2"></i>
+                                            Add to Wishlist
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -78,6 +82,13 @@
 <!-- Ekko Lightbox -->
 <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <script>
+
+    $(document).ready(function () {
+        $(".wishBtn").click(function(id) {
+            wishBtn(id)
+        })
+    });
+
     let moveForm = $("#moveForm");
 
     $(".pageInfo a").on("click", function(e){
@@ -101,7 +112,27 @@
         $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
 
     });
-
+    function wishBtn(id) {
+        console.log("wish 클릭")
+        $.ajax({
+            type : "GET",
+            url : "/item/hadWishItem",
+            data : {'id' : id },
+            success : function(likeCheck) {
+                if(likeCheck != 1) {
+                    alert("wish 추가완료.");
+                    location.reload();
+                }
+                else {
+                    alert("이미 추가한 아이템입니다");
+                    location.reload();
+                }
+            },
+            error : function() {
+                alert("통신 에러");
+            }
+        });
+    }
 
 </script>
 

@@ -24,4 +24,5 @@ public class CommentService {
     public void updateComment(Map input) { commentMapper.updateComment(input); }
     public List<Comment> findCommentPagingByWriter(String writer, Criteria cri) { return commentMapper.findCommentPagingByWriter(writer, cri); }
     public int getTotalCommentByWriter(String writer) { return  commentMapper.getTotalCommentByWriter(writer); }
+    public void deleteMultiComment(List<Long> idx) { commentMapper.deleteMultiComment(idx); }
 }

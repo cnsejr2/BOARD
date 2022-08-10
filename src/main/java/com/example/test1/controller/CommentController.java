@@ -61,4 +61,11 @@ public class CommentController {
         commentService.deleteComment(id);
         return "redirect:/board/view/" + bid;
     }
+
+    @ResponseBody
+    @DeleteMapping("/comment/multi/delete")
+    public List<Long> deleteSubmit(@RequestBody List<Long> comIdxArray){
+        commentService.deleteMultiComment(comIdxArray);
+        return comIdxArray;
+    }
 }

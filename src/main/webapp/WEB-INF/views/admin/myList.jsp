@@ -70,6 +70,7 @@
         <input type="hidden" name="amount" value="${pageMake.cri.amount }">
         <input type="hidden" name="type" value="board">
     </form>
+    <button type="button" class="btn btn-primary update-btn float-right" onclick="boardDelete();"> 글 삭제 </button>
 </div>
 
 <script>
@@ -83,14 +84,11 @@
 
     });
     //체크박스 전체 선택 클릭 이벤트
-    function allChecked(target){
+    function allChecked(target) {
 
-        if($(target).is(":checked")){
-            //체크박스 전체 체크
+        if ($(target).is(":checked")) {
             $(".chk").prop("checked", true);
-        }
-        else{
-            //체크박스 전체 해제
+        } else{
             $(".chk").prop("checked", false);
         }
     }
@@ -98,41 +96,34 @@
     //자식 체크박스 클릭 이벤트
     function oneChkClicked() {
 
-        // 체크박스 전체개수
         let allCount = $("input:checkbox[name=oneChk]").length;
 
-        // 체크된 체크박스 전체개수
         let checkedCount = $("input:checkbox[name=oneChk]:checked").length;
 
-        // 체크박스 전체개수와 체크된 체크박스 전체개수가 같으면 체크박스 전체 체크
-        if(allCount == checkedCount) {
+        if (allCount == checkedCount) {
             $(".chk").prop("checked", true);
-        }
-        // 같지않으면 전체 체크박스 해제
-        else {
+        } else {
             $("#allCheckBox").prop("checked", false);
         }
     }
-    //게시판 삭제하기
-    function boardDelete(){
+    function boardDelete() {
 
         let boardIdxArray = [];
 
         $("input:checkbox[name='oneChk']:checked").each(function(){
             console.log("배열 추가" + $(this).val())
             boardIdxArray.push($(this).val())
-            // boardIdxArray.push($(this).val());
         });
 
         console.log(boardIdxArray);
 
-        if(boardIdxArray.length === 0){
+        if (boardIdxArray.length === 0) {
             alert("삭제할 항목을 선택해주세요.");
             return false;
         }
 
         let confirmAlert = confirm('정말로 삭제하시겠습니까?');
-        if(confirmAlert){
+        if (confirmAlert) {
 
             $.ajax({
                 type : 'DELETE'
@@ -142,7 +133,7 @@
                 ,contentType: 'application/json'
                 ,success : function(result) {
                     alert("해당글이 정상적으로 삭제되었습니다.");
-                    location.href="/board/myList";
+                    location.reload();
                 },
                 error: function(request, status, error) {
 
