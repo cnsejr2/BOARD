@@ -13,6 +13,7 @@ import java.util.Map;
 public interface ItemMapper {
 
     List<Item> getListPaging(Criteria cri);
+    int getTotal();
     Item selectItemDetail(Long id);
     void insertItem(Item item);
     void imageEnroll(ItemImage itemImage);
@@ -25,4 +26,6 @@ public interface ItemMapper {
     List<CartItem> findAllCartItem(String user);
     List<WishItem> findAllWishItem(String user);
     void updateCartItem(@Param("itemId") Long itemId, @Param("cnt") int cnt);
+    List<WishItem> getListPagingWishItemById(@Param("mId") String mid, Criteria cri);
+    int getTotalWishItemById(@Param("mId") String mid);
 }

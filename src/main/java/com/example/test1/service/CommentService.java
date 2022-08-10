@@ -23,5 +23,5 @@ public class CommentService {
     public void deleteComment(Long id) { commentMapper.deleteComment(id); }
     public void updateComment(Map input) { commentMapper.updateComment(input); }
     public List<Comment> findCommentPagingByWriter(String writer, Criteria cri) { return commentMapper.findCommentPagingByWriter(writer, cri); }
-    public int getTotalByWriter(String writer) { return  commentMapper.getTotalByWriter(writer); }
+    public int getTotalCommentByWriter(String writer) { return  commentMapper.getTotalCommentByWriter(writer); }
 }

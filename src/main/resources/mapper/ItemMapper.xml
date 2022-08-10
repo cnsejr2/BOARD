@@ -34,7 +34,6 @@
         ORDER BY id
     </select>
 
-    <!-- 이미지 등록 -->
     <insert id="imageEnroll">
         <selectKey resultType="Long" keyProperty="itemId" order="AFTER">
             SELECT MAX(ID) + 1 FROM LYE_ITEM
@@ -47,7 +46,6 @@
         #{uuid,jdbcType=VARCHAR}
         )
     </insert>
-
 
     <select id="selectItemDetail" parameterType="Long" resultType="com.example.test1.domain.Item">
         select * FROM LYE_ITEM WHERE id = #{id}
@@ -62,7 +60,12 @@
         ]]>
     </select>
 
-    <!-- 아이템 카트  -->
+    <select id="getTotal" resultType="int">
+        SELECT
+            count(*)
+        FROM LYE_ITEM
+    </select>
+
     <select id="findAllCartItem" parameterType="String" resultType="com.example.test1.domain.CartItem">
         SELECT
             *
@@ -70,7 +73,6 @@
         WHERE memberid = #{user, jdbcType=VARCHAR}
         ORDER BY itemId
     </select>
-
 
     <select id="hadItem" resultType="int">
         SELECT count(*) FROM LYE_ITEM_CART
@@ -129,5 +131,21 @@
         FROM LYE_ITEM_WISH
         WHERE MEMBERID = #{user, jdbcType=VARCHAR}
         ORDER BY itemid
+    </select>
+
+    <select id="getListPagingWishItemById" resultType="com.example.test1.domain.WishItem">
+    <![CDATA[
+        select * from (
+                          select rownum  as rn, itemid
+                          from (select * from LYE_ITEM_WISH WHERE MEMBERID = #{mId, jdbcType=VARCHAR}) where rownum <= #{cri.pageNum} * #{cri.amount} order by itemid)
+        where rn > (#{cri.pageNum} -1) * #{cri.amount}
+        ]]>
+    </select>
+
+    <select id="getTotalWishItemById" parameterType="String" resultType="int">
+        SELECT
+            count(*)
+        FROM LYE_ITEM_WISH
+        WHERE MEMBERID = #{mId, jdbcType=VARCHAR}
     </select>
 </mapper>

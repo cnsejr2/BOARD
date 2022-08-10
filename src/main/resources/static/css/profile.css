@@ -10,6 +10,32 @@
     padding: 7px;
     font-weight: 500;
 }
+
+.pageInfoCom{
+    list-style : none;
+    display: inline-block;
+    margin: 50px 0 0 100px;
+}
+.pageInfoCom li{
+    float: left;
+    font-size: 20px;
+    margin-left: 18px;
+    padding: 7px;
+    font-weight: 500;
+}
+
+.pageInfoWish{
+    list-style : none;
+    display: inline-block;
+    margin: 50px 0 0 100px;
+}
+.pageInfoWish li{
+    float: left;
+    font-size: 20px;
+    margin-left: 18px;
+    padding: 7px;
+    font-weight: 500;
+}
 a:link {color:black; text-decoration: none;}
 a:visited {color:black; text-decoration: none;}
 a:hover {color:black; text-decoration: underline;}

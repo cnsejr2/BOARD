@@ -116,12 +116,14 @@
 
     let nameCheck = false;            // 이름
     let infoCheck = false;            // 이메일
-
+    let imageCheck = false;           // 이미지
+    let sizeCheck = false;           // 사이즈
     $(document).ready(function() {
         $(".write_button").click(function () {
             console.log("쓰기 클릭");
             const name = $('#name').val();                 // id 입력란
             const info = theEditor.getData();
+            const image = $('#name').val();
 
             if (name == "") {
                 nameCheck = false;
@@ -138,15 +140,19 @@
             $('input:checkbox[name=itemSize]:checked').each(function() {
                 arr.push(this.value);
             });
-
-            if ( nameCheck&&infoCheck ) {
+            if (arr.length == 0) {
+                sizeCheck = false;
+            } else {
+                sizeCheck = true;
+            }
+            if ( nameCheck&&infoCheck&&imageCheck&&sizeCheck ) {
                 console.log("Error O");
                 alert(arr);
                 //회원가입 버튼(회원가입 기능 작동
                 $("#itemForm").attr("action", "/item/write.do");
                 $("#itemForm").submit();
             } else {
-                alert("제목과 내용을 모두 입력해주세요");
+                alert("제목과 내용, 사이즈, 이미지를 모두 입력해주세요");
             }
             return false;
         });
@@ -154,10 +160,11 @@
 
     /* 이미지 업로드 */
     $("input[type='file']").on("change", function(e){
-
+        imageCheck = true;
         /* 이미지 존재시 삭제 */
         if($(".imgDeleteBtn").length > 0){
             deleteFile();
+            imageCheck = false;
         }
 
         let formData = new FormData();

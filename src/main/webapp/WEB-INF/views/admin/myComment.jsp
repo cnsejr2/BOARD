@@ -10,67 +10,56 @@
 <html>
 <head>
     <title>Title</title>
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-            crossorigin="anonymous">
-    </script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<%@ include file="/WEB-INF/views/nav.jsp" %>
 <div class="container" style='width:1000px;'>
-    <h1>게시판목록</h1>
+    <h1>댓글목록</h1>
     <table class="table">
         <tr>
             <th>ID</th>
             <th>BID</th>
-            <th>WRITER</th>
         </tr>
-        <c:forEach var="b" items="${bList}">
+        <c:forEach var="c" items="${cList}">
         <tr>
-            <td>${b.ID}</td>
-            <td><a href="/board/view/${b.ID}">${b.TITLE}</a></td>
-            <td>${b.WRITER}</td>
+            <td>${c.ID}</td>
+            <td><a href="/board/view/${c.BID}">${c.BID}</a></td>
         </tr>
         </c:forEach>
     </table>
     <div class="pageInfo_wrap" >
         <div class="pageInfo_area">
-            <ul id="pageInfo" class="pageInfo">
+            <ul id="pageInfo" class="pageInfoCom">
                 <!-- 이전페이지 버튼 -->
-                <c:if test="${pageMaker.prev}">
-                    <li class="pageInfo_btn previous"><a href="${pageMaker.startPage-1}">Previous</a></li>
+                <c:if test="${pageComMake.prev}">
+                    <li class="pageInfo_btn previous"><a href="${pageComMake.startPage-1}">Previous</a></li>
                 </c:if>
                 <!-- 각 번호 페이지 버튼 -->
-                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-                    <li class="pageInfo_btn ${pageMaker.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
+                <c:forEach var="num" begin="${pageComMake.startPage}" end="${pageComMake.endPage}">
+                    <li class="pageInfo_btn ${pageComMake.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
                 </c:forEach>
                 <!-- 다음페이지 버튼 -->
-                <c:if test="${pageMaker.next}">
-                    <li class="pageInfo_btn next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
+                <c:if test="${pageComMake.next}">
+                    <li class="pageInfo_btn next"><a href="${pageComMake.endPage + 1 }">Next</a></li>
                 </c:if>
             </ul>
         </div>
     </div>
-    <form id="moveForm" method="get">
-        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
-        <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+    <form id="moveFormCom" method="get">
+        <input type="hidden" name="pageNum" value="${pageComMake.cri.pageNum }">
+        <input type="hidden" name="amount" value="${pageComMake.cri.amount }">
+        <input type="hidden" name="type" value="comment">
     </form>
-    <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/board/write.do'"> 글 쓰기 </button>
-    <button type="button" class="btn btn-primary update-btn float-right" onclick="boardDelete();"> 글 삭제 </button>
-    <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/main'"> 메인 페이지로 </button>
 </div>
 
 <script>
-    let moveForm = $("#moveForm");
+    let moveFormCom = $("#moveFormCom");
 
-    $(".pageInfo a").on("click", function(e){
+    $(".pageInfoCom a").on("click", function(e){
+        console.log("댓글 동작")
         e.preventDefault();
-        moveForm.find("input[name='pageNum']").val($(this).attr("href"));
-        moveForm.attr("action", "/board/myList");
-        moveForm.submit();
+        moveFormCom.find("input[name='pageNum']").val($(this).attr("href"));
+        moveFormCom.attr("action", "/admin/profile/${member.id}");
+        moveFormCom.submit();
 
     });
     //체크박스 전체 선택 클릭 이벤트
@@ -141,8 +130,6 @@
             })
         }
     }
-
 </script>
-<%@ include file="/WEB-INF/views/footer.jsp" %>
 </body>
 </html>

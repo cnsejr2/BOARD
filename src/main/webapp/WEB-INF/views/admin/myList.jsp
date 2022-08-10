@@ -16,10 +16,9 @@
             crossorigin="anonymous">
     </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<%@ include file="/WEB-INF/views/nav.jsp" %>
 <div class="container" style='width:1000px;'>
     <h1>게시판목록</h1>
     <table class="table">
@@ -52,27 +51,25 @@
         <div class="pageInfo_area">
             <ul id="pageInfo" class="pageInfo">
                 <!-- 이전페이지 버튼 -->
-                <c:if test="${pageMaker.prev}">
-                    <li class="pageInfo_btn previous"><a href="${pageMaker.startPage-1}">Previous</a></li>
+                <c:if test="${pageMake.prev}">
+                    <li class="pageInfo_btn previous"><a href="${pageMake.startPage-1}">Previous</a></li>
                 </c:if>
                 <!-- 각 번호 페이지 버튼 -->
-                <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-                    <li class="pageInfo_btn ${pageMaker.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
+                <c:forEach var="num" begin="${pageMake.startPage}" end="${pageMake.endPage}">
+                    <li class="pageInfo_btn ${pageMake.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
                 </c:forEach>
                 <!-- 다음페이지 버튼 -->
-                <c:if test="${pageMaker.next}">
-                    <li class="pageInfo_btn next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
+                <c:if test="${pageMake.next}">
+                    <li class="pageInfo_btn next"><a href="${pageMake.endPage + 1 }">Next</a></li>
                 </c:if>
             </ul>
         </div>
     </div>
     <form id="moveForm" method="get">
-        <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
-        <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+        <input type="hidden" name="pageNum" value="${pageMake.cri.pageNum }">
+        <input type="hidden" name="amount" value="${pageMake.cri.amount }">
+        <input type="hidden" name="type" value="board">
     </form>
-    <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/board/write.do'"> 글 쓰기 </button>
-    <button type="button" class="btn btn-primary update-btn float-right" onclick="boardDelete();"> 글 삭제 </button>
-    <button type="button" class="btn btn-primary update-btn float-right" onclick="location.href='/main'"> 메인 페이지로 </button>
 </div>
 
 <script>
@@ -81,7 +78,7 @@
     $(".pageInfo a").on("click", function(e){
         e.preventDefault();
         moveForm.find("input[name='pageNum']").val($(this).attr("href"));
-        moveForm.attr("action", "/board/myList");
+        moveForm.attr("action", "/admin/profile/${member.id}");
         moveForm.submit();
 
     });
@@ -155,6 +152,5 @@
     }
 
 </script>
-<%@ include file="/WEB-INF/views/footer.jsp" %>
 </body>
 </html>

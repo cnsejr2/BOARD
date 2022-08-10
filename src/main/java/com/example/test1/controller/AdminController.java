@@ -11,10 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -38,10 +35,10 @@ public class AdminController {
     BoardService boardService;
     @Resource
     CommentService commentService;
-
     @Resource
     AttachService attachService;
-
+    @Resource
+    ItemService itemService;
     @Resource
     ItemImageService itemImageService;
 
@@ -61,30 +58,60 @@ public class AdminController {
         return mav;
     }
     @RequestMapping("/admin/profile/{id}")
-    public ModelAndView viewMemberProfile(@PathVariable("id") String id, Criteria cri) throws Exception {
-
+    public ModelAndView viewMemberProfile(@PathVariable("id") String id,
+                                          @RequestParam(value="type", defaultValue = "") String type,
+                                          Criteria cri) throws Exception {
         ModelAndView mav = new ModelAndView("/admin/profile");
 
         SecurityMember sMember = adminService.findMember(id);
         mav.addObject("member", sMember);
+        Criteria boardCri = new Criteria(1, 5);
+        Criteria commentCri = new Criteria(1, 5);
+        Criteria wishCri = new Criteria(1, 5);
+        int num = 0;
+        if (type.equals("board")) {
+            boardCri = cri;
+        } else if (type.equals("comment")) {
+            commentCri = cri;
+            num = 1;
+        } else if (type.equals("wish")) {
+            wishCri = cri;
+            num = 2;
+        }
 
-        List<Board> bList = boardService.getListPagingByWriter(id, cri);
+        List<Board> bList = boardService.getListPagingByWriter(id, boardCri);
         int bTotal = boardService.getTotalByWriter(id);
-
         mav.addObject("bList", bList);
-        Paging pageMake = new Paging(cri, bTotal);
+        Paging pageMake = new Paging(boardCri, bTotal);
+        mav.addObject("pageMake", pageMake);
 
-        mav.addObject("pageMaker", pageMake);
-
-        List<Comment> cList = commentService.findCommentPagingByWriter(id, cri);
-        int cTotal = commentService.getTotalByWriter(id);
-
+        List<Comment> cList = commentService.findCommentPagingByWriter(id, commentCri);
+        int cTotal = commentService.getTotalCommentByWriter(id);
         mav.addObject("cList", cList);
-        Paging pageComMake = new Paging(cri, cTotal);
-
+        Paging pageComMake = new Paging(commentCri, cTotal);
         mav.addObject("pageComMake", pageComMake);
 
+        List<WishItem> wList = itemService.getListPagingWishItemById(id, wishCri);
+        int wTotal = itemService.getTotalWishItemById(id);
+        wList.forEach(item -> {
 
+            Long itemId = item.getItemId();
+
+            Item i = itemService.selectItemDetail(itemId);
+            item.setItem(i);
+
+            List<ItemImage> imageList = itemImageService.getItemImage(itemId);
+            item.getItem().setImageList(imageList);
+
+
+            logger.info("imageList : " + item.getItem().getImageList());
+
+        });
+        mav.addObject("wList", wList);
+        Paging pageWishMake = new Paging(commentCri, wTotal);
+        mav.addObject("pageWishMake", pageWishMake);
+
+        mav.addObject("type", num);
 
         return mav;
     }

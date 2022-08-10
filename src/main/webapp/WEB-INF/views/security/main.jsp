@@ -50,7 +50,7 @@
         <div class="grid-sample" style="height: 600px;">
             <div id="grid_data" style="height: 600px;">
                 관리자 입니다.
-                <a href="/admin/board/list"> 회원 전체 글 목록</a>
+                <a href="/admin/main"> 회원 정보</a>
             </div>
         </div>
     </sec:authorize>

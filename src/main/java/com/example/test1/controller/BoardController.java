@@ -40,7 +40,6 @@ public class BoardController {
         String writer = principal.getName();
         board.setWriter(writer);
         boardService.insertBoard(board);
-        logger.info("image : " + board.getImageList().size());
         if (!(board.getImageList() == null || board.getImageList().size() <= 0)) {
             board.getImageList().forEach(attach ->{
                 boardService.imageEnroll(attach);

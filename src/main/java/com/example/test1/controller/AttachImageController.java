@@ -40,22 +40,30 @@ public class AttachImageController {
     AttachService attachService;
 
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<AttachImage>> uploadAjaxActionPOST(MultipartFile uploadFile) throws IOException {
+    public ResponseEntity<List<AttachImage>> uploadAjaxActionPOST(MultipartFile[] uploadFile) throws IOException {
 
         logger.info("uploadAjaxActionPOST..........");
+        for(MultipartFile multipartFile: uploadFile) {
+            logger.info("-----------------------------------------------");
+            logger.info("파일 이름 : " + multipartFile.getOriginalFilename());
+            logger.info("파일 타입 : " + multipartFile.getContentType());
+            logger.info("파일 크기 : " + multipartFile.getSize());
 
-        File checkfile = new File(uploadFile.getOriginalFilename());
-        String type = null;
-
-        try {
-            type = Files.probeContentType(checkfile.toPath());
-            logger.info("MIME TYPE : " + type);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        if (!type.startsWith("image")) {
-            List<AttachImage> list = null;
-            return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+        for (MultipartFile multipartFile: uploadFile) {
+            File checkfile = new File(multipartFile.getOriginalFilename());
+            String type = null;
+
+            try {
+                type = Files.probeContentType(checkfile.toPath());
+                logger.info("MIME TYPE : " + type);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (!type.startsWith("image")) {
+                List<AttachImage> list = null;
+                return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+            }
         }
         String uploadFolder = "C:\\upload";
 
@@ -71,37 +79,40 @@ public class AttachImageController {
         }
 
         List<AttachImage> list = new ArrayList();
-        AttachImage aImage = new AttachImage();
 
-        String uploadFileName = uploadFile.getOriginalFilename();
-        aImage.setFileName(uploadFileName);
-        aImage.setUpload(datePath);
+        for (MultipartFile multipartFile : uploadFile) {
+            AttachImage aImage = new AttachImage();
+            String uploadFileName = multipartFile.getOriginalFilename();
+            aImage.setFileName(uploadFileName);
+            aImage.setUpload(datePath);
 
-        String uuid = UUID.randomUUID().toString();
-        aImage.setUuid(uuid);
+            String uuid = UUID.randomUUID().toString();
+            aImage.setUuid(uuid);
 
-        uploadFileName = uuid + "_" + uploadFileName;
+            uploadFileName = uuid + "_" + uploadFileName;
 
-        File saveFile = new File(uploadPath, uploadFileName);
+            File saveFile = new File(uploadPath, uploadFileName);
 
-        try {
-            uploadFile.transferTo(saveFile);
+            try {
+                multipartFile.transferTo(saveFile);
 
-            File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
-            BufferedImage bo_image = ImageIO.read(saveFile);
+                File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
+                BufferedImage bo_image = ImageIO.read(saveFile);
 
 
-            double ratio = 3;
+                double ratio = 3;
 
-            int width = (int) (bo_image.getWidth() / ratio);
-            int height = (int) (bo_image.getHeight() / ratio);
-            Thumbnails.of(saveFile)
-                    .size(width, height)
-                    .toFile(thumbnailFile);
-        } catch (Exception e) {
-            e.printStackTrace();
+                int width = (int) (bo_image.getWidth() / ratio);
+                int height = (int) (bo_image.getHeight() / ratio);
+                Thumbnails.of(saveFile)
+                        .size(width, height)
+                        .toFile(thumbnailFile);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            list.add(aImage);
         }
-        list.add(aImage);
+
 
         ResponseEntity<List<AttachImage>> result = new ResponseEntity<List<AttachImage>>(list, HttpStatus.OK);
         return result;

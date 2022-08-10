@@ -12,7 +12,7 @@
     <title>Title</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <%@ include file="/WEB-INF/views/nav.jsp" %>
@@ -48,6 +48,28 @@
                         </div>
                     </c:forEach>
                 </div>
+                <div class="pageInfo_wrap" >
+                    <div class="pageInfo_area">
+                        <ul id="pageInfo" class="pageInfo">
+                            <!-- 이전페이지 버튼 -->
+                            <c:if test="${pageMake.prev}">
+                                <li class="pageInfo_btn previous"><a href="${pageMake.startPage-1}">Previous</a></li>
+                            </c:if>
+                            <!-- 각 번호 페이지 버튼 -->
+                            <c:forEach var="num" begin="${pageMake.startPage}" end="${pageMake.endPage}">
+                                <li class="pageInfo_btn ${pageMake.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
+                            </c:forEach>
+                            <!-- 다음페이지 버튼 -->
+                            <c:if test="${pageMake.next}">
+                                <li class="pageInfo_btn next"><a href="${pageMake.endPage + 1 }">Next</a></li>
+                            </c:if>
+                        </ul>
+                    </div>
+                </div>
+                <form id="moveForm" method="get">
+                    <input type="hidden" name="pageNum" value="${pageMake.cri.pageNum }">
+                    <input type="hidden" name="amount" value="${pageMake.cri.amount }">
+                </form>
             </div>
         </div>
     </div>
@@ -56,6 +78,16 @@
 <!-- Ekko Lightbox -->
 <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <script>
+    let moveForm = $("#moveForm");
+
+    $(".pageInfo a").on("click", function(e){
+        e.preventDefault();
+        moveForm.find("input[name='pageNum']").val($(this).attr("href"));
+        moveForm.attr("action", "/item/list");
+        moveForm.submit();
+
+    });
+
     /* 이미지 삽입 */
     $(".image_wrap").each(function(i, obj){
 

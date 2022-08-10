@@ -139,6 +139,10 @@
             return false;
         }
         formData.append("uploadFile", fileObj);
+        // for(let i = 0; i < fileList.length; i++){
+        //     console.log("file : " + fileList[i])
+        //     formData.append("uploadFile", fileList[i]);
+        // }
         $.ajax({
             url: '/uploadAjaxAction',
             processData : false,

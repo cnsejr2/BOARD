@@ -43,7 +43,7 @@ public class ItemController {
                 itemService.imageEnroll(attach);
             });
         }
-        ModelAndView mav = new ModelAndView("redirect:/security/main");
+        ModelAndView mav = new ModelAndView("redirect:/main");
         List<Item> itemList = itemService.findAll();
         mav.addObject("itemList", itemList);
         List<ItemImage> itemImageList = itemImageService.findAllImage();
@@ -79,13 +79,13 @@ public class ItemController {
     public ModelAndView getMain(Criteria cri) throws Exception {
         ModelAndView mav = new ModelAndView("/item/list");
 
-        List<Item> list = itemService.findAll();
+        List<Item> list = itemService.getListPaging(cri);
 
-//        int total = itemService.getTotal();
-//        logger.info("total : " + total);
-//        Paging pageMake = new Paging(cri, total);
-//
-//        mav.addObject("pageMaker", pageMake);
+        int total = itemService.getTotal();
+        logger.info("total : " + total);
+        Paging pageMake = new Paging(cri, total);
+
+        mav.addObject("pageMake", pageMake);
         list.forEach(item -> {
 
             Long itemId = item.getId();

@@ -47,7 +47,7 @@
                         </div>
                         <div class="form_section">
                             <div class="form_section_title">
-                                <label>상품 이미지</label>
+                                <label>이미지</label>
                             </div>
                             <div class="form_section_content">
                                 <div id="uploadResult">
@@ -222,6 +222,7 @@
                         str += "<input type=\"button\" class=\"btn btn-danger delete-btn \" onclick=\"deleteBtn()\" value=\"삭제\" />";
                         str += "</form>"
                     }
+                    str += "<hr>"
                     $("#comment").append(str);
                 }
             },
