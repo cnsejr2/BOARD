@@ -21,37 +21,39 @@
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <%
-                        session = request.getSession();
-                        out.println("관리자 " + session.getAttribute("greeting") + "님, 반갑습니다.");
-                    %>
-                </li>
-                <li class="nav-item">
-                    <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-                        <a class="nav-link active" aria-current="page" href="/admin/main"> 회원 정보</a>
-                    </sec:authorize>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/board/write.do">글쓰기</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/board/myList">내가 쓴 글</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/item/cart">장바구니</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/doLogout">로그아웃</a>
-                </li>
-            </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+                        <%
+                            session = request.getSession();
+                            out.println("관리자 " + session.getAttribute("greeting") + "님, 반갑습니다.");
+                        %>
+                        </sec:authorize>
+                    </li>
+                    <li class="nav-item">
+                        <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+                            <a class="nav-link active" aria-current="page" href="/admin/main">관리자 페이지</a>
+                        </sec:authorize>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/board/write.do">글쓰기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/board/myList">내가 쓴 글</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/item/cart">장바구니</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/doLogout">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <div class="container">
         <h1>게시판목록</h1>
@@ -63,26 +65,23 @@
                 <th>VIEW</th>
             </tr>
             <c:forEach var="b" items="${bList}">
-                <tr>
-                    <td>${b.ID}</td>
-                    <td><a href="/board/view/${b.ID}">${b.TITLE}</a></td>
-                    <td>${b.WRITER}</td>
-                    <td>${b.VIEW_CNT}</td>
-                </tr>
+            <tr>
+                <td>${b.ID}</td>
+                <td><a href="/board/view/${b.ID}">${b.TITLE}</a></td>
+                <td>${b.WRITER}</td>
+                <td>${b.VIEW_CNT}</td>
+            </tr>
             </c:forEach>
         </table>
         <div class="pageInfo_wrap" >
             <div class="pageInfo_area">
                 <ul id="pageInfo" class="pageInfo">
-                    <!-- 이전페이지 버튼 -->
                     <c:if test="${pageMaker.prev}">
                         <li class="pageInfo_btn previous"><a href="${pageMaker.startPage-1}">Previous</a></li>
                     </c:if>
-                    <!-- 각 번호 페이지 버튼 -->
                     <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
                         <li class="pageInfo_btn ${pageMaker.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
                     </c:forEach>
-                    <!-- 다음페이지 버튼 -->
                     <c:if test="${pageMaker.next}">
                         <li class="pageInfo_btn next"><a href="${pageMaker.endPage + 1 }">Next</a></li>
                     </c:if>
@@ -97,12 +96,11 @@
 <script>
     let moveForm = $("#moveForm");
 
-    $(".pageInfo a").on("click", function(e){
+    $(".pageInfo a").on("click", function(e) {
         e.preventDefault();
         moveForm.find("input[name='pageNum']").val($(this).attr("href"));
         moveForm.attr("action", "/main");
         moveForm.submit();
-
     });
 </script>
 </body>

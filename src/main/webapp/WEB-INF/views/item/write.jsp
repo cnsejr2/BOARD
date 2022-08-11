@@ -51,58 +51,57 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<%@ include file="/WEB-INF/views/nav.jsp" %>
-<section class="content">
-    <div class="container" style='width:1000px;'>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">General</h3>
-                    </div>
-                    <form id="itemForm" action="/item/write.do" method="POST">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="name">Item Name</label>
-                                <input type="text" name="name" id="name" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="info">Item Description</label>
-                                <textarea type="text" name="info" id="info" class="form-control" rows="4"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="price">Item Price</label>
-                                <input type="text" placeholder="숫자만 입력가능" name="price" id="price" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                            </div>
-                            <div class="form-group">
-                                <label for="color">Item Color</label>
-                                <input type="text" placeholder="색명 뒤에 바로,를 쓰고 띄어쓰기를 해주세요, 예)Black, Green, " name="color" id="color" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                Item Size
-                                <input type="checkbox" name="itemSize" id="S" value="S">S
-                                <input type="checkbox" name="itemSize" id="M" value="M">M
-                                <input type="checkbox" name="itemSize" id="L" value="L">L
-                                <input type="checkbox" name="itemSize" id="XL" value="XL">XL
-                            </div>
-                            <div class="form-group">
-                                <label for="img">Item Image</label>
-                                <div class="form_section_content">
-                                    <input type="file" id ="img" name='uploadFile' style="height: 30px;">
-                                    <div id="uploadResult">
+    <%@ include file="/WEB-INF/views/nav.jsp" %>
+    <section class="content">
+        <div class="container" style='width:1000px;'>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">General</h3>
+                        </div>
+                        <form id="itemForm" action="/item/write.do" method="POST">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="name">Item Name</label>
+                                    <input type="text" name="name" id="name" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="info">Item Description</label>
+                                    <textarea type="text" name="info" id="info" class="form-control" rows="4"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Item Price</label>
+                                    <input type="text" placeholder="숫자만 입력가능" name="price" id="price" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                </div>
+                                <div class="form-group">
+                                    <label for="color">Item Color</label>
+                                    <input type="text" placeholder="색명 뒤에 바로,를 쓰고 띄어쓰기를 해주세요, 예)Black, Green, " name="color" id="color" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    Item Size
+                                    <input type="checkbox" name="itemSize" id="S" value="S">S
+                                    <input type="checkbox" name="itemSize" id="M" value="M">M
+                                    <input type="checkbox" name="itemSize" id="L" value="L">L
+                                    <input type="checkbox" name="itemSize" id="XL" value="XL">XL
+                                </div>
+                                <div class="form-group">
+                                    <label for="img">Item Image</label>
+                                    <div class="form_section_content">
+                                        <input type="file" id ="img" name='uploadFile' style="height: 30px;">
+                                        <div id="uploadResult">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <input type="button" class="btn btn-outline-primary btn-sm write_button" value="등록하기" />
-                        <!-- /.card-body -->
-                    </form>
+                            <input type="button" class="btn btn-outline-primary btn-sm write_button" value="등록하기" />
+                        </form>
+                    </div>
                 </div>
-                <!-- /.card -->
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
     let theEditor = "";
     ClassicEditor
@@ -159,10 +158,10 @@
     });
 
     /* 이미지 업로드 */
-    $("input[type='file']").on("change", function(e){
+    $("input[type='file']").on("change", function(e) {
         imageCheck = true;
         /* 이미지 존재시 삭제 */
-        if($(".imgDeleteBtn").length > 0){
+        if ($(".imgDeleteBtn").length > 0) {
             deleteFile();
             imageCheck = false;
         }
@@ -172,7 +171,7 @@
         let fileList = fileInput[0].files;
         let fileObj = fileList[0];
 
-        if(!fileCheck(fileObj.name, fileObj.size)){
+        if (!fileCheck(fileObj.name, fileObj.size)) {
             return false;
         }
         formData.append("uploadFile", fileObj);
@@ -185,7 +184,6 @@
             type : 'POST',
             dataType : 'json',
             success : function(result){
-                console.log(result);
                 showUploadImage(result);
             },
             error : function(result){
@@ -196,10 +194,10 @@
         alert("통과");
     });
     /* 이미지 출력 */
-    function showUploadImage(uploadResultArr){
+    function showUploadImage(uploadResultArr) {
         console.log("showUploadImage : " + uploadResultArr);
         /* 전달받은 데이터 검증 */
-        if(!uploadResultArr || uploadResultArr.length == 0){ return; }
+        if (!uploadResultArr || uploadResultArr.length == 0) { return; }
 
         let uploadResult = $("#uploadResult");
 
@@ -223,7 +221,7 @@
     let regex = new RegExp("(.*?)\.(jpg|png)$");
     let maxSize = 1048576; //1MB
 
-    function fileCheck(fileName, fileSize){
+    function fileCheck(fileName, fileSize) {
         if(fileSize >= maxSize){
             alert("파일 사이즈 초과");
             return false;
@@ -236,7 +234,7 @@
 
     }
     /* 이미지 삭제 버튼 동작 */
-    $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
+    $("#uploadResult").on("click", ".imgDeleteBtn", function(e) {
         deleteFile();
     });
     /* 파일 삭제 메서드 */
@@ -246,24 +244,17 @@
 
         let targetDiv = $("#result_card");
 
-        console.log("targetFile : " + targetFile)
-        console.log("targetDiv : " + targetDiv)
-
         $.ajax({
             url: '/deleteItemFile',
             data : {fileName : targetFile, id : null},
             dataType : 'text',
             type : 'POST',
             success : function(result){
-                console.log(result);
-
                 targetDiv.remove();
                 $("input[type='file']").val("");
 
             },
             error : function(result){
-                console.log(result);
-
                 alert("파일을 삭제하지 못하였습니다.")
             }
         });

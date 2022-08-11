@@ -12,17 +12,17 @@
     <title>Title</title>
 </head>
 <body>
-<form id="searchForm" class="form-inline ml-3" action="/getSearch" method="get">
-    <div class="input-group input-group-sm">
-        <c:set var="key" value="${keyword}" />
-        <input class="form-control form-control-navbar" id="keyword" name="keyword" type="search"
-               placeholder="<c:out value="${key}" default="Search"/>" aria-label="Search">
-        <div class="input-group-append">
-            <button class="btn btn-navbar" id="btnSearch" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
+    <form id="searchForm" class="form-inline ml-3" action="/getSearch" method="get">
+        <div class="input-group input-group-sm">
+            <c:set var="key" value="${keyword}" />
+            <input class="form-control form-control-navbar" id="keyword" name="keyword" type="search"
+                   placeholder="<c:out value="${key}" default="Search"/>" aria-label="Search">
+            <div class="input-group-append">
+                <button class="btn btn-navbar" id="btnSearch" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 </body>
 </html>

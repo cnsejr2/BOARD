@@ -89,24 +89,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        Map<String, PasswordEncoder> encoders = new HashMap<>();
-//        encoders.put("bcrypt", new BCryptPasswordEncoder());
-//        encoders.put("sha256", sha_256);
-//
-//        return new DelegatingPasswordEncoder(
-//                "sha256", encoders);
-//    }
-//
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(securityService);
-//        authenticationProvider.setPasswordEncoder(passwordEncoder());
-//        return authenticationProvider;
-//    }
-
 
     @Bean(name = "persistentTokenRepository")
     public PersistentTokenRepository tokenRepository() {

@@ -39,33 +39,31 @@
                 <% session.invalidate(); %>
             </c:if>
         </form>
-
         <div id="formFooter">
             <a class="underlineHover" href="/security/login/insert" style="text-decoration-line : none;">회원가입</a>
         </div>
-
     </div>
 </div>
 <script>
 
     let idCheck = false;            // 아이디
     let pwCheck = false;
-    $(document).ready(function(){
-        $("#login_button").click(function(){
+    $(document).ready(function() {
+        $("#login_button").click(function() {
             const id = $('.id_input').val();                 // id 입력란
             const pw = $('.pw_input').val();
-            if(id == ""){
+            if (id == "") {
                 idCheck = false;
-            }else{
+            } else {
                 idCheck = true;
             }
             /* 비밀번호 유효성 검사 */
-            if(pw == ""){
+            if (pw == "") {
                 pwCheck = false;
-            }else{
+            } else {
                 pwCheck = true;
             }
-            if(idCheck&&pwCheck ) {
+            if (idCheck&&pwCheck ) {
                 //회원가입 버튼(회원가입 기능 작동
                 $("#login_form").attr("action", "/doLogin");
                 $("#login_form").submit();
@@ -74,7 +72,6 @@
             }
         });
     });
-
 </script>
 </body>
 </html>

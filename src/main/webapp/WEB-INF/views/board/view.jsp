@@ -25,77 +25,77 @@
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-
-    <%@ include file="/WEB-INF/views/nav.jsp" %>
-    <%--<sec:authentication property="principal" />--%>
-    <input type="hidden" id="user" value="<sec:authentication property="principal" />">
-    <div class="container" style='width:1000px;'>
-        <div class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="container List-container">
-                        <div class="row mt-1 header">
-                            <h5 class="col-1 board-title">제목</h5>
-                            <p class="col-8" style="word-break:break-all;">${board.title}</p>
-                        </div>
-                        <div class="board-container">
-                            <h5 class="content-title">내용</h5>
-                            <p class="content" style="word-break:break-all;">
-                                ${board.contents}
-                            </p>
-                        </div>
-                        <div class="form_section">
-                            <div class="form_section_title">
-                                <label>이미지</label>
+    <div class="wrapper">
+        <%@ include file="/WEB-INF/views/nav.jsp" %>
+        <%--<sec:authentication property="principal" />--%>
+        <input type="hidden" id="user" value="<sec:authentication property="principal" />">
+        <div class="container" style='width:1000px;'>
+            <div class="mb-4">
+                <div class="container px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="container List-container">
+                            <div class="row mt-1 header">
+                                <h5 class="col-1 board-title">제목</h5>
+                                <p class="col-8" style="word-break:break-all;">${board.title}</p>
                             </div>
-                            <div class="form_section_content">
-                                <div id="uploadResult">
+                            <div class="board-container">
+                                <h5 class="content-title">내용</h5>
+                                <p class="content" style="word-break:break-all;">
+                                    ${board.contents}
+                                </p>
+                            </div>
+                            <div class="form_section">
+                                <div class="form_section_title">
+                                    <label>이미지</label>
+                                </div>
+                                <div class="form_section_content">
+                                    <div id="uploadResult">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="board-footer">
-                            <c:if test="${isWriter eq 1}">
-                                <button type="button" class="btn btn-primary update-btn" onclick="location.href='/board/update/${board.id}'">수정</button>
-                                <form id = "deleteBoardForm" action="/board/delete/${board.id}" method="post">
-                                    <input type="hidden" name="_method" value="delete"/>
-                                    <button type="button" class="btn btn-danger deleteBoardBtn">삭제</button>
-                                </form>
-                            </c:if>
-                            <button type="button" class="btn btn-primary list-btn" onclick="location.href='/board/myList'">내 글 쓴 목록으로</button>
-                            <button type="button" class="btn btn-primary list-btn" onclick="location.href='/main'">메인으로</button>
-                            <button type="button" class="btn btn-primary list-btn" id="recommendBtn">추천 ${board.recom_cnt}</button>
+                            <div class="board-footer">
+                                <c:if test="${isWriter eq 1}">
+                                    <button type="button" class="btn btn-primary update-btn" onclick="location.href='/board/update/${board.id}'">수정</button>
+                                    <form id = "deleteBoardForm" action="/board/delete/${board.id}" method="post">
+                                        <input type="hidden" name="_method" value="delete"/>
+                                        <button type="button" class="btn btn-danger deleteBoardBtn">삭제</button>
+                                    </form>
+                                </c:if>
+                                <button type="button" class="btn btn-primary list-btn" onclick="location.href='/board/myList'">내 글 쓴 목록으로</button>
+                                <button type="button" class="btn btn-primary list-btn" onclick="location.href='/main'">메인으로</button>
+                                <button type="button" class="btn btn-primary list-btn" id="recommendBtn">추천 ${board.recom_cnt}</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card my-4">
-            <h5 class="card-header">Comments</h5>
-            <div class="card-body" id="comment">
-            </div>
-        </div>
-
-        <div id="updateComment"></div>
-        <div id="writeComment">
             <div class="card my-4">
-                <h5 class="card-header">Leave a Comment:</h5>
-                <div class="card-body">
-                    <form name="comment-form" id="comment-form" action="/board/comment/write" method="post" autocomplete="off">
-                        <div class="form-group">
-                            <input type="hidden" name="id" value="${board.id}" />
-                            <label>
-                                <textarea name="contents" class="form-control cLeave" rows="3"></textarea>
-                            </label>
-                        </div>
-                        <input type="button" class="btn btn-primary cSubmit" value="Submit">
-                    </form>
+                <h5 class="card-header">Comments</h5>
+                <div class="card-body" id="comment">
+                </div>
+            </div>
+
+            <div id="updateComment"></div>
+
+            <div id="writeComment">
+                <div class="card my-4">
+                    <h5 class="card-header">Leave a Comment:</h5>
+                    <div class="card-body">
+                        <form name="comment-form" id="comment-form" action="/board/comment/write" method="post" autocomplete="off">
+                            <div class="form-group">
+                                <input type="hidden" name="id" value="${board.id}" />
+                                <label>
+                                    <textarea name="contents" class="form-control cLeave" rows="3"></textarea>
+                                </label>
+                            </div>
+                            <input type="button" class="btn btn-primary cSubmit" value="Submit">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<%@ include file="/WEB-INF/views/footer.jsp" %>
+    <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
     $(document).ready(function () {
         getCommentList();
@@ -122,7 +122,6 @@
         /* 이미지 정보 호출 */;
         let uploadResult = $("#uploadResult");
         $.getJSON("/getAttachList", {bId : ${board.id}}, function(arr){
-            console.log("view : " + arr);
             if (arr.length === 0) {
                 return;
             }
@@ -142,7 +141,6 @@
         });
     })
     function recommendBoard() {
-        console.log("추천 클릭")
         $.ajax({
             type : "GET",
             url : "/board/updateRecommend",
@@ -182,7 +180,6 @@
         }
     }
     function deleteBoardBtn() {
-        console.log("게시글 삭제 버튼 클릭");
         $("#deleteBoardForm").attr("action", "/board/delete/${board.id}");
         $("#deleteBoardForm").submit();
     }
@@ -191,7 +188,6 @@
         document.getElementById("writeView").remove();
     }
     function deleteBtn() {
-        console.log("삭제 버튼 클릭");
         if (isOpen) {
             $("#delete-form").attr("action", "/comment/delete");
             $("#delete-form").submit();
@@ -207,8 +203,6 @@
             url: '/getCommentList',
             data: {id},
             success: function (result) {
-                console.log(result)
-                console.log(name)
                 for (let i = 0; i < result.length; i++) {
                     let str = "<div class=\"comment" + result[i].id + "\">";
                     str += result[i].contents + "</div>";

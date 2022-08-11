@@ -19,33 +19,32 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<%@ include file="/WEB-INF/views/nav.jsp" %>
-
-<div class="container" style='width:1000px;'>
-    <h1>" ${keyword} " 검색 결과 목록 ${sort}</h1>
-    <div class="col-auto">
-        <a id="view_cnt" href="/getSearch?keyword=${keyword}&sort=view_cnt" style="text-decoration-line: none; text-decoration-color: darkgrey">조회수 순</a> |
-<%--        <a class="btn btn-primary" href="">좋아요 순</a>--%>
-        <a id="id" href="/getSearch?keyword=${keyword}&sort=id" style="text-decoration-line: none; text-decoration-color: darkgrey">최신 순</a>
-    </div>
-    <table class="table">
-        <tr>
-            <th>ID</th>
-            <th>TITLE</th>
-            <th>WRITER</th>
-            <th>VIEW</th>
-        </tr>
-        <c:forEach var="b" items="${bList}">
+    <%@ include file="/WEB-INF/views/nav.jsp" %>
+    <div class="container" style='width:1000px;'>
+        <h1>" ${keyword} " 검색 결과 목록 ${sort}</h1>
+        <div class="col-auto">
+            <a id="view_cnt" href="/getSearch?keyword=${keyword}&sort=view_cnt" style="text-decoration-line: none; text-decoration-color: darkgrey">조회수 순</a> |
+    <%--        <a class="btn btn-primary" href="">좋아요 순</a>--%>
+            <a id="id" href="/getSearch?keyword=${keyword}&sort=id" style="text-decoration-line: none; text-decoration-color: darkgrey">최신 순</a>
+        </div>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>WRITER</th>
+                <th>VIEW</th>
+            </tr>
+            <c:forEach var="b" items="${bList}">
             <tr>
                 <td>${b.ID}</td>
                 <td><a href="/board/view/${b.ID}">${b.TITLE}</a></td>
                 <td>${b.WRITER}</td>
                 <td>${b.VIEW_CNT}</td>
             </tr>
-        </c:forEach>
-    </table>
-    <a href="/main">메인으로가기</a>
-</div>
-<%@ include file="/WEB-INF/views/footer.jsp" %>
+            </c:forEach>
+        </table>
+        <a href="/main">메인으로가기</a>
+    </div>
+    <%@ include file="/WEB-INF/views/footer.jsp" %>
 </body>
 </html>

@@ -50,43 +50,42 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<%@ include file="/WEB-INF/views/nav.jsp" %>
-<section class="content">
-    <div class="container" style='width:1000px;'>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">General</h3>
-                    </div>
-                    <form id="boardForm" action="/board/write.do" method="POST">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="title">Project Name</label>
-                                <input type="text" type="text" name="title" id="title" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="contents">Project Description</label>
-                                <textarea type="text" name="contents" id="contents" class="form-control" rows="4"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="img">Project Image</label>
-                                <div class="form_section_content">
-                                    <input type="file" id ="img" name='uploadFile' style="height: 30px;">
-                                    <div id="uploadResult">
+    <%@ include file="/WEB-INF/views/nav.jsp" %>
+    <section class="content">
+        <div class="container" style='width:1000px;'>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">General</h3>
+                        </div>
+                        <form id="boardForm" action="/board/write.do" method="POST">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="title">Project Name</label>
+                                    <input type="text" type="text" name="title" id="title" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contents">Project Description</label>
+                                    <textarea type="text" name="contents" id="contents" class="form-control" rows="4"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="img">Project Image</label>
+                                    <div class="form_section_content">
+                                        <input type="file" id ="img" name='uploadFile' style="height: 30px;">
+                                        <div id="uploadResult">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <input type="button" class="btn btn-outline-primary btn-sm write_button" value="등록하기" />
-                        <!-- /.card-body -->
-                    </form>
+                            <input type="button" class="btn btn-outline-primary btn-sm write_button" value="등록하기" />
+                        </form>
+                    </div>
                 </div>
-                <!-- /.card -->
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
     let theEditor = "";
     ClassicEditor
@@ -101,7 +100,6 @@
     let cCheck = false;            // 이메일
     $(document).ready(function() {
         $(".write_button").click(function () {
-            console.log("쓰기 클릭");
             const title = $('#title').val();                 // id 입력란
             const contents = theEditor.getData();
             if (title == "") {
@@ -126,16 +124,16 @@
         });
     });
     /* 이미지 업로드 */
-    $("input[type='file']").on("change", function(e){
+    $("input[type='file']").on("change", function(e) {
         /* 이미지 존재시 삭제 */
-        if($(".imgDeleteBtn").length > 0){
+        if ($(".imgDeleteBtn").length > 0) {
             deleteFile();
         }
         let formData = new FormData();
         let fileInput = $('input[name="uploadFile"]');
         let fileList = fileInput[0].files;
         let fileObj = fileList[0];
-        if(!fileCheck(fileObj.name, fileObj.size)){
+        if (!fileCheck(fileObj.name, fileObj.size)){
             return false;
         }
         formData.append("uploadFile", fileObj);
@@ -161,10 +159,10 @@
         alert("통과");
     });
     /* 이미지 출력 */
-    function showUploadImage(uploadResultArr){
+    function showUploadImage(uploadResultArr) {
         console.log("showUploadImage : " + uploadResultArr);
         /* 전달받은 데이터 검증 */
-        if(!uploadResultArr || uploadResultArr.length == 0){ return; }
+        if (!uploadResultArr || uploadResultArr.length == 0) { return; }
         let uploadResult = $("#uploadResult");
         let obj = uploadResultArr[0];
         let str = "";
@@ -182,33 +180,29 @@
     let regex = new RegExp("(.*?)\.(jpg|png)$");
     let maxSize = 1048576; //1MB
     function fileCheck(fileName, fileSize){
-        if(fileSize >= maxSize){
+        if (fileSize >= maxSize) {
             alert("파일 사이즈 초과");
             return false;
         }
-        if(!regex.test(fileName)){
+        if (!regex.test(fileName)) {
             alert("해당 종류의 파일은 업로드할 수 없습니다.");
             return false;
         }
         return true;
     }
-    /* 이미지 삭제 버튼 동작 */
-    $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
+    $("#uploadResult").on("click", ".imgDeleteBtn", function(e) {
         deleteFile();
     });
-    /* 파일 삭제 메서드 */
-    function deleteFile(){
+    function deleteFile() {
         // $("#result_card").remove();
         let targetFile = $(".imgDeleteBtn").data("file");
         let targetDiv = $("#result_card");
-        console.log("targetFile : " + targetFile)
-        console.log("targetDiv : " + targetDiv)
         $.ajax({
             url: '/deleteFile',
             data : {fileName : targetFile, id : null},
             dataType : 'text',
             type : 'POST',
-            success : function(result){
+            success : function(result) {
                 console.log(result);
                 targetDiv.remove();
                 $("input[type='file']").val("");
@@ -220,6 +214,5 @@
         });
     }
 </script>
-<%@ include file="/WEB-INF/views/footer.jsp" %>
 </body>
 </html>

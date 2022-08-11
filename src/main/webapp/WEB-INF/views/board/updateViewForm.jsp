@@ -21,49 +21,49 @@
     <link rel="stylesheet" type="text/css" href="/css/updateViewForm.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<%@ include file="/WEB-INF/views/nav.jsp" %>
-<div class="container container-table">
-    <div class="body d-md-flex align-items-center justify-content-center">
-        <div class="box-2 d-flex flex-column h-100">
-            <div class="mt-5">
-                <h3 class="mb-1 h-1">글 수정</h3>
-                <form action="/board/update/${board.id}" method="POST">
-                    <input type="hidden" name="_method" value="put"/>
-                    <div class="mb-5">
-                        <label class="form-label" for="title">제목</label>
-                        <input class="form-control" type="text" name="title" id="title" value="${board.title}"/>
-                    </div>
-                    <div class="mb-5">
-                        <label class="form-label" for="contents">내용</label>
-                        <input class="form-control" type="text" name="contents" id="contents" value="${board.contents}"/>
-                    </div>
-                    <div class="mb-5">
-                        <div class="form_section">
-                            <div class="form_section_title">
-                                <label>상품 이미지</label>
-                            </div>
-                            <div class="form_section_content">
-                                <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;">
-                                <div id="uploadResult">
+    <%@ include file="/WEB-INF/views/nav.jsp" %>
+    <div class="container container-table">
+        <div class="body d-md-flex align-items-center justify-content-center">
+            <div class="box-2 d-flex flex-column h-100">
+                <div class="mt-5">
+                    <h3 class="mb-1 h-1">글 수정</h3>
+                    <form action="/board/update/${board.id}" method="POST">
+                        <input type="hidden" name="_method" value="put"/>
+                        <div class="mb-5">
+                            <label class="form-label" for="title">제목</label>
+                            <input class="form-control" type="text" name="title" id="title" value="${board.title}"/>
+                        </div>
+                        <div class="mb-5">
+                            <label class="form-label" for="contents">내용</label>
+                            <input class="form-control" type="text" name="contents" id="contents" value="${board.contents}"/>
+                        </div>
+                        <div class="mb-5">
+                            <div class="form_section">
+                                <div class="form_section_title">
+                                    <label>상품 이미지</label>
+                                </div>
+                                <div class="form_section_content">
+                                    <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;">
+                                    <div id="uploadResult">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <input type="hidden" name="id" value="${board.id}">
-                    <button type="submit" class="btn btn-outline-primary btn-sm update_button" value="submit"> 수정 완료</button>
-                </form>
+                        <input type="hidden" name="id" value="${board.id}">
+                        <button type="submit" class="btn btn-outline-primary btn-sm update_button" value="submit"> 수정 완료</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</form>
+    </form>
+    <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
     $(document).ready(function () {
-        /* 기존 이미지 출력 */
         let uploadResult = $("#uploadResult");
-        $.getJSON("/getAttachList", { bId : ${board.id}}, function(arr){
+        $.getJSON("/getAttachList", { bId : ${board.id}}, function(arr) {
             console.log(arr);
-            if(arr.length === 0){
+            if (arr.length === 0) {
                 return;
             }
             let str = "";
@@ -79,14 +79,12 @@
             str += "<input type='hidden' name='imageList[0].upload' value='"+ obj.upload +"'>";
             str += "</div>";
             uploadResult.html(str);
-        });// GetJSON
+        });
     });
-    /* 이미지 삭제 버튼 동작 */
-    $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
+    $("#uploadResult").on("click", ".imgDeleteBtn", function(e) {
         deleteFile();
     });
-    /* 파일 삭제 메서드 */
-    function deleteFile(){
+    function deleteFile() {
         // $("#result_card").remove();
         let targetFile = $(".imgDeleteBtn").data("file");
         let targetDiv = $("#result_card");
@@ -107,16 +105,16 @@
         });
     }
     /* 이미지 업로드 */
-    $("input[type='file']").on("change", function(e){
+    $("input[type='file']").on("change", function(e) {
         /* 이미지 존재시 삭제 */
-        if($("#result_card").length > 0){
+        if ($("#result_card").length > 0) {
             deleteFile();
         }
         let formData = new FormData();
         let fileInput = $('input[name="uploadFile"]');
         let fileList = fileInput[0].files;
         let fileObj = fileList[0];
-        if(!fileCheck(fileObj.name, fileObj.size)){
+        if (!fileCheck(fileObj.name, fileObj.size)) {
             return false;
         }
         formData.append("uploadFile", fileObj);
@@ -139,27 +137,26 @@
     /* var, method related with attachFile */
     let regex = new RegExp("(.*?)\.(jpg|png)$");
     let maxSize = 1048576; //1MB
-    function fileCheck(fileName, fileSize){
-        if(fileSize >= maxSize){
+    function fileCheck(fileName, fileSize) {
+        if (fileSize >= maxSize) {
             alert("파일 사이즈 초과");
             return false;
         }
-        if(!regex.test(fileName)){
+        if (!regex.test(fileName)) {
             alert("해당 종류의 파일은 업로드할 수 없습니다.");
             return false;
         }
         return true;
     }
     /* 이미지 출력 */
-    function showUploadImage(uploadResultArr){
+    function showUploadImage(uploadResultArr) {
         /* 전달받은 데이터 검증 */
-        if(!uploadResultArr || uploadResultArr.length == 0){ return; }
+        if (!uploadResultArr || uploadResultArr.length == 0) { return; }
         let uploadResult = $("#uploadResult");
         let obj = uploadResultArr[0];
         let str = "";
         let fileCallPath = encodeURIComponent(obj.upload.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName);
-        //replace 적용 하지 않아도 가능
-        //let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+
         str += "<div id='result_card'>";
         str += "<img src='/display?fileName=" + fileCallPath +"'>";
         str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
@@ -170,6 +167,5 @@
         uploadResult.append(str);
     }
 </script>
-<%@ include file="/WEB-INF/views/footer.jsp" %>
 </body>
 </html>

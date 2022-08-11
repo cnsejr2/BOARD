@@ -49,9 +49,16 @@ public class AdminController {
         mav.addObject("bList", bList);
         return mav;
     }
+
     @GetMapping("/admin/main")
     public ModelAndView adminMain() {
-        ModelAndView mav = new ModelAndView("admin/main");
+        ModelAndView mav = new ModelAndView("/admin/main");
+        return mav;
+    }
+
+    @GetMapping("/admin/memberInfo")
+    public ModelAndView adminMemberInfo() {
+        ModelAndView mav = new ModelAndView("/admin/memberInfo");
         logger.info("service : " + adminService);
         List<SecurityMember> mList = adminService.findMemberList();
         mav.addObject("mList", mList);

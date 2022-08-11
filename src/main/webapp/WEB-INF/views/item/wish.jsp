@@ -15,53 +15,53 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<%@ include file="/WEB-INF/views/nav.jsp" %>
-<div class="container" style='width:1000px;'>
-    <div class="col-12">
-        <div class="card card-primary">
-            <div class="card-header">
-                <div class="card-title">
-                    ITEM 목록
+    <%@ include file="/WEB-INF/views/nav.jsp" %>
+    <div class="container" style='width:1000px;'>
+        <div class="col-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <div class="card-title">
+                        ITEM 목록
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <c:forEach var="wish" items="${itemList}">
-                        <div class="col-md-10 col-sm-6 col-12">
-                            <div class="info-box">
-                                <span class="bg-info">
-                                    <div class="image_wrap" data-itemid="${wish.item.imageList[0].itemId}" data-path="${wish.item.imageList[0].upload}" data-uuid="${wish.item.imageList[0].uuid}" data-filename="${wish.item.imageList[0].fileName}">
-                                        <img>
-                                    </div>
-                                </span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">${wish.item.name}</span>
-                                    <span class="info-box-number">${wish.item.price}</span>
-                                    <div class="mt-4">
-                                        <div class="btn btn-default btn-lg btn-flat">
-                                            <i class="far fa-file-alt fa-lg mr-2"></i>
-                                            <a href="/item/view/${wish.item.id}">View Product</a>
+                <div class="card-body">
+                    <div class="row">
+                        <c:forEach var="wish" items="${itemList}">
+                            <div class="col-md-10 col-sm-6 col-12">
+                                <div class="info-box">
+                                    <span class="bg-info">
+                                        <div class="image_wrap" data-itemid="${wish.item.imageList[0].itemId}" data-path="${wish.item.imageList[0].upload}" data-uuid="${wish.item.imageList[0].uuid}" data-filename="${wish.item.imageList[0].fileName}">
+                                            <img>
                                         </div>
-                                        <div class="btn btn-primary btn-lg btn-flat">
-                                            <i class="fas fa-cart-plus fa-lg mr-2"></i>
-                                            Add to Cart
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">${wish.item.name}</span>
+                                        <span class="info-box-number">${wish.item.price}</span>
+                                        <div class="mt-4">
+                                            <div class="btn btn-default btn-lg btn-flat">
+                                                <i class="far fa-file-alt fa-lg mr-2"></i>
+                                                <a href="/item/view/${wish.item.id}">View Product</a>
+                                            </div>
+                                            <div class="btn btn-primary btn-lg btn-flat">
+                                                <i class="fas fa-cart-plus fa-lg mr-2"></i>
+                                                Add to Cart
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <%@ include file="/WEB-INF/views/footer.jsp" %>
-</div>
 <!-- Ekko Lightbox -->
 <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <script>
     /* 이미지 삽입 */
-    $(".image_wrap").each(function(i, obj){
+    $(".image_wrap").each(function(i, obj) {
 
         const itemObj = $(obj);
 
@@ -73,8 +73,6 @@
         $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
 
     });
-
-
 </script>
 
 </body>

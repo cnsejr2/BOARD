@@ -127,11 +127,8 @@ public class BoardController {
         return boardIdxArray;
     }
 
-
-    /* 게시글 추천 */
-
     /**
-     * 게시글 추천
+     *
      * @param principal
      * @param id
      * @return
