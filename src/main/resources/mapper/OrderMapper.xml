@@ -28,21 +28,23 @@
 
     <!-- 게시글 여러 개 삭제 -->
     <insert id="insertOrderItem">
-        <foreach collection="itemIdxArray" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
-            INTO LYE_ORDER_DETAIL (orderId, cartItemId, memberId)
+        INSERT INTO LYE_ORDER_LIST (orderId, cartItemId, memberId, state)
             VALUES (#{orderId, jdbcType=VARCHAR}
-                , #{item, jdbcType=NUMERIC}
+                , #{itemIds, jdbcType=VARCHAR}
                 , #{memberId, jdbcType=VARCHAR}
+                , 0
             )
-        </foreach>
     </insert>
     
-    <select id="selectOrderItemId" parameterType="String" resultType="java.lang.Long">
-        SELECT CARTITEMID FROM LYE_ORDER_DETAIL WHERE orderId = #{orderId, jdbcType=VARCHAR}
+    <select id="selectOrderItemId" parameterType="String" resultType="String">
+        SELECT CARTITEMID FROM LYE_ORDER_LIST WHERE orderId = #{orderId, jdbcType=VARCHAR}
     </select>
 
     <select id="findCartItem" parameterType="Long" resultType="com.example.test1.domain.CartItem">
         SELECT * FROM LYE_ITEM_CART WHERE cartItemId = #{cartItemId, jdbcType=NUMERIC}
     </select>
 
+    <select id="selectOrder" resultType="com.example.test1.domain.Order">
+        SELECT * FROM LYE_ORDER WHERE orderId = #{orderId, jdbcType=VARCHAR}
+    </select>
 </mapper>

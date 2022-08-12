@@ -13,15 +13,19 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <%@ include file="/WEB-INF/views/nav.jsp" %>
     <div class="content-wrapper">
-        <!-- Main content -->
         <section class="content">
-            <h2 class="headline"> 주문완료</h2>
-            <h3>
-                <i class="fas fa-shopping-cart"></i>
-                <p>주문을 완료했습니다.</p>
-                <p>배송 중에는 주문 취소 불가능합니다. </p>
-            </h3>
-            <input type="button" class="btn btn-primary float-right" onclick="location.href='/main'" value="메인으로">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="callout callout-info">
+                            <h5><i class="fas fa-truck"></i> Note:</h5>
+                            <p>주문을 완료했습니다.</p>
+                            <p>배송 중에는 주문 취소 불가능합니다. </p>
+                            <input type="button" class="btn btn-primary " onclick="location.href='/main'" value="메인으로">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
     <%@ include file="/WEB-INF/views/footer.jsp" %>

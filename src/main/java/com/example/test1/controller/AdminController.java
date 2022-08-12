@@ -41,6 +41,8 @@ public class AdminController {
     ItemService itemService;
     @Resource
     ItemImageService itemImageService;
+    @Resource
+    OrderService orderService;
 
     @GetMapping("/admin/board/list")
     public ModelAndView boardForm() {
@@ -64,9 +66,41 @@ public class AdminController {
         mav.addObject("mList", mList);
         return mav;
     }
+
+    @GetMapping("/admin/order/list")
+    public ModelAndView adminOrderList() {
+        ModelAndView mav = new ModelAndView("/admin/order/list");
+
+        List<OrderList> oList = adminService.selectOrderList();
+        mav.addObject("oList", oList);
+
+        return mav;
+    }
+
+    @GetMapping("/admin/order/info")
+    public ModelAndView adminOrderInfo(@RequestParam("orderId") String orderId,
+                                       @RequestParam("memberId") String memberId) {
+        ModelAndView mav = new ModelAndView("/admin/order/info");
+
+        String orderItem = orderService.selectOrderItemId(orderId);
+        String[] orderItemId = orderItem.split(",");
+        List<CartItem> cList = new ArrayList<>();
+        int amount = 0;
+        for (String oItem : orderItemId) {
+            CartItem cItem = orderService.findCartItem(Long.parseLong(oItem));
+            cList.add(cItem);
+            amount += (cItem.getItemPrice() * cItem.getCnt());
+        }
+        Order order = orderService.selectOrder(orderId);
+        mav.addObject("order", order);
+        mav.addObject("cList", cList);
+
+        return mav;
+    }
+
     @RequestMapping("/admin/profile/{id}")
     public ModelAndView viewMemberProfile(@PathVariable("id") String id,
-                                          @RequestParam(value="type", defaultValue = "") String type,
+                                          @RequestParam(value = "type", defaultValue = "") String type,
                                           Criteria cri) throws Exception {
         ModelAndView mav = new ModelAndView("/admin/profile");
 
@@ -125,10 +159,11 @@ public class AdminController {
 
     @ResponseBody
     @DeleteMapping("/admin/member/delete")
-    public String deleteWishSubmit(@RequestParam("id") String id){
+    public String deleteWishSubmit(@RequestParam("id") String id) {
         adminService.deleteMember(id);
         return id;
     }
+
     /* 이미지 파일 삭제 */
     @PostMapping("/deleteFile")
     public ResponseEntity<String> deleteFile(String fileName, Long id) {
@@ -146,7 +181,7 @@ public class AdminController {
             file = new File(originFileName);
             file.delete();
 
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
 
@@ -155,6 +190,7 @@ public class AdminController {
         }
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
+
     @PostMapping("/deleteItemFile")
     public ResponseEntity<String> deleteItemFile(String fileName, Long id) {
 
@@ -171,7 +207,7 @@ public class AdminController {
             file = new File(originFileName);
             file.delete();
 
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
 
@@ -193,7 +229,8 @@ public class AdminController {
 
         return str.replace("-", File.separator);
     }
-    @Scheduled(fixedDelay=500000)
+
+    @Scheduled(fixedDelay = 500000)
     public void checkFiles() throws Exception {
 
         logger.warn("File Check Task Run..........");
@@ -212,7 +249,7 @@ public class AdminController {
         });
         //썸네일 이미지
         fileList.forEach(vo -> {
-            Path path = Paths.get("c:\\upload", vo.getUpload(), "s_" +  vo.getUuid() + "_" + vo.getFileName());
+            Path path = Paths.get("c:\\upload", vo.getUpload(), "s_" + vo.getUuid() + "_" + vo.getFileName());
             checkFilePath.add(path);
         });
 
@@ -220,7 +257,7 @@ public class AdminController {
         // 디렉토리 파일 리스트
         File targetDir = Paths.get("C:\\upload", getFolderToDay()).toFile();
         File[] targetFile = targetDir.listFiles();
-        if(targetFile != null) {
+        if (targetFile != null) {
             // 삭제 대상 파일 리스트(분류)
             List<File> removeFileList = new ArrayList<File>(Arrays.asList(targetFile));
             for (File file : targetFile) {

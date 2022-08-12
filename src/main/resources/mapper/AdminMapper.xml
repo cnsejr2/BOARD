@@ -19,4 +19,9 @@
         DELETE FROM LYE_SECURITY_MEMBER
         WHERE ID= #{id}
     </delete>
+
+    <select id="selectOrderList" resultType="java.util.HashMap">
+        SELECT * FROM LYE_ORDER_LIST
+    </select>
+
 </mapper>

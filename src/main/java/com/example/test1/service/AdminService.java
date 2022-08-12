@@ -1,5 +1,6 @@
 package com.example.test1.service;
 
+import com.example.test1.domain.OrderList;
 import com.example.test1.domain.SecurityMember;
 import com.example.test1.mapper.AdminMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -26,4 +27,7 @@ public class AdminService {
     public SecurityMember findMember(String id) { return adminMapper.findMember(id); }
 
     public void deleteMember(String id) { adminMapper.deleteMember(id); }
+
+    public List<OrderList> selectOrderList() { return adminMapper.selectOrderList(); }
+
 }

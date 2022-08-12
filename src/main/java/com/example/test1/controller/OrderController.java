@@ -30,12 +30,13 @@ public class OrderController {
                                      @PathVariable("orderId") String orderId) throws Exception {
         String user = principal.getName();
         ModelAndView mav = new ModelAndView("/order/process");
-        List<Long> orderItemId = new ArrayList<>();
-        orderItemId = orderService.selectOrderItemId(orderId);
+
+        String orderItem = orderService.selectOrderItemId(orderId);
+        String[] orderItemId = orderItem.split(",");
         List<CartItem> cList = new ArrayList<>();
         int amount = 0;
-        for (Long oItem : orderItemId) {
-            CartItem cItem = orderService.findCartItem(oItem);
+        for (String oItem : orderItemId) {
+            CartItem cItem = orderService.findCartItem(Long.parseLong(oItem));
             cList.add(cItem);
             amount += (cItem.getItemPrice() * cItem.getCnt());
         }
@@ -82,7 +83,12 @@ public class OrderController {
 
         String orderId = ymd + subNum;
 
-        orderService.insertOrderItem(orderId, itemIdxArray, user);
+        String itemIds = "";
+        for (Long i : itemIdxArray) {
+            itemIds += (String.valueOf(i) + ",");
+        }
+
+        orderService.insertOrderItem(orderId, itemIds, user);
 
         return orderId;
     }
