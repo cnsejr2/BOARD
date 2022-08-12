@@ -141,7 +141,6 @@
                 $('.mail_input_box_warn').css('display','none');
                 mailCheck = true;
             }
-            console.log("Error X")
             /* 최종 유효성 검사 */
             if ( idCheck&&idckCheck&&pwCheck&&pwckCheck&&pwckcorCheck&&nameCheck&&mailCheck ) {
                 console.log("Error O")

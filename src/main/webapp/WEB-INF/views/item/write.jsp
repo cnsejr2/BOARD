@@ -183,7 +183,7 @@
             data : formData,
             type : 'POST',
             dataType : 'json',
-            success : function(result){
+            success : function(result) {
                 showUploadImage(result);
             },
             error : function(result){
@@ -222,11 +222,11 @@
     let maxSize = 1048576; //1MB
 
     function fileCheck(fileName, fileSize) {
-        if(fileSize >= maxSize){
+        if (fileSize >= maxSize) {
             alert("파일 사이즈 초과");
             return false;
         }
-        if(!regex.test(fileName)){
+        if (!regex.test(fileName)) {
             alert("해당 종류의 파일은 업로드할 수 없습니다.");
             return false;
         }
@@ -238,7 +238,7 @@
         deleteFile();
     });
     /* 파일 삭제 메서드 */
-    function deleteFile(){
+    function deleteFile() {
         // $("#result_card").remove();
         let targetFile = $(".imgDeleteBtn").data("file");
 
@@ -246,15 +246,14 @@
 
         $.ajax({
             url: '/deleteItemFile',
-            data : {fileName : targetFile, id : null},
+            data : { fileName : targetFile, id : null },
             dataType : 'text',
             type : 'POST',
-            success : function(result){
+            success : function(result) {
                 targetDiv.remove();
                 $("input[type='file']").val("");
-
             },
-            error : function(result){
+            error : function(result) {
                 alert("파일을 삭제하지 못하였습니다.")
             }
         });

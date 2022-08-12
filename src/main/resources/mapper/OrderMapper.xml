@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.test1.mapper.OrderMapper">
+
+    <insert id="registerOrder" parameterType="com.example.test1.domain.Order">
+        INSERT INTO LYE_ORDER (
+            orderId
+            , memberId
+            , orderRec
+            , addr1
+            , addr2
+            , addr3
+            , phone
+            , amount
+            , orderDate
+        ) VALUES (
+         #{orderId, jdbcType=VARCHAR}
+        , #{memberId, jdbcType=VARCHAR}
+        , #{orderRec, jdbcType=VARCHAR}
+        , #{addr1, jdbcType=VARCHAR}
+        , #{addr2, jdbcType=VARCHAR}
+        , #{addr3, jdbcType=VARCHAR}
+        , #{phone, jdbcType=VARCHAR}
+        , #{amount, jdbcType=NUMERIC}
+        , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        )
+    </insert>
+
+    <!-- 게시글 여러 개 삭제 -->
+    <insert id="insertOrderItem">
+        <foreach collection="itemIdxArray" item="item" index="index" separator=" " open="INSERT ALL" close="SELECT * FROM DUAL">
+            INTO LYE_ORDER_DETAIL (orderId, cartItemId, memberId)
+            VALUES (#{orderId, jdbcType=VARCHAR}
+                , #{item, jdbcType=NUMERIC}
+                , #{memberId, jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    
+    <select id="selectOrderItemId" parameterType="String" resultType="java.lang.Long">
+        SELECT CARTITEMID FROM LYE_ORDER_DETAIL WHERE orderId = #{orderId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="findCartItem" parameterType="Long" resultType="com.example.test1.domain.CartItem">
+        SELECT * FROM LYE_ITEM_CART WHERE cartItemId = #{cartItemId, jdbcType=NUMERIC}
+    </select>
+
+</mapper>

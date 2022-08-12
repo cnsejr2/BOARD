@@ -197,7 +197,7 @@
             url : "/item/hadWishItem",
             data : {'id' : ${item.id}},
             success : function(likeCheck) {
-                if(likeCheck != 1){
+                if (likeCheck != 1) {
                     alert("wish 추가완료.");
                     location.reload();
                 } else {
@@ -218,7 +218,7 @@
             data : {'id' : ${item.id}, 'itemSize' : itemSize, 'itemColor' : itemColor,
                 'itemCnt' : itemCnt, 'itemName' : '${item.name}', 'itemPrice' : '${item.price}'},
             success : function(cartCheck) {
-                if(cartCheck != 1){
+                if (cartCheck != 1) {
                     alert("카트추가완료.");
                     location.reload();
                 } else {
@@ -226,7 +226,7 @@
                     location.reload();
                 }
             },
-            error : function(){
+            error : function() {
                 alert("통신 에러");
             }
         });
@@ -242,7 +242,6 @@
         const fileName = itemObj.data("filename");
 
         const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
-        console.log("file" + fileCallPath)
         $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
 
     });

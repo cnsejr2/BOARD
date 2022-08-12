@@ -14,10 +14,10 @@
     <insert id="imageReEnroll" parameterType="com.example.test1.domain.ItemImage">
         INSERT INTO LYE_ITEM_IMAGE (itemId, filename, upload, uuid)
         values (
-        #{itemId, jdbcType=NUMERIC},
-        #{fileName, jdbcType=VARCHAR},
-        #{upload,jdbcType=VARCHAR},
-        #{uuid,jdbcType=VARCHAR}
+        #{itemId, jdbcType=NUMERIC}
+        , #{fileName, jdbcType=VARCHAR}
+        , #{upload,jdbcType=VARCHAR}
+        , #{uuid,jdbcType=VARCHAR}
         )
     </insert>
 

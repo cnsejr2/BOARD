@@ -133,7 +133,7 @@
         let fileInput = $('input[name="uploadFile"]');
         let fileList = fileInput[0].files;
         let fileObj = fileList[0];
-        if (!fileCheck(fileObj.name, fileObj.size)){
+        if (!fileCheck(fileObj.name, fileObj.size)) {
             return false;
         }
         formData.append("uploadFile", fileObj);
@@ -179,7 +179,7 @@
     /* var, method related with attachFile */
     let regex = new RegExp("(.*?)\.(jpg|png)$");
     let maxSize = 1048576; //1MB
-    function fileCheck(fileName, fileSize){
+    function fileCheck(fileName, fileSize) {
         if (fileSize >= maxSize) {
             alert("파일 사이즈 초과");
             return false;

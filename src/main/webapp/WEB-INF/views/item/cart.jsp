@@ -46,9 +46,9 @@
                                             <input type="hidden" class="individual_cnt_input" value="${item.cnt}">
                                             <input type="hidden" class="individual_total_input" value="${item.cnt * item.itemPrice}">
                                             <label class="checkbox-inline">
-                                                <input type="checkbox" checked="checked" class="chk" name="oneChk" onclick="oneChkClicked()"  value="${item.itemId}">
+                                                <input type="checkbox" checked="checked" class="chk" name="oneChk" onclick="oneChkClicked()"  value="${item.cartItemId}">
                                             </label>
-                                            </div>
+                                        </div>
                                     </td>
                                     <td>
                                         <table class="table-borderless">
@@ -95,18 +95,22 @@
         <div class="col-12 col-sm-6 col-md-12">
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
                 <div class="info-box-content">
                     <span class="info-box-text">Total Price</span>
                     <span class="info-box-number finalTotalPrice"></span>
                 </div>
+                <input type="button" class="btn btn-primary float-right" onclick="orderBtn()" value="주문하기">
             </div>
         </div>
-        <%@ include file="/WEB-INF/views/footer.jsp" %>
     </div>
+
+    <%@ include file="/WEB-INF/views/footer.jsp" %>
 <!-- Ekko Lightbox -->
 <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <script>
+    $(document).ready(function () {
+        calculateTotal();
+    });
     /* 이미지 삽입 */
     $(".image_wrap").each(function(i, obj) {
 
@@ -137,22 +141,46 @@
 
         let checkedCount = $("input:checkbox[name=oneChk]:checked").length;
 
-        if(allCount == checkedCount) {
+        if (allCount == checkedCount) {
             $(".chk").prop("checked", true);
         } else {
             $("#allCheckBox").prop("checked", false);
         }
     }
-    $(document).ready(function () {
-        calculateTotal();
-    });
+    function orderBtn() {
+        let itemIdxArray = [];
+
+        $("input:checkbox[name='oneChk']:checked").each(function(){
+            itemIdxArray.push($(this).val())
+        });
+
+        if (itemIdxArray.length === 0) {
+            alert("주문할 항목을 선택해주세요.");
+            return false;
+        }
+        alert(itemIdxArray);
+        $.ajax({
+            type : 'POST',
+            url : "/cart/order",
+            dataType : 'json',
+            data : JSON.stringify(itemIdxArray),
+            contentType: 'application/json',
+            success : function(result) {
+                alert("/order/process/" + result)
+                location.href = "/order/process/" + result
+            },
+            error: function(request, status, error) {
+                alert("code="+request.status+"message="+request.responseText+"error="+error);
+            }
+        })
+    }
 
     $(".chk").on("change", function() {
         calculateTotal();
     });
+
     function calculateTotal() {
         let totalPrice = 0;
-
         $(".cart_info").each(function (index, element) {
             if ($(element).find(".chk").is(":checked") === true) {
                 // 총 가격
@@ -160,26 +188,24 @@
                 totalPrice += parseInt(total);
             }
         });
-
         $(".finalTotalPrice").text(totalPrice.toLocaleString());
     }
-    function cartItemDelete(){
+
+    function cartItemDelete() {
 
         let itemIdxArray = [];
 
-        $("input:checkbox[name='oneChk']:checked").each(function(){
-            console.log("배열 추가" + $(this).val())
+        $("input:checkbox[name='oneChk']:checked").each(function() {
             itemIdxArray.push($(this).val())
         });
 
-        if(itemIdxArray.length === 0){
+        if (itemIdxArray.length === 0) {
             alert("삭제할 항목을 선택해주세요.");
             return false;
         }
 
         let confirmAlert = confirm('정말로 삭제하시겠습니까?');
-        if(confirmAlert){
-
+        if (confirmAlert) {
             $.ajax({
                 type : 'DELETE',
                 url : "/item/cart/multi/delete",
@@ -195,6 +221,7 @@
             })
         }
     }
+
     function updateItem(item) {
         const cnt = $("#num_" + item).val();
 

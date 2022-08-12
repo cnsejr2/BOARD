@@ -40,10 +40,10 @@
         </selectKey>
         INSERT INTO LYE_ITEM_IMAGE (itemid, filename, upload, uuid)
         values (
-        LYE_ITEM_SEQ.currval,
-        #{fileName, jdbcType=VARCHAR},
-        #{upload,jdbcType=VARCHAR},
-        #{uuid,jdbcType=VARCHAR}
+        LYE_ITEM_SEQ.currval
+        , #{fileName, jdbcType=VARCHAR}
+        , #{upload,jdbcType=VARCHAR}
+        , #{uuid,jdbcType=VARCHAR}
         )
     </insert>
 
@@ -86,15 +86,15 @@
     <insert id="saveCartItem" parameterType="java.util.Map">
         INSERT INTO LYE_ITEM_CART (memberid, itemid, itemsize, itemcolor, cnt, cartitemid, itemname, itemprice)
         VALUES (
-                #{memberId, jdbcType=VARCHAR},
-                #{id},
-                #{itemSize, jdbcType=VARCHAR},
-                #{itemColor, jdbcType=VARCHAR},
-                #{itemCnt, jdbcType=VARCHAR},
-                LYE_ITEM_CART_SEQ.nextval,
-                #{itemName, jdbcType=VARCHAR},
-                #{itemPrice}
-               )
+                #{memberId, jdbcType=VARCHAR}
+               , #{id}
+               , #{itemSize, jdbcType=VARCHAR}
+               , #{itemColor, jdbcType=VARCHAR}
+               , #{itemCnt, jdbcType=VARCHAR}
+               , LYE_ITEM_CART_SEQ.nextval
+               , #{itemName, jdbcType=VARCHAR}
+               , #{itemPrice}
+        )
     </insert>
 
     <insert id="saveWishItem">

@@ -118,7 +118,7 @@
             url : "/item/hadWishItem",
             data : {'id' : id },
             success : function(likeCheck) {
-                if(likeCheck != 1) {
+                if (likeCheck != 1) {
                     alert("wish 추가완료.");
                     location.reload();
                 } else {

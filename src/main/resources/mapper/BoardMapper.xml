@@ -143,10 +143,10 @@
         </selectKey>
         INSERT INTO LYE_IMAGE (bid, filename, upload, uuid)
         values (
-        LYE_BOARD_SEQ.currval,
-        #{fileName, jdbcType=VARCHAR},
-        #{upload,jdbcType=VARCHAR},
-        #{uuid,jdbcType=VARCHAR}
+        LYE_BOARD_SEQ.currval
+        , #{fileName, jdbcType=VARCHAR}
+        , #{upload,jdbcType=VARCHAR}
+        , #{uuid,jdbcType=VARCHAR}
         )
     </insert>
 
