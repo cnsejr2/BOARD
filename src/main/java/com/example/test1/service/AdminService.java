@@ -23,11 +23,8 @@ public class AdminService {
     public List<SecurityMember> findMemberList() {
         return adminMapper.findMemberList();
     }
-
     public SecurityMember findMember(String id) { return adminMapper.findMember(id); }
-
     public void deleteMember(String id) { adminMapper.deleteMember(id); }
-
     public List<OrderList> selectOrderList() { return adminMapper.selectOrderList(); }
 
 }

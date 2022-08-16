@@ -4,13 +4,13 @@
     <select id="findSecurityMember" parameterType="String" resultType="com.example.test1.domain.SecurityMember">
         SELECT
             ID, PASSWORD, MEMBER_NAME, USERROLE
-        FROM LYE_SECURITY_MEMBER
+        FROM LYE_MEMBER
         WHERE id=#{id, jdbcType=VARCHAR}
     </select>
 
     <select id="idCheck" resultType="int">
 
-        select count(*) from LYE_SECURITY_MEMBER where id = #{id}
+        select count(*) from LYE_MEMBER where id = #{id}
 
     </select>
 </mapper>

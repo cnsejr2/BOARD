@@ -9,10 +9,10 @@
         , bid
     </sql>
     <insert id="insertComment" parameterType="com.example.test1.domain.Comment">
-        INSERT INTO LYE_COMMENT (
+        INSERT INTO LYE_BOARD_COMMENT (
         <include refid="commentColumns"></include>
         ) VALUES (
-        LYE_COMMENT_SEQ.nextval
+        LYE_BOARD_COMMENT_SEQ.nextval
         , #{writer,jdbcType=VARCHAR}
         , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
         , #{contents,jdbcType=VARCHAR}
@@ -22,13 +22,13 @@
 
     <select id="selectCommentList" resultType="com.example.test1.domain.Comment">
         SELECT *
-        FROM LYE_COMMENT
+        FROM LYE_BOARD_COMMENT
         WHERE bid=#{id}
         ORDER BY id
     </select>
 
     <update id="updateComment" parameterType="java.util.HashMap">
-        update LYE_COMMENT
+        update LYE_BOARD_COMMENT
         <set>
             contents = #{contents,jdbcType=VARCHAR}
         </set>
@@ -36,13 +36,13 @@
     </update>
 
     <delete id="deleteComment" parameterType="Long">
-        delete from LYE_COMMENT where id = #{id}
+        delete from LYE_BOARD_COMMENT where id = #{id}
     </delete>
 
     <select id="getTotalCommentByWriter" parameterType="String" resultType="int">
         SELECT
             count(*)
-        FROM LYE_COMMENT
+        FROM LYE_BOARD_COMMENT
         WHERE writer = #{writer}
     </select>
 
@@ -50,13 +50,13 @@
     <![CDATA[
         select * from (
                           select rownum  as rn, id, writer, bid
-                          from (select * from LYE_COMMENT WHERE writer = #{writer}) where rownum <= #{cri.pageNum} * #{cri.amount} order by id)
+                          from (select * from LYE_BOARD_COMMENT WHERE writer = #{writer}) where rownum <= #{cri.pageNum} * #{cri.amount} order by id)
         where rn > (#{cri.pageNum} -1) * #{cri.amount}
         ]]>
     </select>
 
     <delete id="deleteMultiComment" parameterType="java.util.List">
-        DELETE FROM LYE_COMMENT
+        DELETE FROM LYE_BOARD_COMMENT
         <where>
             <foreach collection="list" item="comment" open="" close="" separator="OR">
                 (id = #{comment, jdbcType=NUMERIC})

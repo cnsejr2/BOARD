@@ -17,7 +17,6 @@ public class AttachService {
 
     @Resource
     AttachMapper attachMapper;
-
     public List<AttachImage> getAttachList(Long bId) { return attachMapper.getAttachList(bId); }
     public void imageReEnroll(AttachImage attachImage) { attachMapper.imageReEnroll(attachImage); }
     public void deleteImage(Long bId) { attachMapper.deleteImage(bId); }

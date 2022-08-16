@@ -14,16 +14,12 @@ public class ItemService {
 
     @Resource
     ItemMapper itemMapper;
-
     public List<Item> getListPaging(Criteria cri) { return itemMapper.getListPaging(cri); }
     public int getTotal() { return  itemMapper.getTotal(); }
     public Item selectItemDetail(Long id) { return itemMapper.selectItemDetail(id); }
     public void insertItem(Item item) { itemMapper.insertItem(item); }
-
     public void imageEnroll(ItemImage itemImage) { itemMapper.imageEnroll(itemImage); }
-
     public List<Item> findAll() { return itemMapper.findAll(); }
-
     public int hadItem(Map cItem) { return itemMapper.hadItem(cItem); }
     public void saveCartItem(Map cartItem) { itemMapper.saveCartItem(cartItem); }
     public int hadWishItem(Long itemId, String mid) { return itemMapper.hadWishItem(itemId, mid); }
@@ -32,7 +28,6 @@ public class ItemService {
     public List<CartItem> findAllCartItem(String user) { return itemMapper.findAllCartItem(user); }
     public List<WishItem> findAllWishItem(String user) { return itemMapper.findAllWishItem(user); }
     public void updateCartItem(Long id, int cnt) { itemMapper.updateCartItem(id, cnt); }
-
     public List<WishItem> getListPagingWishItemById(String writer, Criteria cri) { return itemMapper.getListPagingWishItemById(writer, cri); }
     public int getTotalWishItemById(String writer) { return  itemMapper.getTotalWishItemById(writer); }
     public void deleteWishItem(Long idx) { itemMapper.deleteWishItem(idx); }

@@ -4,19 +4,19 @@
     <select id="findMemberList" resultType="java.util.HashMap">
         SELECT
             *
-        FROM LYE_SECURITY_MEMBER
+        FROM LYE_MEMBER
         ORDER BY id
     </select>
 
     <select id="findMember" resultType="com.example.test1.domain.SecurityMember">
         SELECT
             *
-        FROM LYE_SECURITY_MEMBER
+        FROM LYE_MEMBER
         WHERE id = #{id, jdbcType=VARCHAR}
     </select>
 
     <delete id="deleteMember" parameterType="String">
-        DELETE FROM LYE_SECURITY_MEMBER
+        DELETE FROM LYE_MEMBER
         WHERE ID= #{id}
     </delete>
 

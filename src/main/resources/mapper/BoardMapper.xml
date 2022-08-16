@@ -128,12 +128,12 @@
 
     <!-- 추천 id 와 게시글 id 테이블 저장-->
     <insert id="saveRecommendBoard">
-        INSERT INTO LYE_RECOM (BOARDID, MEMBERID)
+        INSERT INTO LYE_BOARD_RECOM (BOARDID, MEMBERID)
         VALUES (#{bid}, #{mid, jdbcType=VARCHAR})
     </insert>
     <!-- 게시글 추천 중복 방지 -->
     <select id="hadRecommend" resultType="int">
-        SELECT count(*) FROM LYE_RECOM WHERE BOARDID = #{bid} and MEMBERID = #{mid}
+        SELECT count(*) FROM LYE_BOARD_RECOM WHERE BOARDID = #{bid} and MEMBERID = #{mid}
     </select>
 
     <!-- 이미지 등록 -->
@@ -141,7 +141,7 @@
         <selectKey resultType="Long" keyProperty="bId" order="AFTER">
             SELECT MAX(ID) + 1 FROM LYE_BOARD
         </selectKey>
-        INSERT INTO LYE_IMAGE (bid, filename, upload, uuid)
+        INSERT INTO LYE_BOARD_IMAGE (bid, filename, upload, uuid)
         values (
         LYE_BOARD_SEQ.currval
         , #{fileName, jdbcType=VARCHAR}

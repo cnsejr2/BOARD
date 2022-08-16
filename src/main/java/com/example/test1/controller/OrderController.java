@@ -40,6 +40,7 @@ public class OrderController {
             cList.add(cItem);
             amount += (cItem.getItemPrice() * cItem.getCnt());
         }
+//        List<CartItem> cList = orderService.processOrderCartItem(orderId);
         mav.addObject("orderId", orderId);
         mav.addObject("memberId", user);
         mav.addObject("amount", amount);

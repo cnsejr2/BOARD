@@ -13,18 +13,18 @@ public class Comment {
 
     private String writer;
 
-    private String regDate;
+    private String wrdate;
 
     private String contents;
 
     private Long bid;
 
     @Builder
-    public Comment(Long id, String writer, String contents, String regDate, Long bid) {
+    public Comment(Long id, String writer, String contents, String wrdate, Long bid) {
         this.id = id;
         this.writer = writer;
         this.contents = contents;
-        this.regDate = regDate;
+        this.wrdate = wrdate;
         this.bid = bid;
     }
 }

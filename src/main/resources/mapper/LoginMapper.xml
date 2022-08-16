@@ -5,18 +5,18 @@
     <select id="getSelectMemberInfo" parameterType="String" resultType="com.example.test1.domain.SecurityMember">
             SELECT
                 ID, PASSWORD, MEMBER_NAME, USERROLE
-            FROM LYE_SECURITY_MEMBER
+            FROM LYE_MEMBER
             WHERE ID=#{id}
     </select>
     <!--   비밀번호 틀린횟수 조회-->
     <update id="setUpdatePasswordLockCnt" parameterType="String">
-        UPDATE LYE_SECURITY_MEMBER
+        UPDATE LYE_MEMBER
         SET PASSWORD_LOCK = NVL(PASSWORD_LOCK, 0) + 1
         WHERE ID = #{id}
     </update>
     <!--   비밀번호 틀린횟수 초기화-->
     <update id="setUpdatePasswordLockCntReset" parameterType="String">
-        UPDATE LYE_SECURITY_MEMBER
+        UPDATE LYE_MEMBER
         SET PASSWORD_LOCK = 0
         WHERE ID = #{id}
     </update>

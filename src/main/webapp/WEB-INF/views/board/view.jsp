@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <html>
 <head>
     <title>게시글 상세보기</title>
@@ -203,9 +204,13 @@
             url: '/getCommentList',
             data: {id},
             success: function (result) {
+                console.log(result)
                 for (let i = 0; i < result.length; i++) {
+                    let wrdate = result[i].wrdate;
                     let str = "<div class=\"comment" + result[i].id + "\">";
-                    str += result[i].contents + "</div>";
+                    str += result[i].contents;
+                    str += "<p>작성자 : " + result[i].writer + "</p>" + "</div>";
+                    str += "<p>작성일 : " + wrdate + "</p>" + "</div>";
                     if (result[i].writer == name) {
                         str += "<button type=\"button\" class=\"btn btn-success \" onclick=\"updateViewBtn('" +  result[i].id + "','" + result[i].contents + "','" + result[i].writer +"')\">수정</button>";
                         str += "<form id=\"delete-form\" action=\"/comment/delete\" method=\"delete\">";
@@ -223,6 +228,7 @@
             complete: function () { }
         })
     }
+
 </script>
 </body>
 </html>

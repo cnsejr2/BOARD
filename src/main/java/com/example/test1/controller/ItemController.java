@@ -48,11 +48,7 @@ public class ItemController {
         mav.addObject("itemList", itemList);
         List<ItemImage> itemImageList = itemImageService.findAllImage();
         mav.addObject("itemImageList", itemImageList);
-        logger.info("itemImageList.size() : " + itemImageList.size());
-//        int total = itemService.getTotalByWriter(writer);
-//        Paging pageMake = new Paging(cri, total);
-//
-//        mav.addObject("pageMaker", pageMake);
+
         return mav;
     }
     @RequestMapping(value="/item/view/{id}", method = RequestMethod.GET)
@@ -117,8 +113,7 @@ public class ItemController {
 
             item.setImageList(imageList);
 
-//            Item i = itemService.selectItemDetail(itemId);
-//            item.setItem(i);
+
             logger.info("imageList : " + item.getImageList());
 
         });
