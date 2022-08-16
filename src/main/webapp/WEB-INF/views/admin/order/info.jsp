@@ -106,7 +106,7 @@
                                 <input type="text" name="addr3" id="addr3" class="form-control" value="${order.addr3}">
                             </div>
                         </div>
-                        <input type="button" class="btn btn-outline-primary btn-sm writeBtn" value="주문완료" />
+                        <input type="button" class="btn btn-outline-primary btn-sm writeBtn" value="수정완료" />
                     </form>
                 </div>
             </div>

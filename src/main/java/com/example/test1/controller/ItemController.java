@@ -117,6 +117,7 @@ public class ItemController {
             logger.info("imageList : " + item.getImageList());
 
         });
+
         mav.addObject("itemList", list);
         return mav;
     }

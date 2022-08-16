@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <html>
 <head>
     <title>게시글 상세보기</title>
@@ -38,6 +37,12 @@
                             <div class="row mt-1 header">
                                 <h5 class="col-1 board-title">제목</h5>
                                 <p class="col-8" style="word-break:break-all;">${board.title}</p>
+                            </div>
+                            <div class="board-container">
+                                <h5 class="content-title">작성일</h5>
+                                <p class="content" style="word-break:break-all;">
+                                    ${board.wrdate}
+                                </p>
                             </div>
                             <div class="board-container">
                                 <h5 class="content-title">내용</h5>
@@ -163,7 +168,6 @@
     let isOpen = true;
     function updateViewBtn(cid, contents, writer) {
         if (isOpen) {
-            console.log("수정 버튼 click")
             let cView = "";
             cView += '<div class="card my-4" id="writeView">';
             cView += '<h5 class="card-header">Update a Comment:</h5>';
@@ -178,6 +182,8 @@
             cView += '</form></div></div>';
             $("#updateComment").append(cView);
             isOpen = !isOpen;
+        } else {
+            alert("수정을 완료해주세요")
         }
     }
     function deleteBoardBtn() {
@@ -206,11 +212,10 @@
             success: function (result) {
                 console.log(result)
                 for (let i = 0; i < result.length; i++) {
-                    let wrdate = result[i].wrdate;
                     let str = "<div class=\"comment" + result[i].id + "\">";
                     str += result[i].contents;
                     str += "<p>작성자 : " + result[i].writer + "</p>" + "</div>";
-                    str += "<p>작성일 : " + wrdate + "</p>" + "</div>";
+                    str += "<p>작성일 : " + result[i].wrdate + "</p>" + "</div>";
                     if (result[i].writer == name) {
                         str += "<button type=\"button\" class=\"btn btn-success \" onclick=\"updateViewBtn('" +  result[i].id + "','" + result[i].contents + "','" + result[i].writer +"')\">수정</button>";
                         str += "<form id=\"delete-form\" action=\"/comment/delete\" method=\"delete\">";

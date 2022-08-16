@@ -1,5 +1,6 @@
 package com.example.test1.security;
 
+import com.example.test1.mapper.SecurityMemberMapper;
 import com.example.test1.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -19,13 +20,19 @@ import java.io.IOException;
 public class MyLoginFailureHandler implements AuthenticationFailureHandler {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
-    SecurityService securityService;
+    SecurityMemberMapper securityMemberMapper;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         logger.info("Hi MyLoginFailureHandler");
         HttpSession session = request.getSession();
-        session.setAttribute("result", "fail");
+        int result = securityMemberMapper.idCheck(request.getParameter("username"));
+        if (result == 1) {
+            session.setAttribute("result", "fail1");
+        } else {
+            session.setAttribute("result", "fail2");
+        }
+
         response.sendRedirect("/security/login");
 
     }

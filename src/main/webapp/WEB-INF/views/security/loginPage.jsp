@@ -34,8 +34,12 @@
             <input class="form-control pw_input third" type="password" name="pw" id="pwd" placeholder="비밀번호"/>
             <p class=" fourth "><input type="checkbox" name="remember"> 로그인 유지</p>
             <input type="button" id="login_button" class="fourth" value="로그인">
-            <c:if test="${result eq 'fail'}">
+            <c:if test="${result eq 'fail1'}">
                 <p>ID 또는 비밀번호가 잘못입력되었습니다.</p>
+                <% session.invalidate(); %>
+            </c:if>
+            <c:if test="${result eq 'fail2'}">
+                <p>해당 아이디가 없습니다.</p>
                 <% session.invalidate(); %>
             </c:if>
         </form>

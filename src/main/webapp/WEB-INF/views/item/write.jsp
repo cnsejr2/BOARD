@@ -146,7 +146,6 @@
             }
             if ( nameCheck&&infoCheck&&imageCheck&&sizeCheck ) {
                 console.log("Error O");
-                alert(arr);
                 //회원가입 버튼(회원가입 기능 작동
                 $("#itemForm").attr("action", "/item/write.do");
                 $("#itemForm").submit();

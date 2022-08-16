@@ -25,9 +25,9 @@
             , 0
             , 'N'
             , 'N'
-            , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
-            , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
-            , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+            , sysdate
+            , sysdate
+            , sysdate
         )
     </insert>
 

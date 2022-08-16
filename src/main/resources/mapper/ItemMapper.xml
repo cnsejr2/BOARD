@@ -66,6 +66,7 @@
         FROM LYE_ITEM
     </select>
 
+
     <select id="findAllCartItem" parameterType="String" resultType="com.example.test1.domain.CartItem">
         SELECT
             *
@@ -101,18 +102,20 @@
         INSERT INTO LYE_ITEM_WISH (ITEMID, MEMBERID)
         VALUES (#{itemId}, #{mId, jdbcType=VARCHAR})
     </insert>
+
     <select id="hadWishItem" resultType="int">
         SELECT count(*) FROM LYE_ITEM_WISH WHERE ITEMID = #{itemId} and MEMBERID = #{mId}
     </select>
+
     <delete id="deleteCartItem" parameterType="Long">
-        delete from LYE_ITEM_CART where ITEMID = #{id}
+        delete from LYE_ITEM_CART where cartItemId = #{id}
     </delete>
 
     <delete id="deleteMultiCartItem" parameterType="java.util.List">
         DELETE FROM LYE_ITEM_CART
         <where>
-            <foreach collection="list" item="cartItem" open="" close="" separator="OR">
-                (itemId = #{cartItem, jdbcType=NUMERIC})
+            <foreach collection="list" item="item" open="" close="" separator="OR">
+                (cartItemId = #{item, jdbcType=NUMERIC})
             </foreach>
         </where>
     </delete>
@@ -153,4 +156,5 @@
         DELETE FROM LYE_ITEM_WISH
         WHERE itemId= #{id}
     </delete>
+
 </mapper>

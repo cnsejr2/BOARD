@@ -46,6 +46,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/item/cart">장바구니</a>
+<%--                        <span class="badge bg-danger">${cartItemCnt}</span>--%>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/item/myWish">찜목록</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/doLogout">로그아웃</a>

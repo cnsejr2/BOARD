@@ -14,7 +14,7 @@
         ) VALUES (
         LYE_BOARD_COMMENT_SEQ.nextval
         , #{writer,jdbcType=VARCHAR}
-        , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        , sysdate
         , #{contents,jdbcType=VARCHAR}
         , #{bid}
         )

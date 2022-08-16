@@ -9,10 +9,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>MyCart</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <%@ include file="/WEB-INF/views/nav.jsp" %>
@@ -158,7 +158,6 @@
             alert("주문할 항목을 선택해주세요.");
             return false;
         }
-        alert(itemIdxArray);
         $.ajax({
             type : 'POST',
             url : "/cart/order",
@@ -166,7 +165,6 @@
             data : JSON.stringify(itemIdxArray),
             contentType: 'application/json',
             success : function(result) {
-                alert("/order/process/" + result)
                 location.href = "/order/process/" + result
             },
             error: function(request, status, error) {
@@ -213,7 +211,7 @@
                 data : JSON.stringify(itemIdxArray),
                 contentType: 'application/json',
                 success : function(result) {
-                    alert("해당글이 정상적으로 삭제되었습니다.");
+                    alert("해당아이템이 정상적으로 삭제되었습니다.");
                     location.href="/item/cart";
                 },
                 error: function(request, status, error) {

@@ -155,8 +155,6 @@
                 a3Check = true;
             }
             if ( rCheck&&pCheck&&a1Check&&a2Check&&a3Check ) {
-                alert("a1check : " + addr1);
-                alert("a2check : " + addr2);
                 $("#orderForm").attr("action", "/order/process");
                 $("#orderForm").submit();
             } else {

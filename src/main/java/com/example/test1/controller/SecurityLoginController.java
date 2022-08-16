@@ -2,6 +2,7 @@ package com.example.test1.controller;
 
 import com.example.test1.domain.*;
 import com.example.test1.service.BoardService;
+import com.example.test1.service.OrderService;
 import com.example.test1.service.SecurityService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -22,6 +24,8 @@ public class SecurityLoginController {
     @Resource
     BoardService boardService;
 
+    @Resource
+    OrderService orderService;
 
     @GetMapping("/security")
     public String getIndex() {
@@ -29,8 +33,12 @@ public class SecurityLoginController {
     }
 
     @RequestMapping("/main")
-    public ModelAndView getMain(Criteria cri) throws Exception {
+    public ModelAndView getMain(Principal principal, Criteria cri) throws Exception {
         ModelAndView mav = new ModelAndView("/index");
+        String user = principal.getName();
+
+//        int cartItemCnt = orderService.hadCartItem(user);
+//        mav.addObject("cartItemCnt", cartItemCnt);
 
         List<Board> bList = boardService.getListPaging(cri);
         mav.addObject("bList", bList);

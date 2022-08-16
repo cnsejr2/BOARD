@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +57,8 @@ public class BoardController {
         return mav;
     }
     @GetMapping("/board/myList")
-    public ModelAndView boardList(Principal principal, Criteria cri) {
-        String writer = principal.getName();
+    public ModelAndView boardList(Principal user, Criteria cri) {
+        String writer = user.getName();
         ModelAndView mav = new ModelAndView("/board/myList");
         List<Board> bList = boardService.getListPagingByWriter(writer, cri);
         mav.addObject("bList", bList);

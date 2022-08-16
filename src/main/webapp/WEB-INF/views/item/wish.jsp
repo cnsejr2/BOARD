@@ -42,10 +42,6 @@
                                                 <i class="far fa-file-alt fa-lg mr-2"></i>
                                                 <a href="/item/view/${wish.item.id}">View Product</a>
                                             </div>
-                                            <div class="btn btn-primary btn-lg btn-flat">
-                                                <i class="fas fa-cart-plus fa-lg mr-2"></i>
-                                                Add to Cart
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

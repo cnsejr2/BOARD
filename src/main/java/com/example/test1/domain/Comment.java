@@ -1,10 +1,12 @@
 package com.example.test1.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
+
+import java.util.Date;
 
 @Slf4j
 @Getter

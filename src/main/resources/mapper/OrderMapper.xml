@@ -22,11 +22,10 @@
         , #{addr3, jdbcType=VARCHAR}
         , #{phone, jdbcType=VARCHAR}
         , #{amount, jdbcType=NUMERIC}
-        , TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS')
+        , sysdate
         )
     </insert>
 
-    <!-- 게시글 여러 개 삭제 -->
     <insert id="insertOrderItem">
         INSERT INTO LYE_ORDER_LIST (orderId, cartItemId, memberId, state)
             VALUES (#{orderId, jdbcType=VARCHAR}
@@ -46,5 +45,9 @@
 
     <select id="selectOrder" resultType="com.example.test1.domain.Order">
         SELECT * FROM LYE_ORDER WHERE orderId = #{orderId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="hadCartItem" resultType="int">
+        SELECT count(*) FROM LYE_ITEM_CART WHERE MEMBERID = #{mId}
     </select>
 </mapper>
