@@ -21,7 +21,22 @@
     </delete>
 
     <select id="selectOrderList" resultType="java.util.HashMap">
-        SELECT * FROM LYE_ORDER_LIST
+        SELECT ORDERID as "orderId", MEMBERID as "memberId", CARTITEMID as "cartItemId", STATE as "state" FROM LYE_ORDER_LIST
     </select>
 
+    <update id="updateOrderInfo" parameterType="com.example.test1.domain.Order">
+        UPDATE LYE_ORDER
+        SET orderrec = #{orderRec, jdbcType=VARCHAR}
+          , addr1 = #{addr1, jdbcType=VARCHAR}
+          , addr2 = #{addr2, jdbcType=VARCHAR}
+          , addr3 = #{addr3, jdbcType=VARCHAR}
+          , phone = #{phone, jdbcType=VARCHAR}
+        WHERE orderId = #{orderId, jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateOrderState">
+        UPDATE LYE_ORDER_LIST
+        SET state = #{state, jdbcType=NUMERIC}
+        WHERE orderId = #{orderId, jdbcType=VARCHAR}
+    </update>
 </mapper>

@@ -43,11 +43,23 @@
         SELECT * FROM LYE_ITEM_CART WHERE cartItemId = #{cartItemId, jdbcType=NUMERIC}
     </select>
 
-    <select id="selectOrder" resultType="com.example.test1.domain.Order">
+    <select id="selectOrder" parameterType="String" resultType="com.example.test1.domain.Order">
         SELECT * FROM LYE_ORDER WHERE orderId = #{orderId, jdbcType=VARCHAR}
     </select>
 
     <select id="hadCartItem" resultType="int">
         SELECT count(*) FROM LYE_ITEM_CART WHERE MEMBERID = #{mId}
     </select>
+
+    <delete id="deleteOrder" parameterType="String">
+        DELETE FROM LYE_ORDER_LIST WHERE orderId = #{orderId, jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateCartItem" parameterType="Long">
+        update LYE_ITEM_CART
+        <set>
+            state = 1
+        </set>
+        where cartItemId = #{cartItemId, jdbcType=NUMERIC}
+    </update>
 </mapper>

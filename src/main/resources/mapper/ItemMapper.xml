@@ -71,7 +71,7 @@
         SELECT
             *
         FROM LYE_ITEM_CART
-        WHERE memberid = #{user, jdbcType=VARCHAR}
+        WHERE memberid = #{user, jdbcType=VARCHAR} AND state = 0
         ORDER BY itemId
     </select>
 
@@ -80,7 +80,8 @@
                         WHERE ITEMID = #{id} and
                               MEMBERID = #{memberId} and
                               ITEMSIZE = #{itemSize} and
-                              ITEMCOLOR = #{itemColor}
+                              ITEMCOLOR = #{itemColor} and
+                              STATE = 0
 
     </select>
 

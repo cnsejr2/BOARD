@@ -22,7 +22,8 @@ public class OrderService {
     public CartItem findCartItem(Long cartItemId) { return orderMapper.findCartItem(cartItemId); }
     public Order selectOrder(String orderId) { return orderMapper.selectOrder(orderId); }
     public int hadCartItem(String user) { return orderMapper.hadCartItem(user); }
-
+    public void deleteOrder(String orderId) { orderMapper.deleteOrder(orderId); }
+    public void updateCartItem(Long cartItemId) { orderMapper.updateCartItem(cartItemId); }
 
 
 }

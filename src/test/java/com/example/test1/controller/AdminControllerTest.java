@@ -1,5 +1,6 @@
 package com.example.test1.controller;
 
+import com.example.test1.domain.Order;
 import com.example.test1.domain.OrderList;
 import com.example.test1.mapper.AdminMapper;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,12 @@ class AdminControllerTest {
 
         adminMapper.selectOrderList();
 
+
+
+    }
+
+    @Test
+    void adminUpdateOrderInfo() {
 
 
     }

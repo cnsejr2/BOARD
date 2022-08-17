@@ -80,6 +80,7 @@
                         <h3 class="card-title">ORDER</h3>
                     </div>
                     <form id="orderForm" action="/order/process" method="POST">
+                        <input type="hidden" name="_method" value="put"/>
                         <input type="hidden" name="orderId" value="${order.orderId}">
                         <input type="hidden" name="memberId" value="${order.memberId}">
                         <input type="hidden" name="amount" value="${order.amount}">
@@ -108,6 +109,7 @@
                         </div>
                         <input type="button" class="btn btn-outline-primary btn-sm writeBtn" value="수정완료" />
                     </form>
+                    <input type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='/admin/order/info/delete?orderId=${order.orderId}'" value="주문취소" />
                 </div>
             </div>
         </div>
@@ -157,7 +159,7 @@
             if ( rCheck&&pCheck&&a1Check&&a2Check&&a3Check ) {
                 alert("a1check : " + addr1);
                 alert("a2check : " + addr2);
-                $("#orderForm").attr("action", "/order/process");
+                $("#orderForm").attr("action", "/admin/order/info/update");
                 $("#orderForm").submit();
             } else {
                 alert("빈칸을 모두 입력해주세요");

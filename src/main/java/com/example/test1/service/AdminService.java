@@ -1,5 +1,6 @@
 package com.example.test1.service;
 
+import com.example.test1.domain.Order;
 import com.example.test1.domain.OrderList;
 import com.example.test1.domain.SecurityMember;
 import com.example.test1.mapper.AdminMapper;
@@ -26,5 +27,7 @@ public class AdminService {
     public SecurityMember findMember(String id) { return adminMapper.findMember(id); }
     public void deleteMember(String id) { adminMapper.deleteMember(id); }
     public List<OrderList> selectOrderList() { return adminMapper.selectOrderList(); }
+    public void updateOrderInfo(Order order) { adminMapper.updateOrderInfo(order); }
+    public void updateOrderState(int state, String orderId) { adminMapper.updateOrderState(state, orderId);}
 
 }

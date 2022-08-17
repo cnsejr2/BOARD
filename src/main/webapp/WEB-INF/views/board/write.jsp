@@ -72,7 +72,7 @@
                                 <div class="form-group">
                                     <label for="img">Project Image</label>
                                     <div class="form_section_content">
-                                        <input type="file" id ="img" name='uploadFile' style="height: 30px;">
+                                        <input type="file" multiple id ="img" name='uploadFile' style="height: 30px;">
                                         <div id="uploadResult">
                                         </div>
                                     </div>
@@ -126,9 +126,9 @@
     /* 이미지 업로드 */
     $("input[type='file']").on("change", function(e) {
         /* 이미지 존재시 삭제 */
-        if ($(".imgDeleteBtn").length > 0) {
-            deleteFile();
-        }
+        // if ($(".imgDeleteBtn").length > 0) {
+        //     deleteFile();
+        // }
         let formData = new FormData();
         let fileInput = $('input[name="uploadFile"]');
         let fileList = fileInput[0].files;
@@ -136,11 +136,11 @@
         if (!fileCheck(fileObj.name, fileObj.size)) {
             return false;
         }
-        formData.append("uploadFile", fileObj);
-        // for(let i = 0; i < fileList.length; i++){
-        //     console.log("file : " + fileList[i])
-        //     formData.append("uploadFile", fileList[i]);
-        // }
+        // formData.append("uploadFile", fileObj);
+        for(let i = 0; i < fileList.length; i++){
+            console.log("file : " + fileList[i])
+            formData.append("uploadFile", fileList[i]);
+        }
         $.ajax({
             url: '/uploadAjaxAction',
             processData : false,
@@ -158,22 +158,25 @@
         });
         alert("통과");
     });
+    let i = 0;
     /* 이미지 출력 */
     function showUploadImage(uploadResultArr) {
         console.log("showUploadImage : " + uploadResultArr);
         /* 전달받은 데이터 검증 */
         if (!uploadResultArr || uploadResultArr.length == 0) { return; }
         let uploadResult = $("#uploadResult");
-        let obj = uploadResultArr[0];
         let str = "";
-        let fileCallPath = encodeURIComponent(obj.upload.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName);
-        str += "<div id='result_card'>";
-        str += "<img src='/display?fileName=" + fileCallPath +"'>";
-        str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
-        str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.fileName +"'>";
-        str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
-        str += "<input type='hidden' name='imageList[0].upload' value='"+ obj.upload +"'>";
-        str += "</div>";
+        for (; i < uploadResultArr.length; i++) {
+            let obj = uploadResultArr[i];
+            let fileCallPath = encodeURIComponent(obj.upload.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName);
+            str += "<div id='result_card'>";
+            str += "<img src='/display?fileName=" + fileCallPath +"'>";
+            str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
+            str += "<input type='hidden' name='imageList[" + i + "].fileName' value='"+ obj.fileName +"'>";
+            str += "<input type='hidden' name='imageList[" + i + "].uuid' value='"+ obj.uuid +"'>";
+            str += "<input type='hidden' name='imageList[" + i + "].upload' value='"+ obj.upload +"'>";
+            str += "</div>";
+        }
         uploadResult.append(str);
     }
     /* var, method related with attachFile */

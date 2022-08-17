@@ -1,7 +1,6 @@
 package com.example.test1.controller;
 
 import com.example.test1.domain.*;
-import com.example.test1.mapper.BoardMapper;
 import com.example.test1.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -46,7 +44,7 @@ public class AdminController {
 
     @GetMapping("/admin/board/list")
     public ModelAndView boardForm() {
-        ModelAndView mav = new ModelAndView("admin/list");
+        ModelAndView mav = new ModelAndView("/admin/myList");
         List<Board> bList = boardService.findAll();
         mav.addObject("bList", bList);
         return mav;
@@ -92,17 +90,44 @@ public class AdminController {
             amount += (cItem.getItemPrice() * cItem.getCnt());
         }
         Order order = orderService.selectOrder(orderId);
+        logger.info("order : " + order);
         mav.addObject("order", order);
         mav.addObject("cList", cList);
 
         return mav;
     }
 
+    @PutMapping("/admin/order/info/update")
+    public ModelAndView adminUpdateOrderInfo(Order order, @RequestParam("orderId") String orderId) {
+        ModelAndView mav = new ModelAndView("redirect:/admin/order/list");
+        logger.info("order : " + order);
+        adminService.updateOrderInfo(order);
+        return mav;
+    }
+
+    @PutMapping("/admin/order/state/update")
+    @ResponseBody
+    public String adminUpdateOrderState(@RequestParam("state") int state,
+                                        @RequestParam("id") String orderId) {
+        logger.info("컨트롤러 진입");
+        logger.info("state : " + state);
+        logger.info("orderId : " + orderId);
+
+        adminService.updateOrderState(state, orderId);
+        return "success";
+    }
+
+    @GetMapping("/admin/order/info/delete")
+    public String adminDeleteOrder(@RequestParam("orderId") String orderId) {
+        orderService.deleteOrder(orderId);
+        return "redirect:/admin/order/list";
+    }
+
     @RequestMapping("/admin/profile/{id}")
     public ModelAndView viewMemberProfile(@PathVariable("id") String id,
                                           @RequestParam(value = "type", defaultValue = "") String type,
                                           Criteria cri) throws Exception {
-        ModelAndView mav = new ModelAndView("/admin/profile");
+        ModelAndView mav = new ModelAndView("security/profile");
 
         SecurityMember sMember = adminService.findMember(id);
         mav.addObject("member", sMember);

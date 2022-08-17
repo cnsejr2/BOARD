@@ -86,6 +86,7 @@ public class OrderController {
 
         String itemIds = "";
         for (Long i : itemIdxArray) {
+            orderService.updateCartItem(i);
             itemIds += (String.valueOf(i) + ",");
         }
 
