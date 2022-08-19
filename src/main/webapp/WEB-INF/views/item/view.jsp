@@ -11,15 +11,17 @@
     <title>Title</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
 
     <style>
         .modal{
             position:absolute; width:100px; height:100px; background: rgba(199, 199, 199, 0.29); top:0; left:0; display:none;
         }
         .modal_content{
-            width:400px; height:200px;
+            width:600px; height:400px;
             background:#fff; border-radius:10px;
-            position:relative; top:50%; left:50%;
+            position:relative; top:35%; left:50%;
             margin-top:-100px; margin-left:-200px;
             text-align:center;
             box-sizing:border-box; padding:74px 0;
@@ -175,7 +177,24 @@
                                     <div class="card-body" id="review">
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque. Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl. Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit, at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper. Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div>
+                                <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" class="col-sm-4" data-title="모달 제목" data-footer="모달 푸터내용">
+                                                    <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded">
+                                                </a>
+                                                <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+                                                    <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded">
+                                                </a>
+                                                <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+                                                    <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -186,6 +205,10 @@
 
     <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 <script>
     let itemSize = $("#size-select").val();
     let itemColor = $("#color-select").val();
@@ -194,6 +217,6 @@
     let itemName = ${item.name};
     let itemPrice = ${item.price};
 </script>
-<script type="text/javascript" src="/js/itemView.js"></script>
+<script type="text/javascript" src="/js/item/view.js"></script>
 </body>
 </html>

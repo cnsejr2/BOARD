@@ -1,13 +1,11 @@
-let itemSize
-let itemColor
-let itemCnt
+
 $(document).ready(function () {
     getReviewList();
 
     $(".cartBtn").click(function() {
-        itemSize = $("#size-select").val();
-        itemColor = $("#color-select").val();
-        itemCnt = $("#cnt-select").val();
+        // itemSize = $("#size-select").val();
+        // itemColor = $("#color-select").val();
+        // itemCnt = $("#cnt-select").val();
         if (itemColor == "" || itemSize == "") {
             alert("사이즈와 색상을 선택해주세요")
         } else {
@@ -25,7 +23,7 @@ function wishBtn() {
     $.ajax({
         type : "GET",
         url : "/item/hadWishItem",
-        data : {'id' : '${item.id}'},
+        data : {'id' : itemId},
         success : function(likeCheck) {
             if (likeCheck != 1) {
                 alert("wish 추가완료.");
@@ -45,8 +43,8 @@ function cartItem() {
     $.ajax({
         type : "GET",
         url : "/item/saveCartItem",
-        data : {'id' : '${item.id}', 'itemSize' : itemSize, 'itemColor' : itemColor,
-            'itemCnt' : itemCnt, 'itemName' : '${item.name}', 'itemPrice' : '${item.price}'},
+        data : {'id' : itemId, 'itemSize' : itemSize, 'itemColor' : itemColor,
+            'itemCnt' : itemCnt, 'itemName' : itemName, 'itemPrice' : itemPrice},
         success : function(cartCheck) {
             if (cartCheck != 1) {
                 if (!confirm("장바구니 추가 완료! 장바구니로 이동하시겠습니까?")) {
@@ -100,7 +98,7 @@ function getReviewList() {
     $.ajax({
         type: 'GET',
         url: '/getReviewList',
-        data: {itemId : '${item.id}'},
+        data: {itemId : itemId},
         success: function (result) {
             console.log(result)
             for (let i = 0; i < result.length; i++) {
@@ -112,9 +110,9 @@ function getReviewList() {
                 str += "<button type=\"button\" class=\"modalBtn\">더보기</button>";
                 str += "<div class=\"modal\">";
                 str += "<div class=\"modal_content\" title=\"클릭하면 창이 닫힙니다.\">";
+                str += "<p>원래대로 돌아가고 싶다면 네모 안을 다시 클릭해주세요</p>" ;
                 str += result[i].content + "<p>작성자 : " + result[i].memberId + "</p>";
-                str += "<p>작성일 : " + result[i].wrdate + "</p>" + "</div>";
-                str += "원래대로 돌아가고 싶다면 네모 안을 다시 클릭해주세요" + "</div></div>";
+                str += "<p>작성일 : " + result[i].wrdate + "</p></div></div></div>";
                 str += "<hr>"
                 $("#review").append(str);
             }
@@ -131,4 +129,8 @@ $(document).on("click",".modalBtn", function() {
     $(".modal_content").click(function(){
         $(".modal").fadeOut();
     });
+})
+$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
 })
