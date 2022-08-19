@@ -47,6 +47,7 @@ public class SecurityLoginController {
         Paging pageMake = new Paging(cri, total);
 
         mav.addObject("pageMaker", pageMake);
+        mav.addObject("user", user);
 
 //        mav.addObject("keyword", "");
         return mav;

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.test1.mapper.ReviewMapper">
+    <insert id="insertReview">
+        INSERT INTO LYE_REVIEW (
+            reviewId, memberId, itemId, content, wrdate, star
+        ) VALUES (
+        LYE_REVIEW_SEQ.nextval
+        , #{memberId,jdbcType=VARCHAR}
+        , #{itemId,jdbcType=VARCHAR}
+        , #{content,jdbcType=VARCHAR}
+        , sysdate
+        , 3
+        )
+    </insert>
+
+</mapper>

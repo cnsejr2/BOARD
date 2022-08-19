@@ -97,6 +97,8 @@
                   <li class="nav-item"><a class="${type == 0 ? "active":"" } nav-link" href="#MyBoard" data-toggle="tab">MyBoard</a></li>
                   <li class="nav-item"><a class="${type == 1 ? "active":"" } nav-link" href="#MyComment" data-toggle="tab">MyComment</a></li>
                   <li class="nav-item"><a class="${type == 2 ? "active":"" } nav-link" href="#MyWish" data-toggle="tab">MyWish</a></li>
+                  <li class="nav-item"><a class="${type == 3 ? "active":"" } nav-link" href="#MyOrder" data-toggle="tab">MyOrder</a></li>
+                  <li class="nav-item"><a class="${type == 4 ? "active":"" } nav-link" href="#MyReview" data-toggle="tab">MyReview</a></li>
                 </ul>
               </div>
               <div class="card-body">
@@ -109,6 +111,12 @@
                   </div>
                   <div class="${type == 2 ? "active":"" } tab-pane" id="MyWish">
                     <%@ include file="/WEB-INF/views/admin/myWish.jsp" %>
+                  </div>
+                  <div class="${type == 3 ? "active":"" } tab-pane" id="MyOrder">
+                    <%@ include file="/WEB-INF/views/security/list.jsp" %>
+                  </div>
+                  <div class="${type == 4 ? "active":"" } tab-pane" id="MyReview">
+                    <%@ include file="/WEB-INF/views/security/review/list.jsp" %>
                   </div>
                 </div>
               </div>

@@ -43,9 +43,9 @@ public class MemberController {
         ModelAndView mav = new ModelAndView("security/profile");
 
         String id = principal.getName();
-//
-//        SecurityMember sMember = adminService.findMember(id);
-//        mav.addObject("member", sMember);
+
+        SecurityMember sMember = memberService.findMember(id);
+        mav.addObject("member", sMember);
         Criteria boardCri = new Criteria(1, 5);
         Criteria commentCri = new Criteria(1, 5);
         Criteria wishCri = new Criteria(1, 5);
@@ -94,6 +94,8 @@ public class MemberController {
 
         mav.addObject("type", num);
 
+        List<OrderList> oList = memberService.selectOrderList(id);
+        mav.addObject("oList", oList);
         return mav;
     }
 
