@@ -88,6 +88,7 @@
                             <h3 class="card-title">General</h3>
                         </div>
                         <form id="reviewForm" action="/item/review/write.do" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="itemId" value="${itemId}">
                             <div class="card-body">
                                 <fieldset>
                                     <span class="text-bold">별점을 선택해주세요</span>

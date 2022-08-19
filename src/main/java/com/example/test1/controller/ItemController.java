@@ -3,8 +3,6 @@ package com.example.test1.controller;
 import com.example.test1.domain.*;
 import com.example.test1.service.ItemImageService;
 import com.example.test1.service.ItemService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +26,7 @@ public class ItemController {
     ItemImageService itemImageService;
     @GetMapping("/item/write.do")
     public String itemForm() {
-        return "/item/write";
+        return "write2";
     }
 
     @PostMapping("/item/write.do")

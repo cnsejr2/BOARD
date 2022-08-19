@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.test1.mapper.ReviewFileMapper">
-    <!-- 지정 상품 이미지 전체 삭제 -->
-    <delete id="deleteReviewFile">
-        delete FROM LYE_ITEM_IMAGE where itemId = #{itemId}
-    </delete>
+    <select id="getReviewFile" resultType="com.example.test1.domain.ReviewFile">
+        SELECT * FROM LYE_REVIEW_FILE WHERE itemId = #{reviewId}
+    </select>
 </mapper>

@@ -102,6 +102,7 @@ function getReviewList() {
         success: function (result) {
             console.log(result)
             for (let i = 0; i < result.length; i++) {
+                console.log("fileList : " + result[i].reviewFileList);
                 let str = "<div class=\"review" + result[i].reviewId + "\">";
                 str += result[i].content;
                 str += "<p>작성자 : " + result[i].memberId + "</p>" + "</div>";

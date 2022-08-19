@@ -13,32 +13,34 @@
         .ck-content {						/* ckeditor 높이 */
             height: 170px;
         }
-        .insert {
-            padding: 20px 30px;
+        #result_card img {
+            max-width: 100%;
+            height: auto;
             display: block;
-            width: 600px;
-            margin: 5vh auto;
-            height: 90vh;
-            border: 1px solid #dbdbdb;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-        .insert .file-list {
-            height: 200px;
-            overflow: auto;
-            border: 1px solid #989898;
-            padding: 10px;
-        }
-        .insert .file-list .filebox p {
-            font-size: 14px;
+            padding: 5px;
             margin-top: 10px;
-            display: inline-block;
+            margin: auto;
         }
-        .insert .file-list .filebox .delete i{
-            color: #ff5353;
-            margin-left: 5px;
+        #result_card {
+            position: relative;
         }
+        .imgDeleteBtn{
+            position: absolute;
+            top: 0;
+            right: 5%;
+            background-color: #ef7d7d;
+            color: wheat;
+            font-weight: 900;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            line-height: 26px;
+            text-align: center;
+            border: none;
+            display: block;
+            cursor: pointer;
+        }
+
     </style>
     <script
             src="https://code.jquery.com/jquery-3.4.1.js"
@@ -47,7 +49,6 @@
     </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/star.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <%@ include file="/WEB-INF/views/nav.jsp" %>
@@ -85,12 +86,10 @@
                                     <input type="checkbox" name="itemSize" id="XL" value="XL">XL
                                 </div>
                                 <div class="form-group">
-                                    <label for="file-list">Item Image - 최대 5장</label>
-                                    <div class="form-group" id="file-list">
-                                        <a href="#this" onclick="addFile()">파일추가</a>
-                                        <div class="file-group">
-                                            <input type="file" name="file" multiple="multiple">
-                                            <a href="#this" id="file-delete">삭제</a>
+                                    <label for="img">Item Image</label>
+                                    <div class="form_section_content">
+                                        <input type="file" id ="img" name='uploadFile' style="height: 30px;">
+                                        <div id="uploadResult">
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +115,7 @@
 
     let nameCheck = false;            // 이름
     let infoCheck = false;            // 이메일
-    let imageCheck = true;           // 이미지
+    let imageCheck = false;           // 이미지
     let sizeCheck = false;           // 사이즈
     $(document).ready(function() {
         $(".write_button").click(function () {
@@ -155,27 +154,109 @@
             }
             return false;
         });
-        $("a[id='file-delete']").on("click", function(e) {
-            e.preventDefault();
-            deleteFile($(this));
-        });
     });
-    let fileNo = 0;
-    function addFile() {
-        console.log("addFile 실행됨");
+
+    /* 이미지 업로드 */
+    $("input[type='file']").on("change", function(e) {
+        imageCheck = true;
+        /* 이미지 존재시 삭제 */
+        if ($(".imgDeleteBtn").length > 0) {
+            deleteFile();
+            imageCheck = false;
+        }
+
+        let formData = new FormData();
+        let fileInput = $('input[name="uploadFile"]');
+        let fileList = fileInput[0].files;
+        let fileObj = fileList[0];
+
+        if (!fileCheck(fileObj.name, fileObj.size)) {
+            return false;
+        }
+        formData.append("uploadFile", fileObj);
+
+        $.ajax({
+            url: '/uploadItemAjaxAction',
+            processData : false,
+            contentType : false,
+            data : formData,
+            type : 'POST',
+            dataType : 'json',
+            success : function(result) {
+                showUploadImage(result);
+            },
+            error : function(result){
+                alert("이미지 파일이 아닙니다.");
+            }
+        });
+
+        alert("통과");
+    });
+    /* 이미지 출력 */
+    function showUploadImage(uploadResultArr) {
+        console.log("showUploadImage : " + uploadResultArr);
+        /* 전달받은 데이터 검증 */
+        if (!uploadResultArr || uploadResultArr.length == 0) { return; }
+
+        let uploadResult = $("#uploadResult");
+
+        let obj = uploadResultArr[0];
+
         let str = "";
-        str += "<div class=\"file-group\"><input type=\"file\" name=\"file\">";
-        str += "<a href=\"#this\" id=\"file-delete\">삭제<a></div>";
-        $("#file-list").append(str);
-        $("a[id='file-delete']").on("click", function(e) {
-            e.preventDefault();
-            deleteFile($(this));
+
+        let fileCallPath = encodeURIComponent(obj.upload.replace(/\\/g, '/') + "/s_" + obj.uuid + "_" + obj.fileName);
+
+        str += "<div id='result_card'>";
+        str += "<img src='/displayItem?fileName=" + fileCallPath +"'>";
+        str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
+        str += "<input type='hidden' name='imageList[0].fileName' value='"+ obj.fileName +"'>";
+        str += "<input type='hidden' name='imageList[0].uuid' value='"+ obj.uuid +"'>";
+        str += "<input type='hidden' name='imageList[0].upload' value='"+ obj.upload +"'>";
+        str += "</div>";
+
+        uploadResult.append(str);
+    }
+    /* var, method related with attachFile */
+    let regex = new RegExp("(.*?)\.(jpg|png)$");
+    let maxSize = 1048576; //1MB
+
+    function fileCheck(fileName, fileSize) {
+        if (fileSize >= maxSize) {
+            alert("파일 사이즈 초과");
+            return false;
+        }
+        if (!regex.test(fileName)) {
+            alert("해당 종류의 파일은 업로드할 수 없습니다.");
+            return false;
+        }
+        return true;
+
+    }
+    /* 이미지 삭제 버튼 동작 */
+    $("#uploadResult").on("click", ".imgDeleteBtn", function(e) {
+        deleteFile();
+    });
+    /* 파일 삭제 메서드 */
+    function deleteFile() {
+        // $("#result_card").remove();
+        let targetFile = $(".imgDeleteBtn").data("file");
+
+        let targetDiv = $("#result_card");
+
+        $.ajax({
+            url: '/deleteItemFile',
+            data : { fileName : targetFile, id : null },
+            dataType : 'text',
+            type : 'POST',
+            success : function(result) {
+                targetDiv.remove();
+                $("input[type='file']").val("");
+            },
+            error : function(result) {
+                alert("파일을 삭제하지 못하였습니다.")
+            }
         });
     }
-    function deleteFile(obj) {
-        obj.parent().remove();
-    }
-
 </script>
 </body>
 </html>
