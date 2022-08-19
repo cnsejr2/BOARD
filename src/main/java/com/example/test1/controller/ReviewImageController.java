@@ -67,7 +67,7 @@ public class ReviewImageController {
         ReviewFile iImage = new ReviewFile();
 
         String uploadItemFileName = uploadFile.getOriginalFilename();
-        iImage.setOriginalFileName(uploadItemFileName);
+        iImage.setOriginal_file_name(uploadItemFileName);
         iImage.setFilePath(datePath);
 
         String uuid = UUID.randomUUID().toString();

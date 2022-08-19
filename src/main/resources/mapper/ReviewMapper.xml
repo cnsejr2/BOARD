@@ -14,4 +14,26 @@
         )
     </insert>
 
+    <insert id="fileEnroll" parameterType="com.example.test1.domain.ReviewFile">
+        INSERT INTO LYE_REVIEW_FILE (reviewId, fileId, original_file_name, fileSize, filePath)
+        VALUES (
+        #{reviewId, jdbcType=NUMERIC}
+        , LYE_REVIEW_FILE_SEQ.nextval
+        , #{original_file_name, jdbcType=VARCHAR}
+        , #{fileSize, jdbcType=VARCHAR}
+        , #{filePath, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="getReviewId" resultType="Long">
+        SELECT LYE_REVIEW_FILE_SEQ.NEXTVAL FROM DUAL
+    </select>
+
+    <select id="getReviewList" resultType="com.example.test1.domain.Review">
+        SELECT REVIEWID as "reviewId", MEMBERID as "memberId", ITEMID as "itemId", CONTENT as "content",
+               WRDATE as "wrdate", STAR as "star"
+        FROM LYE_REVIEW
+        WHERE itemId = #{itemId}
+        ORDER BY reviewId
+    </select>
 </mapper>

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -21,7 +22,7 @@ public class ReviewService {
     ReviewMapper reviewMapper;
 
     //글 목록 조회
-    public List<Review> getReviewList(Review review, Criteria cri) { return reviewMapper.getReviewList(review, cri); }
+    public List<Review> getReviewList(Long itemId) { return reviewMapper.getReviewList(itemId); }
 
     public int selectReviewCount(Review review) { return reviewMapper.selectReviewCount(review); }
 
@@ -29,7 +30,8 @@ public class ReviewService {
     public Long getReviewId() { return reviewMapper.getReviewId(); }
 
     //디비에 파일 리스트 등록
-    public void insertReviewFileList(List<ReviewFile> fileList) { reviewMapper.insertReviewFileList(fileList); }
+    public void fileEnroll(ReviewFile reviewFile) { reviewMapper.fileEnroll(reviewFile); }
 
     public void insertReview(Review review) { reviewMapper.insertReview(review); }
+
 }

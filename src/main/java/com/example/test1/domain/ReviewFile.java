@@ -9,7 +9,7 @@ public class ReviewFile {
     private Long reviewId;
     private Long fileId;
     private String uuid;
-    private String originalFileName;
+    private String original_file_name;
     private Long fileSize;
     private String filePath;
 }

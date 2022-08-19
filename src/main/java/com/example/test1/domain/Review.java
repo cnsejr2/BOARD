@@ -15,5 +15,5 @@ public class Review {
     private String content;
     private String wrdate;
     private int star;
-    private List<ReviewFile> multipartFile;
+    private List<ReviewFile> reviewFileList;
 }

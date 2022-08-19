@@ -80,25 +80,6 @@
                 <div class="card-body" id="comment">
                 </div>
             </div>
-
-            <div id="updateComment"></div>
-
-            <div id="writeComment">
-                <div class="card my-4">
-                    <h5 class="card-header">Leave a Comment:</h5>
-                    <div class="card-body">
-                        <form name="comment-form" id="comment-form" action="/board/comment/write" method="post" autocomplete="off">
-                            <div class="form-group">
-                                <input type="hidden" name="id" value="${board.id}" />
-                                <label>
-                                    <textarea name="contents" class="form-control cLeave" rows="3"></textarea>
-                                </label>
-                            </div>
-                            <input type="button" class="btn btn-primary cSubmit" value="Submit">
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <%@ include file="/WEB-INF/views/footer.jsp" %>
@@ -203,12 +184,11 @@
         }
     }
     function getCommentList() {
-        let id = $('input[name=id]').val();
         const name = $('#user').val();
         $.ajax({
-            type: 'POST',
-            url: '/getCommentList',
-            data: {id},
+            type: 'GET',
+            url: '/getReviewList',
+            data: {'id' : ${board.id} },
             success: function (result) {
                 console.log(result)
                 for (let i = 0; i < result.length; i++) {

@@ -11,7 +11,22 @@
     <title>Title</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <style>
+        .modal{
+            position:absolute; width:100px; height:100px; background: rgba(199, 199, 199, 0.29); top:0; left:0; display:none;
+        }
+        .modal_content{
+            width:400px; height:200px;
+            background:#fff; border-radius:10px;
+            position:relative; top:50%; left:50%;
+            margin-top:-100px; margin-left:-200px;
+            text-align:center;
+            box-sizing:border-box; padding:74px 0;
+            line-height:23px; cursor:pointer;
+        }
+
+    </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <%@ include file="/WEB-INF/views/nav.jsp" %>
@@ -150,13 +165,16 @@
                             <nav class="w-100">
                                 <div class="nav nav-tabs" id="product-tab" role="tablist">
                                     <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
-                                    <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Comments</a>
+                                    <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Review</a>
                                     <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>
                                 </div>
                             </nav>
                             <div class="tab-content p-3" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab"> ${item.info} | ${item.regDate}</div>
-                                <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab"> Vivamus rhoncus nisl sed venenatis luctus. Sed condimentum risus ut tortor feugiat laoreet. Suspendisse potenti. Donec et finibus sem, ut commodo lectus. Cras eget neque dignissim, placerat orci interdum, venenatis odio. Nulla turpis elit, consequat eu eros ac, consectetur fringilla urna. Duis gravida ex pulvinar mauris ornare, eget porttitor enim vulputate. Mauris hendrerit, massa nec aliquam cursus, ex elit euismod lorem, vehicula rhoncus nisl dui sit amet eros. Nulla turpis lorem, dignissim a sapien eget, ultrices venenatis dolor. Curabitur vel turpis at magna elementum hendrerit vel id dui. Curabitur a ex ullamcorper, ornare velit vel, tincidunt ipsum. </div>
+                                <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
+                                    <div class="card-body" id="review">
+                                    </div>
+                                </div>
                                 <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque. Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl. Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit, at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper. Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div>
                             </div>
                         </div>
@@ -167,107 +185,15 @@
     </div>
 
     <%@ include file="/WEB-INF/views/footer.jsp" %>
-<!-- Ekko Lightbox -->
-<script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script>
-
-    let itemSize
-    let itemColor
-    let itemCnt
-    $(document).ready(function () {
-        $(".cartBtn").click(function() {
-            itemSize = $("#size-select").val();
-            itemColor = $("#color-select").val();
-            itemCnt = $("#cnt-select").val();
-            if (itemColor == "" || itemSize == "") {
-                alert("사이즈와 색상을 선택해주세요")
-            } else {
-                cartItem()
-            }
-        });
-
-        $(".wishBtn").click(function() {
-            wishBtn()
-        })
-    });
-
-    function wishBtn() {
-        console.log("wish 클릭")
-        $.ajax({
-            type : "GET",
-            url : "/item/hadWishItem",
-            data : {'id' : ${item.id}},
-            success : function(likeCheck) {
-                if (likeCheck != 1) {
-                    alert("wish 추가완료.");
-                    location.reload();
-                } else {
-                    alert("이미 추가한 아이템입니다");
-                    location.reload();
-                }
-            },
-            error : function() {
-                alert("통신 에러");
-            }
-        });
-    }
-
-    function cartItem() {
-        $.ajax({
-            type : "GET",
-            url : "/item/saveCartItem",
-            data : {'id' : ${item.id}, 'itemSize' : itemSize, 'itemColor' : itemColor,
-                'itemCnt' : itemCnt, 'itemName' : '${item.name}', 'itemPrice' : '${item.price}'},
-            success : function(cartCheck) {
-                if (cartCheck != 1) {
-                    if (!confirm("장바구니 추가 완료! 장바구니로 이동하시겠습니까?")) {
-                    } else {
-                        location.href="/item/cart"
-                    }
-                } else {
-                    alert("이미 추가한 아이템 입니다");
-                }
-            },
-            error : function() {
-                alert("통신 에러");
-            }
-        });
-    }
-
-    /* 이미지 삽입 */
-    $(".image_wrap").each(function(i, obj) {
-
-        const itemObj = $(obj);
-
-        const uploadPath = itemObj.data("path");
-        const uuid = itemObj.data("uuid");
-        const fileName = itemObj.data("filename");
-
-        const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
-        $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
-
-    });
-
-    function shareSNSKakao() {
-        // 사용할 앱의 JavaScript 키 설정
-        Kakao.init('c17b5563968f2fffd356919521833ce2');
-
-        // 카카오링크 버튼 생성
-        Kakao.Link.createDefaultButton({
-            container: '#btnKakao', // 카카오공유버튼ID
-            objectType: 'feed',
-            content: {
-                title: "${item.name}", // 보여질 제목
-                description: "아이템 정보 공유", // 보여질 설명
-                imageUrl: "https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg", // 콘텐츠 URL
-                link: {
-                    mobileWebUrl: "http://localhost:8080/item/view/${item.id}",
-                    webUrl: "http://localhost:8080/item/view/${item.id}"
-                }
-            }
-        });
-    }
+    let itemSize = $("#size-select").val();
+    let itemColor = $("#color-select").val();
+    let itemCnt = $("#cnt-select").val();
+    let itemId = ${item.id};
+    let itemName = ${item.name};
+    let itemPrice = ${item.price};
 </script>
+<script type="text/javascript" src="/js/itemView.js"></script>
 </body>
 </html>

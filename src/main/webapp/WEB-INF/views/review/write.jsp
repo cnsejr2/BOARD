@@ -67,6 +67,7 @@
             margin-left: 5px;
         }
     </style>
+
     <script
             src="https://code.jquery.com/jquery-3.4.1.js"
             integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -74,6 +75,7 @@
     </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/star.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <%@ include file="/WEB-INF/views/nav.jsp" %>
@@ -87,6 +89,19 @@
                         </div>
                         <form id="reviewForm" action="/item/review/write.do" method="POST" enctype="multipart/form-data">
                             <div class="card-body">
+                                <fieldset>
+                                    <span class="text-bold">별점을 선택해주세요</span>
+                                    <input type="radio" name="reviewStar" value="5" id="rate1"><label
+                                        for="rate1">★</label>
+                                    <input type="radio" name="reviewStar" value="4" id="rate2"><label
+                                        for="rate2">★</label>
+                                    <input type="radio" name="reviewStar" value="3" id="rate3"><label
+                                        for="rate3">★</label>
+                                    <input type="radio" name="reviewStar" value="2" id="rate4"><label
+                                        for="rate4">★</label>
+                                    <input type="radio" name="reviewStar" value="1" id="rate5"><label
+                                        for="rate5">★</label>
+                                </fieldset>
                                 <div class="form-group">
                                     <label for="content">Review</label>
                                     <textarea type="text" name="content" id="content" class="form-control" rows="4"></textarea>

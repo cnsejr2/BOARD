@@ -43,7 +43,7 @@ public class BoardController {
         board.setWriter(writer);
         boardService.insertBoard(board);
         if (!(board.getImageList() == null || board.getImageList().size() <= 0)) {
-            board.getImageList().forEach(attach ->{
+            board.getImageList().forEach(attach -> {
                 boardService.imageEnroll(attach);
             });
         }

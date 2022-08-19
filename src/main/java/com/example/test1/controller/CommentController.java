@@ -20,15 +20,11 @@ public class CommentController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     CommentService commentService;
-
-    /* 댓글 목록 불러오기 */
     @GetMapping("/getCommentList")
     @ResponseBody
     private List<Comment> getCommentList(@RequestParam("id") Long id) throws Exception {
         return commentService.selectCommentList(id);
     }
-
-    /* 댓글 작성 */
     @PostMapping("/board/comment/write")
     private String insertComment(Principal principal, @RequestParam("id") Long id,
                                  @RequestParam("contents") String contents) throws Exception {

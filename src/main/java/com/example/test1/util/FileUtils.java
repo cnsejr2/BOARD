@@ -13,52 +13,44 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class FileUtils {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    public List<ReviewFile> parseFileInfo(Long seq, HttpServletRequest request,
-                                          MultipartHttpServletRequest mhsr) throws IOException {
-        if(ObjectUtils.isEmpty(mhsr)) {
-            return null;
+    public List<ReviewFile> parseFileInfo(Long reviewId, MultipartFile[] file) throws IOException {
+
+        List<ReviewFile> fileList = new ArrayList<>();
+        String uploadFolder = "C:\\upload\\review";
+
+        File target = new File(uploadFolder);
+        if (!target.exists()) {
+            target.mkdirs();
         }
 
-        List<ReviewFile> fileList = new ArrayList<ReviewFile>();
+        for (int i = 0; i < file.length; i++) {
+            String orgFileName = file[i].getOriginalFilename();
+            String orgFileExtension = orgFileName.substring(orgFileName.lastIndexOf("."));
+            String saveFileName = UUID.randomUUID().toString().replaceAll("-", "") + orgFileExtension;
+            Long saveFileSize = file[i].getSize();
 
-        //서버의 절대 경로 얻기
-        String root_path = request.getSession().getServletContext().getRealPath("/");
-        String attach_path = "upload\\review\\";
-        logger.info(root_path + attach_path);
-        //위 경로의 폴더가 없으면 폴더 생성
-        File file = new File(root_path + attach_path);
-        if(file.exists() == false) {
-            file.mkdir();
-        }
+            logger.info("============== file start ================");
+            logger.info("파일 실제 이름 : " + orgFileName);
+            logger.info("파일 저장 이름 : " + saveFileName);
+            logger.info("파일 크기 : " + saveFileSize);
+            logger.info("contentType : " + file[i].getContentType());
+            logger.info("============== file end  =================");
 
-        //파일 이름들을 iterator로 담음
-        Iterator<String> iterator = mhsr.getFileNames();
+            target = new File(uploadFolder, saveFileName);
+            file[i].transferTo(target);
 
-        while(iterator.hasNext()) {
-            //파일명으로 파일 리스트 꺼내오기
-            List<MultipartFile> list = mhsr.getFiles(iterator.next());
+            ReviewFile reviewFile = new ReviewFile();
+            reviewFile.setReviewId(reviewId);
+            reviewFile.setOriginal_file_name(orgFileName);
+            reviewFile.setFilePath(saveFileName);
+            reviewFile.setFileSize(saveFileSize);
+            fileList.add(reviewFile);
 
-            //파일 리스트 개수 만큼 리턴할 파일 리스트에 담아주고 생성
-            for(MultipartFile mf : list) {
-                ReviewFile reviewFile = new ReviewFile();
-                reviewFile.setFileId(seq);
-                reviewFile.setFileSize(mf.getSize());
-                reviewFile.setOriginalFileName(mf.getOriginalFilename());
-                reviewFile.setFilePath(root_path + attach_path);
-                fileList.add(reviewFile);
-                String fullFilePath = root_path + attach_path + mf.getOriginalFilename();
-                Path path = Paths.get(fullFilePath).toAbsolutePath();
-
-                mf = mhsr.getFile(reviewFile.getOriginalFileName());
-                mf.transferTo(path.toFile());
-            }
         }
         return fileList;
     }
