@@ -102,20 +102,15 @@ function getReviewList() {
                 str += "<p>작성자 : " + result[i].memberId + "</p>";
                 str += "<p>작성일 : " + result[i].wrdate + "</p>";
                 str += "<p>별점 : " + result[i].star + "</p>";
-                str += "<button type=\"button\" class=\"modalBtn" + result[i].reviewId + "\" onclick=\"appearModal(" + result[i].reviewId + ")\">더보기</button>";
+                str += "<button type=\"button\" class=\"imageBtn" + result[i].reviewId + "\" onclick=\"appearModal(" + result[i].reviewId + ")\">사진보기</button>";
+                str += "<button type=\"button\" class=\"hideBtn" + result[i].reviewId + "\" onclick=\"disappearModal(" + result[i].reviewId + ")\">사진숨기기</button>";
                 str += "<div class=\"row\">";
                 for (let j = 0; j < result[i].reviewFileList.length; j++) {
-                    str += "<div class=\"review_file_wrap\" data-filepath=\"" + result[i].reviewFileList[j].FILEPATH + "\" >";
+                    str += "<div class=\"review_file_wrap_" + result[i].reviewId + "\" data-filepath=\"" + result[i].reviewFileList[j].FILEPATH + "\" >";
                     str += "<img class=\"review_file\">";
                     str += "</div>";
                 }
                 str += "</div>";
-                // str += "<div class=\"modal\" id=\"" + result[i].reviewId + "\">";
-                // str += "<div class=\"modal_content\" title=\"클릭하면 창이 닫힙니다.\">";
-                // str += "<p>원래대로 돌아가고 싶다면 네모 안을 다시 클릭해주세요</p>" ;
-                // str += result[i].content + "<p>작성자 : " + result[i].memberId + "</p>";
-                // str += "<p>작성일 : " + result[i].wrdate + "</p>";
-
                 str += "</div></div></div>";
                 str += "<hr>"
                 $("#review").append(str);
@@ -127,26 +122,26 @@ function getReviewList() {
 }
 
 function appearModal(e) {
-    const classBtn = ".modalBtn" + e;
-    const info = "#" + e;
+    const classBtn = ".imageBtn" + e;
+    const reviewFile = ".review_file_wrap_" + e;
     $(classBtn).click(function(){
-        $(info).fadeIn();
-        $(".review_file_wrap").each(function(i, obj) {
-
+        $(reviewFile).each(function(i, obj) {
+            $(reviewFile).show();
             const reviewObj = $(obj);
             const uploadPath = reviewObj.data("filepath");
 
             const fileCallPath = encodeURIComponent(uploadPath);
             $(this).find(".review_file").attr('src', '/displayReview?fileName=' + fileCallPath);
             $(this).find(".review_file").attr('style', 'width:300px; height:300px;');
-            // $(this).find(".review_href").attr('href', '/displayReview?fileName=' + fileCallPath);
-            // $(this).find(".review_href").attr('style', 'width:300px; height:300px;');
-
         });
     });
+}
 
-    $(".modal_content").click(function(){
-        $(".modal").fadeOut();
+function disappearModal(e) {
+    const hideBtn = ".hideBtn" + e;
+    const reviewFile = ".review_file_wrap_" + e;
+    $(hideBtn).click(function(){
+        $(reviewFile).hide();
     });
 }
 
