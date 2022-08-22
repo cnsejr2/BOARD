@@ -15,7 +15,6 @@ $(document).ready(function () {
     })
 });
 
-
 function wishBtn() {
     $.ajax({
         type : "GET",
@@ -102,24 +101,20 @@ function getReviewList() {
                 str += "<p>작성자 : " + result[i].memberId + "</p>";
                 str += "<p>작성일 : " + result[i].wrdate + "</p>";
                 str += "<p>별점 : " + result[i].star + "</p>";
-                str += "<div class=\"col-4\">" +
-                    "<img src=\"../../dist/img/prod-1.jpg\" class=\"product-image\" alt=\"Product Image\">" +
-                    "</div>" +
-                    "<div class=\"col-4 product-image-thumbs\">" +
-                    "<div class=\"product-image-thumb active\"><img src=\"../../dist/img/prod-1.jpg\"></div>" +
-                    "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-2.jpg\"></div>" +
-                    "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-3.jpg\"></div>" +
-                    "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-4.jpg\"></div>" +
-                    "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-5.jpg\"></div>" +
-                    "</div>";
-                // str += "<button type=\"button\" class=\"modalBtn" + result[i].reviewId + "\" onclick=\"appearModal(" + result[i].reviewId + ")\">더보기</button>";
-                // str += "<div class=\"modal\" id=\"" + result[i].reviewId + "\">";
-                // str += "<div class=\"modal_content\" title=\"클릭하면 창이 닫힙니다.\">";
-                // str += "<p>원래대로 돌아가고 싶다면 네모 안을 다시 클릭해주세요</p>" ;
-                // str += result[i].content + "<p>작성자 : " + result[i].memberId + "</p></div>";
-                // str += "<p>작성일 : " + result[i].wrdate + "</p>";
-                // str += test();
-                // str += "</div>";
+                str += "<button type=\"button\" data-num=\"" + i + "\" class=\"modalBtn\">더보기</button>";
+                str += "<div class=\"modal\" id=\"" + i + "\">";
+                str += "<div class=\"modal_content\" title=\"클릭하면 창이 닫힙니다.\">";
+                str += "<p>원래대로 돌아가고 싶다면 네모 안을 다시 클릭해주세요</p>" ;
+                str += result[i].content + "<p>작성자 : " + result[i].memberId + "</p>";
+                str += "<p>작성일 : " + result[i].wrdate + "</p>";
+                for (let j = 0; j < result[i].reviewFileList.length; j++) {
+                    str += "<div class=\"review_file_wrap\" data-filepath=\"" + result[i].reviewFileList[j].FILEPATH + "\">";
+                    str += "<a data-toggle=\"lightbox\" data-gallery=\"example-gallery\" class=\"row-sm-4 review_href\">"
+                    str += "<img class=\"review_file img-fluid rounded\">";
+                    str += "</a>";
+                    str += "</div>";
+                }
+                str += "</div></div></div>";
                 str += "<hr>"
                 $("#review").append(str);
             }
@@ -128,23 +123,13 @@ function getReviewList() {
         complete: function () { }
     })
 }
-function test() {
-    return "<div class=\"col-2\">\n" +
-        "<img src=\"../../dist/img/prod-1.jpg\" class=\"product-image\" alt=\"Product Image\">\n" +
-        "</div>\n" +
-        "<div class=\"col-2 product-image-thumbs\">\n" +
-        "<div class=\"product-image-thumb active\"><img src=\"../../dist/img/prod-1.jpg\"></div>\n" +
-        "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-2.jpg\"></div>\n" +
-        "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-3.jpg\"></div>\n" +
-        "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-4.jpg\"></div>\n" +
-        "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-5.jpg\"></div>\n" +
-        "</div>";
-}
-function appearModal(e) {
-    const classBtn = ".modalBtn" + e;
-    const info = "#" + e;
-    $(classBtn).click(function(){
-        $(info).fadeIn();
+
+$(document).on("click",".modalBtn", function(obj1) {
+    $(".modalBtn").click(function(){
+        const modalObj = $(obj1);
+        const modalNum = modalObj.data("num");
+        console.log("modalNum : " + modalNum);
+        $(".modal").fadeIn();
         $(".review_file_wrap").each(function(i, obj) {
 
             const reviewObj = $(obj);
@@ -153,8 +138,8 @@ function appearModal(e) {
             const fileCallPath = encodeURIComponent(uploadPath);
             $(this).find(".review_file").attr('src', '/displayReview?fileName=' + fileCallPath);
             $(this).find(".review_file").attr('style', 'width:300px; height:300px;');
-            // $(this).find(".review_href").attr('href', '/displayReview?fileName=' + fileCallPath);
-            // $(this).find(".review_href").attr('style', 'width:300px; height:300px;');
+            $(this).find(".review_href").attr('href', '/displayReview?fileName=' + fileCallPath);
+            $(this).find(".review_href").attr('style', 'width:300px; height:300px;');
 
         });
     });
@@ -162,8 +147,7 @@ function appearModal(e) {
     $(".modal_content").click(function(){
         $(".modal").fadeOut();
     });
-}
-
+})
 $(document).on('click', '[data-toggle="lightbox"]', function(event) {
     event.preventDefault();
     $(this).ekkoLightbox();

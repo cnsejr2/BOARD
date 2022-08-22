@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
+
     <style>
         .modal{
             position:absolute; width:100px; height:100px; background: rgba(199, 199, 199, 0.29); top:0; left:0; display:none;
@@ -62,16 +63,13 @@
                                         <img>
                                     </div>
                                 </div>
-<%--                                <div class="col-12">--%>
-<%--                                    <img src="../../dist/img/prod-1.jpg" class="product-image" alt="Product Image">--%>
-<%--                                </div>--%>
-<%--                                <div class="col-12 product-image-thumbs">--%>
-<%--                                    <div class="product-image-thumb active"><img src="../../dist/img/prod-1.jpg" alt="Product Image"></div>--%>
-<%--                                    <div class="product-image-thumb" ><img src="../../dist/img/prod-2.jpg" alt="Product Image"></div>--%>
-<%--                                    <div class="product-image-thumb" ><img src="../../dist/img/prod-3.jpg" alt="Product Image"></div>--%>
-<%--                                    <div class="product-image-thumb" ><img src="../../dist/img/prod-4.jpg" alt="Product Image"></div>--%>
-<%--                                    <div class="product-image-thumb" ><img src="../../dist/img/prod-5.jpg" alt="Product Image"></div>--%>
-<%--                                </div>--%>
+    <%--                            <div class="col-12 product-image-thumbs">--%>
+    <%--                                <div class="product-image-thumb active"><img src="../../dist/img/prod-1.jpg" alt="Product Image"></div>--%>
+    <%--                                <div class="product-image-thumb" ><img src="../../dist/img/prod-2.jpg" alt="Product Image"></div>--%>
+    <%--                                <div class="product-image-thumb" ><img src="../../dist/img/prod-3.jpg" alt="Product Image"></div>--%>
+    <%--                                <div class="product-image-thumb" ><img src="../../dist/img/prod-4.jpg" alt="Product Image"></div>--%>
+    <%--                                <div class="product-image-thumb" ><img src="../../dist/img/prod-5.jpg" alt="Product Image"></div>--%>
+    <%--                            </div>--%>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <h3 class="my-3">${item.name}</h3>
@@ -147,7 +145,8 @@
                                         <i class="fas fa-heart fa-lg mr-2"></i>
                                         Add to Wishlist
                                     </div>
-                                    <a href="/item/${item.id}/review/write.do"> 리뷰작성</a>
+                                    <a href="/item/${item.id}/review/write.do"> 리뷰작성
+
                                 </div>
                                 <div class="mt-4 product-share">
                                     <a href="#" class="text-gray">
@@ -184,7 +183,15 @@
                                     <div class="row justify-content-center">
                                         <div class="col-md-8">
                                             <div class="row">
-
+                                                <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" class="col-sm-4" data-title="모달 제목" data-footer="모달 푸터내용">
+                                                    <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded">
+                                                </a>
+                                                <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+                                                    <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded">
+                                                </a>
+                                                <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+                                                    <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded">
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -204,7 +211,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
-
 <script>
     let itemSize = $("#size-select").val();
     let itemColor = $("#color-select").val();
