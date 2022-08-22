@@ -2,7 +2,9 @@ package com.example.test1.controller;
 
 import com.example.test1.domain.Review;
 import com.example.test1.domain.ReviewFile;
+import com.example.test1.mapper.ReviewFileMapper;
 import com.example.test1.mapper.ReviewMapper;
+import com.example.test1.service.ReviewFileService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -24,10 +26,13 @@ class ReviewControllerTest {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     ReviewMapper reviewMapper;
+    @Resource
+    ReviewFileMapper reviewFileMapper;
     @Test
     void insertReview() {
         Review review = new Review();
-        review.setMemberId("1");
+        review.setMemberId("user1");
+        review.setItemId(Long.valueOf(1));
         review.setItemId(Long.valueOf("1"));
         review.setContent("111");
 
@@ -36,15 +41,14 @@ class ReviewControllerTest {
 
     @Test
     void testInsertReview() {
-//        List<Map<String, Object>> fileList = new ArrayList<Map<String, Object>>();
-//        ReviewFile reviewFile = new ReviewFile();
-//        reviewFile.setReviewId(Long.valueOf(1));
-//        reviewFile.setOriginalFileName("window.jpg");
-//        reviewFile.setFilePath("C:\\upload\\item");
-//        reviewFile.setFileSize(Long.valueOf(1));
-//        Map<String, Object> fileInfo = new HashMap<String, Object>();
-//        fileList.add(fileInfo);
-//        reviewMapper.fileEnroll(fileList.get(0));
+        List<Review> rList = reviewMapper.getReviewList(Long.valueOf("85"));
+        rList.forEach(review -> {
+            Long reviewId = review.getReviewId();
+            List<ReviewFile> reFileList = reviewFileMapper.getReviewFile(reviewId);
+            review.setReviewFileList(reFileList);
+            logger.info("이미지 : " + review.getReviewFileList());
+        });
         logger.info("Long" + reviewMapper.getReviewId());
     }
+
 }

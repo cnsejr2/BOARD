@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.test1.mapper.ReviewMapper">
-    <insert id="insertReview">
+
+    <insert id="insertReview" parameterType="map">
         INSERT INTO LYE_REVIEW (
             reviewId, memberId, itemId, content, wrdate, star
         ) VALUES (
         LYE_REVIEW_SEQ.nextval
-        , #{memberId,jdbcType=VARCHAR}
-        , #{itemId,jdbcType=VARCHAR}
-        , #{content,jdbcType=VARCHAR}
+        , #{memberId}
+        , #{itemId, jdbcType=NUMERIC}
+        , #{content, jdbcType=VARCHAR}
         , sysdate
         , 3
         )
@@ -26,7 +27,7 @@
     </insert>
 
     <select id="getReviewId" resultType="Long">
-        SELECT LYE_REVIEW_FILE_SEQ.NEXTVAL FROM DUAL
+        SELECT LYE_REVIEW_SEQ.CURRVAL FROM DUAL
     </select>
 
     <select id="getReviewList" resultType="com.example.test1.domain.Review">

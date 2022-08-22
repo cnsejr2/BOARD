@@ -1,7 +1,5 @@
 package com.example.test1.service;
 
-import com.example.test1.domain.Board;
-import com.example.test1.domain.Criteria;
 import com.example.test1.domain.Review;
 import com.example.test1.domain.ReviewFile;
 import com.example.test1.mapper.ReviewMapper;
@@ -11,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service

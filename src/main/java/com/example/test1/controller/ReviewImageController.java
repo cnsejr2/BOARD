@@ -7,11 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -97,6 +100,24 @@ public class ReviewImageController {
         list.add(iImage);
 
         ResponseEntity<List<ReviewFile>> result = new ResponseEntity<List<ReviewFile>>(list, HttpStatus.OK);
+        return result;
+    }
+
+    @GetMapping("/displayReview")
+    public ResponseEntity<byte[]> getImage(String fileName) {
+        File file = new File("c:\\upload\\review\\" + fileName);
+
+        ResponseEntity<byte[]> result = null;
+
+        try {
+            HttpHeaders header = new HttpHeaders();
+            header.add("Content-type", Files.probeContentType(file.toPath()));
+            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
 }

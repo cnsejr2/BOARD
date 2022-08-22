@@ -35,6 +35,7 @@ public class FileUtils {
             Long saveFileSize = file[i].getSize();
 
             logger.info("============== file start ================");
+            logger.info("파일 리뷰 번호 : " + reviewId);
             logger.info("파일 실제 이름 : " + orgFileName);
             logger.info("파일 저장 이름 : " + saveFileName);
             logger.info("파일 크기 : " + saveFileSize);

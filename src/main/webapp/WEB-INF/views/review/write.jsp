@@ -148,7 +148,7 @@
             }
 
             if ( rCheck ) {
-                $("#reviewForm").attr("action", "/item/review/write.do");
+                $("#reviewForm").attr("action", "/item/${itemId}/review/write.do");
                 $("#reviewForm").submit();
             } else {
                 alert("제목과 내용을 모두 입력해주세요");

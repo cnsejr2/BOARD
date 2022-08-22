@@ -3,9 +3,6 @@ $(document).ready(function () {
     getReviewList();
 
     $(".cartBtn").click(function() {
-        // itemSize = $("#size-select").val();
-        // itemColor = $("#color-select").val();
-        // itemCnt = $("#cnt-select").val();
         if (itemColor == "" || itemSize == "") {
             alert("사이즈와 색상을 선택해주세요")
         } else {
@@ -18,8 +15,8 @@ $(document).ready(function () {
     })
 });
 
+
 function wishBtn() {
-    console.log("wish 클릭")
     $.ajax({
         type : "GET",
         url : "/item/hadWishItem",
@@ -61,7 +58,6 @@ function cartItem() {
     });
 }
 
-/* 이미지 삽입 */
 $(".image_wrap").each(function(i, obj) {
 
     const itemObj = $(obj);
@@ -100,20 +96,30 @@ function getReviewList() {
         url: '/getReviewList',
         data: {itemId : itemId},
         success: function (result) {
-            console.log(result)
             for (let i = 0; i < result.length; i++) {
-                console.log("fileList : " + result[i].reviewFileList);
                 let str = "<div class=\"review" + result[i].reviewId + "\">";
                 str += result[i].content;
-                str += "<p>작성자 : " + result[i].memberId + "</p>" + "</div>";
-                str += "<p>작성일 : " + result[i].wrdate + "</p>" + "</div>";
-                str += "<p>별점 : " + result[i].star + "</p>" + "</div>";
-                str += "<button type=\"button\" class=\"modalBtn\">더보기</button>";
-                str += "<div class=\"modal\">";
-                str += "<div class=\"modal_content\" title=\"클릭하면 창이 닫힙니다.\">";
-                str += "<p>원래대로 돌아가고 싶다면 네모 안을 다시 클릭해주세요</p>" ;
-                str += result[i].content + "<p>작성자 : " + result[i].memberId + "</p>";
-                str += "<p>작성일 : " + result[i].wrdate + "</p></div></div></div>";
+                str += "<p>작성자 : " + result[i].memberId + "</p>";
+                str += "<p>작성일 : " + result[i].wrdate + "</p>";
+                str += "<p>별점 : " + result[i].star + "</p>";
+                str += "<div class=\"col-4\">" +
+                    "<img src=\"../../dist/img/prod-1.jpg\" class=\"product-image\" alt=\"Product Image\">" +
+                    "</div>" +
+                    "<div class=\"col-4 product-image-thumbs\">" +
+                    "<div class=\"product-image-thumb active\"><img src=\"../../dist/img/prod-1.jpg\"></div>" +
+                    "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-2.jpg\"></div>" +
+                    "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-3.jpg\"></div>" +
+                    "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-4.jpg\"></div>" +
+                    "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-5.jpg\"></div>" +
+                    "</div>";
+                // str += "<button type=\"button\" class=\"modalBtn" + result[i].reviewId + "\" onclick=\"appearModal(" + result[i].reviewId + ")\">더보기</button>";
+                // str += "<div class=\"modal\" id=\"" + result[i].reviewId + "\">";
+                // str += "<div class=\"modal_content\" title=\"클릭하면 창이 닫힙니다.\">";
+                // str += "<p>원래대로 돌아가고 싶다면 네모 안을 다시 클릭해주세요</p>" ;
+                // str += result[i].content + "<p>작성자 : " + result[i].memberId + "</p></div>";
+                // str += "<p>작성일 : " + result[i].wrdate + "</p>";
+                // str += test();
+                // str += "</div>";
                 str += "<hr>"
                 $("#review").append(str);
             }
@@ -122,15 +128,42 @@ function getReviewList() {
         complete: function () { }
     })
 }
-$(document).on("click",".modalBtn", function() {
-    $(".modalBtn").click(function(){
-        $(".modal").fadeIn();
+function test() {
+    return "<div class=\"col-2\">\n" +
+        "<img src=\"../../dist/img/prod-1.jpg\" class=\"product-image\" alt=\"Product Image\">\n" +
+        "</div>\n" +
+        "<div class=\"col-2 product-image-thumbs\">\n" +
+        "<div class=\"product-image-thumb active\"><img src=\"../../dist/img/prod-1.jpg\"></div>\n" +
+        "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-2.jpg\"></div>\n" +
+        "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-3.jpg\"></div>\n" +
+        "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-4.jpg\"></div>\n" +
+        "<div class=\"product-image-thumb\" ><img src=\"../../dist/img/prod-5.jpg\"></div>\n" +
+        "</div>";
+}
+function appearModal(e) {
+    const classBtn = ".modalBtn" + e;
+    const info = "#" + e;
+    $(classBtn).click(function(){
+        $(info).fadeIn();
+        $(".review_file_wrap").each(function(i, obj) {
+
+            const reviewObj = $(obj);
+            const uploadPath = reviewObj.data("filepath");
+
+            const fileCallPath = encodeURIComponent(uploadPath);
+            $(this).find(".review_file").attr('src', '/displayReview?fileName=' + fileCallPath);
+            $(this).find(".review_file").attr('style', 'width:300px; height:300px;');
+            // $(this).find(".review_href").attr('href', '/displayReview?fileName=' + fileCallPath);
+            // $(this).find(".review_href").attr('style', 'width:300px; height:300px;');
+
+        });
     });
 
     $(".modal_content").click(function(){
         $(".modal").fadeOut();
     });
-})
+}
+
 $(document).on('click', '[data-toggle="lightbox"]', function(event) {
     event.preventDefault();
     $(this).ekkoLightbox();

@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +41,8 @@ public class ReviewController {
         return mav;
     }
 
-    @RequestMapping(value = "/item/review/write.do", method = RequestMethod.POST)
-    public String insertReview(Review review, MultipartFile[] file) throws IOException {
+    @RequestMapping(value = "/item/{itemId}/review/write.do", method = RequestMethod.POST)
+    public String insertReview(Principal principal, Review review, MultipartFile[] file) throws IOException {
         for (int i = 0; i < file.length; i++) {
             logger.info("============== file start ================");
             logger.info("파일 이름 : " + file[i].getName());
@@ -50,23 +51,16 @@ public class ReviewController {
             logger.info("contentType : " + file[i].getContentType());
             logger.info("============== file end  =================");
         }
+        String user = principal.getName();
+        review.setMemberId(user);
         reviewService.insertReview(review);
         Long reviewId = reviewService.getReviewId();
-        if (!(review.getReviewFileList() == null || review.getReviewFileList().size() <= 0)) {
-            logger.info("review File List : " + review.getReviewFileList());
-            review.getReviewFileList().forEach(attach ->{
-                if (attach != null) {
-                    reviewService.fileEnroll(attach);
-                }
-            });
-        }
+
         List<ReviewFile> fileList = fileUtils.parseFileInfo(reviewId, file);
-        logger.info("file List size : " + fileList.size());
         for (int i = 0; i < fileList.size(); i++) {
             reviewService.fileEnroll(fileList.get(i));
         }
         review.setReviewFileList(fileList);
-        logger.info("ReviewFileList : " + review.getReviewFileList());
         return "redirect:/main";
     }
 
@@ -78,6 +72,7 @@ public class ReviewController {
             Long reviewId = review.getReviewId();
             List<ReviewFile> reFileList = reviewFileService.getReviewFile(reviewId);
             review.setReviewFileList(reFileList);
+            logger.info("이미지 : " + review.getReviewFileList());
         });
         return rList;
     }
