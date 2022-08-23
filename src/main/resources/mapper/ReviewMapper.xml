@@ -11,7 +11,7 @@
         , #{itemId, jdbcType=NUMERIC}
         , #{content, jdbcType=VARCHAR}
         , sysdate
-        , 3
+        , #{star, jdbcType=NUMERIC}
         )
     </insert>
 

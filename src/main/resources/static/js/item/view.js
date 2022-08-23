@@ -68,6 +68,7 @@ $(".image_wrap").each(function(i, obj) {
 
     const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
     $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
+    $(this).find("img").attr('style', 'width:750px; height:500px;');
 
 });
 
@@ -102,15 +103,17 @@ function getReviewList() {
                 str += "<p>작성자 : " + result[i].memberId + "</p>";
                 str += "<p>작성일 : " + result[i].wrdate + "</p>";
                 str += "<p>별점 : " + result[i].star + "</p>";
-                str += "<button type=\"button\" class=\"imageBtn" + result[i].reviewId + "\" onclick=\"appearModal(" + result[i].reviewId + ")\">사진보기</button>";
-                str += "<button type=\"button\" class=\"hideBtn" + result[i].reviewId + "\" onclick=\"disappearModal(" + result[i].reviewId + ")\">사진숨기기</button>";
-                str += "<div class=\"row\">";
-                for (let j = 0; j < result[i].reviewFileList.length; j++) {
-                    str += "<div class=\"review_file_wrap_" + result[i].reviewId + "\" data-filepath=\"" + result[i].reviewFileList[j].FILEPATH + "\" >";
-                    str += "<img class=\"review_file\">";
+                if (result[i].reviewFileList.length > 0) {
+                    str += "<button type=\"button\" class=\"showBtn" + result[i].reviewId + "\" onclick=\"appearModal(" + result[i].reviewId + ")\">사진보기</button>";
+                    str += "<button type=\"button\" class=\"hideBtn" + result[i].reviewId + "\" style=\"display:none;\" onclick=\"disappearModal(" + result[i].reviewId + ")\">사진숨기기</button>";
+                    str += "<div class=\"row\">";
+                    for (let j = 0; j < result[i].reviewFileList.length; j++) {
+                        str += "<div class=\"review_file_wrap_" + result[i].reviewId + "\" data-filepath=\"" + result[i].reviewFileList[j].FILEPATH + "\" >";
+                        str += "<img class=\"review_file\">";
+                        str += "</div>";
+                    }
                     str += "</div>";
                 }
-                str += "</div>";
                 str += "</div></div></div>";
                 str += "<hr>"
                 $("#review").append(str);
@@ -122,9 +125,10 @@ function getReviewList() {
 }
 
 function appearModal(e) {
-    const classBtn = ".imageBtn" + e;
+    const showBtn = ".showBtn" + e;
     const reviewFile = ".review_file_wrap_" + e;
-    $(classBtn).click(function(){
+    const hideBtn = ".hideBtn" + e;
+    $(showBtn).click(function(){
         $(reviewFile).each(function(i, obj) {
             $(reviewFile).show();
             const reviewObj = $(obj);
@@ -132,16 +136,21 @@ function appearModal(e) {
 
             const fileCallPath = encodeURIComponent(uploadPath);
             $(this).find(".review_file").attr('src', '/displayReview?fileName=' + fileCallPath);
-            $(this).find(".review_file").attr('style', 'width:300px; height:300px;');
+            $(this).find(".review_file").attr('style', 'width:750px; height:500px;');
+            $(hideBtn).show();
+            $(showBtn).hide();
         });
     });
 }
 
 function disappearModal(e) {
+    const showBtn = ".showBtn" + e;
     const hideBtn = ".hideBtn" + e;
     const reviewFile = ".review_file_wrap_" + e;
     $(hideBtn).click(function(){
         $(reviewFile).hide();
+        $(showBtn).show();
+        $(hideBtn).hide();
     });
 }
 

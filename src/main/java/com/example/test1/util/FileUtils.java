@@ -1,18 +1,26 @@
 package com.example.test1.util;
 
+import com.example.test1.domain.ItemImage;
 import com.example.test1.domain.ReviewFile;
+import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
@@ -51,6 +59,65 @@ public class FileUtils {
             reviewFile.setFilePath(saveFileName);
             reviewFile.setFileSize(saveFileSize);
             fileList.add(reviewFile);
+
+        }
+        return fileList;
+    }
+
+    public List<ItemImage> parseItemImageInfo(Long itemId, MultipartFile[] file) throws IOException {
+
+        List<ItemImage> fileList = new ArrayList<>();
+
+        for (int i = 0; i < file.length; i++) {
+            File checkfile = new File(file[i].getOriginalFilename());
+            String type = null;
+
+            String uploadFolder = "C:\\upload\\item";
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            String str = sdf.format(date);
+
+
+            String datePath = str.replace("-", File.separator);
+
+            File uploadPath = new File(uploadFolder, datePath);
+
+            File target = new File(uploadFolder);
+            if (!target.exists()) {
+                target.mkdirs();
+            }
+
+            ItemImage iImage = new ItemImage();
+            iImage.setItemId(itemId);
+            String uploadItemFileName = file[i].getOriginalFilename();
+            iImage.setFileName(uploadItemFileName);
+            iImage.setUpload(datePath);
+
+            String uuid = UUID.randomUUID().toString();
+            iImage.setUuid(uuid);
+
+            uploadItemFileName = uuid + "_" + uploadItemFileName;
+
+            File saveFile = new File(uploadPath, uploadItemFileName);
+
+            try {
+                file[i].transferTo(saveFile);
+
+                File thumbnailFile = new File(uploadPath, "s_" + uploadItemFileName);
+                BufferedImage bo_image = ImageIO.read(saveFile);
+
+                double ratio = 3;
+
+                int width = (int) (bo_image.getWidth() / ratio);
+                int height = (int) (bo_image.getHeight() / ratio);
+                Thumbnails.of(saveFile)
+                        .size(width, height)
+                        .toFile(thumbnailFile);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            fileList.add(iImage);
 
         }
         return fileList;

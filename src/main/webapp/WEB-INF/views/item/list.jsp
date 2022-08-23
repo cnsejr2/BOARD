@@ -109,6 +109,7 @@
 
         const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
         $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
+        $(this).find("img").attr('style', 'width:150px; height:150px;');
 
     });
     function wishBtn(id) {

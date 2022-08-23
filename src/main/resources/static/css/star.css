@@ -9,15 +9,15 @@
 #reviewForm input[type=radio]{
     display: none;
 }
-#reviewForm label{
+#reviewForm .starLabel{
     font-size: 3em;
     color: transparent;
     text-shadow: 0 0 0 #f0f0f0;
 }
-#reviewForm label:hover{
+#reviewForm .starLabel:hover{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
-#reviewForm label:hover ~ .star{
+#reviewForm .starLabel:hover ~ .star{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
 #reviewForm input[type=radio]:checked ~ label{

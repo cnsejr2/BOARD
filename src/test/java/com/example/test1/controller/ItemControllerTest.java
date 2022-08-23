@@ -1,5 +1,6 @@
 package com.example.test1.controller;
 
+import com.example.test1.domain.ItemImage;
 import com.example.test1.mapper.ItemMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,11 @@ class ItemControllerTest {
         itemIdxArray.add(Long.valueOf("23"));
 
         itemMapper.deleteMultiCartItem(itemIdxArray);
+
+    }
+
+    @Test
+    void itemFormPost() {
 
     }
 }

@@ -40,28 +40,20 @@ public class ReviewController {
         mav.addObject("itemId", id);
         return mav;
     }
-
     @RequestMapping(value = "/item/{itemId}/review/write.do", method = RequestMethod.POST)
     public String insertReview(Principal principal, Review review, MultipartFile[] file) throws IOException {
-        for (int i = 0; i < file.length; i++) {
-            logger.info("============== file start ================");
-            logger.info("파일 이름 : " + file[i].getName());
-            logger.info("파일 실제 이름 : " + file[i].getOriginalFilename());
-            logger.info("파일 크기 : " + file[i].getSize());
-            logger.info("contentType : " + file[i].getContentType());
-            logger.info("============== file end  =================");
-        }
         String user = principal.getName();
         review.setMemberId(user);
         reviewService.insertReview(review);
         Long reviewId = reviewService.getReviewId();
-
-        List<ReviewFile> fileList = fileUtils.parseFileInfo(reviewId, file);
-        for (int i = 0; i < fileList.size(); i++) {
-            reviewService.fileEnroll(fileList.get(i));
+        if (file != null) {
+            List<ReviewFile> fileList = fileUtils.parseFileInfo(reviewId, file);
+            for (int i = 0; i < fileList.size(); i++) {
+                reviewService.fileEnroll(fileList.get(i));
+            }
+            review.setReviewFileList(fileList);
         }
-        review.setReviewFileList(fileList);
-        return "redirect:/main";
+        return "redirect:/item/view/{itemId}";
     }
 
     @GetMapping("/getReviewList")

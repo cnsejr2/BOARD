@@ -16,6 +16,7 @@ public class ItemService {
     ItemMapper itemMapper;
     public List<Item> getListPaging(Criteria cri) { return itemMapper.getListPaging(cri); }
     public int getTotal() { return  itemMapper.getTotal(); }
+    public Long getItemId() { return itemMapper.getItemId(); }
     public Item selectItemDetail(Long id) { return itemMapper.selectItemDetail(id); }
     public void insertItem(Item item) { itemMapper.insertItem(item); }
     public void imageEnroll(ItemImage itemImage) { itemMapper.imageEnroll(itemImage); }

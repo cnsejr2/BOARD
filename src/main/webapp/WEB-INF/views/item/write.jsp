@@ -1,17 +1,44 @@
 <%--
   Created by IntelliJ IDEA.
   User: D-005
-  Date: 2022-07-07
-  Time: 오후 5:12
+  Date: 2022-08-17
+  Time: 오후 5:02
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>WRITE</title>
+    <title>REVIEW WRITE</title>
     <style>
         .ck-content {						/* ckeditor 높이 */
             height: 170px;
+        }
+        #result_card img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            padding: 5px;
+            margin-top: 10px;
+            margin: auto;
+        }
+        #result_card {
+            position: relative;
+        }
+        .imgDeleteBtn{
+            position: absolute;
+            top: 0;
+            right: 5%;
+            background-color: #ef7d7d;
+            color: wheat;
+            font-weight: 900;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            line-height: 26px;
+            text-align: center;
+            border: none;
+            display: block;
+            cursor: pointer;
         }
         .insert {
             padding: 20px 30px;
@@ -40,6 +67,7 @@
             margin-left: 5px;
         }
     </style>
+
     <script
             src="https://code.jquery.com/jquery-3.4.1.js"
             integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -50,132 +78,59 @@
     <link rel="stylesheet" type="text/css" href="/css/star.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-    <%@ include file="/WEB-INF/views/nav.jsp" %>
-    <section class="content">
-        <div class="container" style='width:1000px;'>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">General</h3>
-                        </div>
-                        <form id="itemForm" action="/item/write.do" method="POST">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="name">Item Name</label>
-                                    <input type="text" name="name" id="name" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="info">Item Description</label>
-                                    <textarea type="text" name="info" id="info" class="form-control" rows="4"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="price">Item Price</label>
-                                    <input type="text" placeholder="숫자만 입력가능" name="price" id="price" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                                </div>
-                                <div class="form-group">
-                                    <label for="color">Item Color</label>
-                                    <input type="text" placeholder="색명 뒤에 바로,를 쓰고 띄어쓰기를 해주세요, 예)Black, Green, " name="color" id="color" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    Item Size
-                                    <input type="checkbox" name="itemSize" id="S" value="S">S
-                                    <input type="checkbox" name="itemSize" id="M" value="M">M
-                                    <input type="checkbox" name="itemSize" id="L" value="L">L
-                                    <input type="checkbox" name="itemSize" id="XL" value="XL">XL
-                                </div>
-                                <div class="form-group">
-                                    <label for="file-list">Item Image - 최대 5장</label>
-                                    <div class="form-group" id="file-list">
-                                        <a href="#this" onclick="addFile()">파일추가</a>
-                                        <div class="file-group">
-                                            <input type="file" name="file" multiple="multiple">
-                                            <a href="#this" id="file-delete">삭제</a>
-                                        </div>
+<%@ include file="/WEB-INF/views/nav.jsp" %>
+<section class="content">
+    <div class="container" style='width:1000px;'>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">General</h3>
+                    </div>
+                    <form id="itemForm" action="/item/write.do" method="POST" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="name">Item Name</label>
+                                <input type="text" name="name" id="name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="info">Item Description</label>
+                                <textarea type="text" name="info" id="info" class="form-control" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Item Price</label>
+                                <input type="text" placeholder="숫자만 입력가능" name="price" id="price" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            <div class="form-group">
+                                <label for="color">Item Color</label>
+                                <input type="text" placeholder="색명 뒤에 바로,를 쓰고 띄어쓰기를 해주세요, 예)Black, Green, " name="color" id="color" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                Item Size
+                                <input type="checkbox" name="itemSize" id="S" value="S">S
+                                <input type="checkbox" name="itemSize" id="M" value="M">M
+                                <input type="checkbox" name="itemSize" id="L" value="L">L
+                                <input type="checkbox" name="itemSize" id="XL" value="XL">XL
+                            </div>
+                            <div class="form-group">
+                                <label for="file-list">Item Image File - 최대 5장 추가 가능</label>
+                                <div class="form-group" id="file-list">
+                                    <a href="#this" onclick="addFile()">파일추가</a>
+                                    <div class="file-group">
+                                        <input type="file" name="file" onchange="fileUpload()" multiple="multiple">
+                                        <a href="#this" id="file-delete">삭제</a>
                                     </div>
                                 </div>
                             </div>
-                            <input type="button" class="btn btn-outline-primary btn-sm write_button" value="등록하기" />
-                        </form>
-                    </div>
+                        </div>
+                        <input type="button" class="btn btn-outline-primary btn-sm write_button" value="등록하기" />
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
-    <%@ include file="/WEB-INF/views/footer.jsp" %>
-<script>
-    let theEditor = "";
-    ClassicEditor
-        .create(document.querySelector('#info'))
-        .then( contents => {
-            theEditor = contents;
-        })
-        .catch(error=>{
-            console.error(error);
-        });
-
-    let nameCheck = false;            // 이름
-    let infoCheck = false;            // 이메일
-    let imageCheck = true;           // 이미지
-    let sizeCheck = false;           // 사이즈
-    $(document).ready(function() {
-        $(".write_button").click(function () {
-            console.log("쓰기 클릭");
-            const name = $('#name').val();                 // id 입력란
-            const info = theEditor.getData();
-            const image = $('#name').val();
-
-            if (name == "") {
-                nameCheck = false;
-            } else {
-                nameCheck = true;
-            }
-            if (info == "") {
-                infoCheck = false;
-            } else {
-                infoCheck = true;
-            }
-            const arr = new Array();
-
-            $('input:checkbox[name=itemSize]:checked').each(function() {
-                arr.push(this.value);
-            });
-            if (arr.length == 0) {
-                sizeCheck = false;
-            } else {
-                sizeCheck = true;
-            }
-            if ( nameCheck&&infoCheck&&imageCheck&&sizeCheck ) {
-                console.log("Error O");
-                //회원가입 버튼(회원가입 기능 작동
-                $("#itemForm").attr("action", "/item/write.do");
-                $("#itemForm").submit();
-            } else {
-                alert("제목과 내용, 사이즈, 이미지를 모두 입력해주세요");
-            }
-            return false;
-        });
-        $("a[id='file-delete']").on("click", function(e) {
-            e.preventDefault();
-            deleteFile($(this));
-        });
-    });
-    let fileNo = 0;
-    function addFile() {
-        console.log("addFile 실행됨");
-        let str = "";
-        str += "<div class=\"file-group\"><input type=\"file\" name=\"file\">";
-        str += "<a href=\"#this\" id=\"file-delete\">삭제<a></div>";
-        $("#file-list").append(str);
-        $("a[id='file-delete']").on("click", function(e) {
-            e.preventDefault();
-            deleteFile($(this));
-        });
-    }
-    function deleteFile(obj) {
-        obj.parent().remove();
-    }
-
-</script>
+    </div>
+</section>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
+<script type="text/javascript" src="/js/item/write.js"></script>
 </body>
 </html>

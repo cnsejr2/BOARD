@@ -11,24 +11,10 @@
     <title>Title</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
-
-    <style>
-        .modal{
-            position:absolute; width:100px; height:100px; background: rgba(199, 199, 199, 0.29); top:0; left:0; display:none;
-        }
-        .modal_content{
-            width:600px; height:400px;
-            background:#fff; border-radius:10px;
-            position:relative; top:35%; left:50%;
-            margin-top:-100px; margin-left:-200px;
-            text-align:center;
-            box-sizing:border-box; padding:74px 0;
-            line-height:23px; cursor:pointer;
-        }
-
-    </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <%@ include file="/WEB-INF/views/nav.jsp" %>
@@ -49,27 +35,33 @@
             </div>
         </section>
 
-        <!-- Main content -->
         <section class="content">
             <form>
-                <!-- Default box -->
                 <div class="card card-solid">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <h3 class="d-inline-block d-sm-none"></h3>
-                                <div>
-                                    <div class="image_wrap" data-itemid="${item.imageList[0].itemId}" data-path="${item.imageList[0].upload}" data-uuid="${item.imageList[0].uuid}" data-filename="${item.imageList[0].fileName}">
-                                        <img>
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active image_wrap" data-itemid="${item.imageList[0].itemId}" data-path="${item.imageList[0].upload}" data-uuid="${item.imageList[0].uuid}" data-filename="${item.imageList[0].fileName}">
+                                            <img>
+                                        </div>
+                                        <c:forEach var="item" items="${item.imageList}" begin="1">
+                                            <div class="carousel-item image_wrap" data-itemid="${item.itemId}" data-path="${item.upload}" data-uuid="${item.uuid}" data-filename="${item.fileName}">
+                                                <img>
+                                            </div>
+                                        </c:forEach>
                                     </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
                                 </div>
-    <%--                            <div class="col-12 product-image-thumbs">--%>
-    <%--                                <div class="product-image-thumb active"><img src="../../dist/img/prod-1.jpg" alt="Product Image"></div>--%>
-    <%--                                <div class="product-image-thumb" ><img src="../../dist/img/prod-2.jpg" alt="Product Image"></div>--%>
-    <%--                                <div class="product-image-thumb" ><img src="../../dist/img/prod-3.jpg" alt="Product Image"></div>--%>
-    <%--                                <div class="product-image-thumb" ><img src="../../dist/img/prod-4.jpg" alt="Product Image"></div>--%>
-    <%--                                <div class="product-image-thumb" ><img src="../../dist/img/prod-5.jpg" alt="Product Image"></div>--%>
-    <%--                            </div>--%>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <h3 class="my-3">${item.name}</h3>
@@ -98,7 +90,6 @@
                                 <h4 class="mt-3">Size <small>Please select one</small></h4>
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <!-- select -->
                                         <div class="form-group">
                                             <label>
                                                 Select
@@ -145,7 +136,7 @@
                                         <i class="fas fa-heart fa-lg mr-2"></i>
                                         Add to Wishlist
                                     </div>
-                                    <a href="/item/${item.id}/review/write.do"> 리뷰작성
+                                    <a href="/item/${item.id}/review/write.do"> 리뷰작성</a>
 
                                 </div>
                                 <div class="mt-4 product-share">
@@ -170,30 +161,12 @@
                                 <div class="nav nav-tabs" id="product-tab" role="tablist">
                                     <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
                                     <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Review</a>
-                                    <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>
                                 </div>
                             </nav>
                             <div class="tab-content p-3" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab"> ${item.info} | ${item.regDate}</div>
                                 <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
                                     <div class="card-body" id="review">
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-8">
-                                            <div class="row">
-                                                <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" class="col-sm-4" data-title="모달 제목" data-footer="모달 푸터내용">
-                                                    <img src="https://unsplash.it/600.jpg?image=251" class="img-fluid rounded">
-                                                </a>
-                                                <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
-                                                    <img src="https://unsplash.it/600.jpg?image=252" class="img-fluid rounded">
-                                                </a>
-                                                <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
-                                                    <img src="https://unsplash.it/600.jpg?image=253" class="img-fluid rounded">
-                                                </a>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +189,7 @@
     let itemColor = $("#color-select").val();
     let itemCnt = $("#cnt-select").val();
     let itemId = ${item.id};
-    let itemName = ${item.name};
+    let itemName = '${item.name}';
     let itemPrice = ${item.price};
 </script>
 <script type="text/javascript" src="/js/item/view.js"></script>

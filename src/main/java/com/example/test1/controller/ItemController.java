@@ -3,14 +3,17 @@ package com.example.test1.controller;
 import com.example.test1.domain.*;
 import com.example.test1.service.ItemImageService;
 import com.example.test1.service.ItemService;
+import com.example.test1.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -24,23 +27,26 @@ public class ItemController {
     ItemService itemService;
     @Resource
     ItemImageService itemImageService;
+    @Resource
+    FileUtils fileUtils;
     @GetMapping("/item/write.do")
     public String itemForm() {
-        return "write2";
+        return "/item/write";
     }
 
     @PostMapping("/item/write.do")
     @ResponseBody
-    public ModelAndView itemFormPost(Item item, Principal principal, Criteria cri) {
-        logger.info("item: " + item);
-        logger.info("itemSize: " + item.getItemSize());
+    public ModelAndView itemFormPost(Item item, MultipartFile[] file) throws IOException {
         itemService.insertItem(item);
-        if (!(item.getImageList() == null || item.getImageList().size() <= 0)) {
-            item.getImageList().forEach(attach ->{
-                itemService.imageEnroll(attach);
-            });
+        Long itemId = itemService.getItemId();
+        logger.info("file : " + file);
+        if (file != null) {
+            List<ItemImage> fileList = fileUtils.parseItemImageInfo(itemId, file);
+            for (int i = 0; i < fileList.size(); i++) {
+                itemService.imageEnroll(fileList.get(i));
+            }
         }
-        ModelAndView mav = new ModelAndView("redirect:/main");
+        ModelAndView mav = new ModelAndView("redirect:/admin/main");
         List<Item> itemList = itemService.findAll();
         mav.addObject("itemList", itemList);
         List<ItemImage> itemImageList = itemImageService.findAllImage();

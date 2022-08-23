@@ -14,6 +14,7 @@ public interface ItemMapper {
 
     List<Item> getListPaging(Criteria cri);
     int getTotal();
+    Long getItemId();
     Item selectItemDetail(Long id);
     void insertItem(Item item);
     void imageEnroll(ItemImage itemImage);

@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .csrf()
                     .disable()
                     .authorizeRequests()
-                        .antMatchers("/css/**").permitAll()
+                        .antMatchers("/css/**", "/js/**").permitAll()
                         .antMatchers("/security/login/**", "/resources/css/**")
                             .permitAll()
                         .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")

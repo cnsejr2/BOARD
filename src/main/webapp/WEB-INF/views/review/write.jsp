@@ -92,16 +92,16 @@
                             <div class="card-body">
                                 <fieldset>
                                     <span class="text-bold">별점을 선택해주세요</span>
-                                    <input type="radio" name="reviewStar" value="5" id="rate1"><label
-                                        for="rate1">★</label>
-                                    <input type="radio" name="reviewStar" value="4" id="rate2"><label
-                                        for="rate2">★</label>
-                                    <input type="radio" name="reviewStar" value="3" id="rate3"><label
-                                        for="rate3">★</label>
-                                    <input type="radio" name="reviewStar" value="2" id="rate4"><label
-                                        for="rate4">★</label>
-                                    <input type="radio" name="reviewStar" value="1" id="rate5"><label
-                                        for="rate5">★</label>
+                                    <input type="radio" name="star" value="5" id="rate1"><label
+                                        for="rate1" class="starLabel">★</label>
+                                    <input type="radio" name="star" value="4" id="rate2"><label
+                                        for="rate2" class="starLabel">★</label>
+                                    <input type="radio" name="star" value="3" id="rate3"><label
+                                        for="rate3" class="starLabel">★</label>
+                                    <input type="radio" name="star" value="2" id="rate4"><label
+                                        for="rate4" class="starLabel">★</label>
+                                    <input type="radio" name="star" value="1" id="rate5"><label
+                                        for="rate5" class="starLabel">★</label>
                                 </fieldset>
                                 <div class="form-group">
                                     <label for="content">Review</label>
@@ -126,54 +126,6 @@
         </div>
     </section>
     <%@ include file="/WEB-INF/views/footer.jsp" %>
-<script>
-    let theEditor = "";
-    ClassicEditor
-        .create(document.querySelector('#content'))
-        .then( content => {
-            theEditor = content;
-        })
-        .catch(error=>{
-            console.error(error);
-        });
-    let rCheck = false;            // 이름
-    $(document).ready(function() {
-        $(".write_button").click(function () {
-            console.log("리뷰 작성 버튼")
-            const content = theEditor.getData();
-            if (content == "") {
-                rCheck = false;
-            } else {
-                rCheck = true;
-            }
-
-            if ( rCheck ) {
-                $("#reviewForm").attr("action", "/item/${itemId}/review/write.do");
-                $("#reviewForm").submit();
-            } else {
-                alert("제목과 내용을 모두 입력해주세요");
-            }
-            return false;
-        });
-        $("a[id='file-delete']").on("click", function(e) {
-            e.preventDefault();
-            deleteFile($(this));
-        });
-    });
-    function addFile() {
-        console.log("addFile 실행됨");
-        let str = "";
-        str += "<div class=\"file-group\"><input type=\"file\" name=\"file\">";
-        str += "<a href=\"#this\" id=\"file-delete\">삭제<a></div>";
-        $("#file-list").append(str);
-        $("a[id='file-delete']").on("click", function(e) {
-            e.preventDefault();
-            deleteFile($(this));
-        });
-    }
-    function deleteFile(obj) {
-        obj.parent().remove();
-    }
-</script>
+<script type="text/javascript" src="/js/review/write.js"></script>
 </body>
 </html>
