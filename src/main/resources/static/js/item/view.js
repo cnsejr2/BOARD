@@ -1,9 +1,9 @@
 
 $(document).ready(function () {
-    getReviewList();
 
+    getReviewList();
     $(".cartBtn").click(function() {
-        if (itemColor == "" || itemSize == "") {
+        if ($("#color-select").val() == "" || $("#size-select").val() == "") {
             alert("사이즈와 색상을 선택해주세요")
         } else {
             cartItem()
@@ -14,7 +14,6 @@ $(document).ready(function () {
         wishBtn()
     })
 });
-
 
 function wishBtn() {
     $.ajax({
@@ -40,8 +39,8 @@ function cartItem() {
     $.ajax({
         type : "GET",
         url : "/item/saveCartItem",
-        data : {'id' : itemId, 'itemSize' : itemSize, 'itemColor' : itemColor,
-            'itemCnt' : itemCnt, 'itemName' : itemName, 'itemPrice' : itemPrice},
+        data : {'id' : itemId, 'itemSize' : $("#size-select").val(), 'itemColor' : $("#color-select").val(),
+            'itemCnt' : $("#cnt-select").val(), 'itemName' : itemName, 'itemPrice' : itemPrice},
         success : function(cartCheck) {
             if (cartCheck != 1) {
                 if (!confirm("장바구니 추가 완료! 장바구니로 이동하시겠습니까?")) {

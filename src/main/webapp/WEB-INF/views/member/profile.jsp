@@ -116,7 +116,7 @@
                     <%@ include file="/WEB-INF/views/security/list.jsp" %>
                   </div>
                   <div class="${type == 4 ? "active":"" } tab-pane" id="MyReview">
-                    <%@ include file="/WEB-INF/views/security/review/list.jsp" %>
+                    <%@ include file="/WEB-INF/views/member/reviewList.jsp" %>
                   </div>
                 </div>
               </div>

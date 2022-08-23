@@ -33,6 +33,9 @@
                             <tr>
                                 <th>ITEM</th>
                                 <th style="width: 60px">COUNT</th>
+                                <c:if test="${order.state == 2}">
+                                <th>REVIEW</th>
+                                </c:if>
                             </tr>
                             </thead>
                             <tbody>
@@ -60,6 +63,11 @@
                                     <td>
                                         <p><span class="info-box-text">${item.cnt}</span></p>
                                     </td>
+                                    <c:if test="${order.state == 2}">
+                                    <td>
+                                        <p><span class="info-box-text"><a href="/item/${item.id}/review/write.do"> 리뷰작성</a></span></p>
+                                    </td>
+                                    </c:if>
                                 </tr>
                             </c:forEach>
                             </tbody>

@@ -2,11 +2,14 @@ package com.example.test1.controller;
 
 import com.example.test1.domain.AttachImage;
 import com.example.test1.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.Resource;
@@ -16,7 +19,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+@Controller
+@Slf4j
+@EnableScheduling
 public class AdminFileController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

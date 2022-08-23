@@ -21,5 +21,6 @@ public interface OrderMapper {
     int hadCartItem(@Param("mId") String user);
     void deleteOrder(@Param("orderId") String orderId);
     void updateCartItem(Long cartItemId);
+    List<OrderList> selectOrderListByMemberId(String memberId);
 
 }

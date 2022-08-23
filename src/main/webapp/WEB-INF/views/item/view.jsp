@@ -78,9 +78,9 @@
                                                 <select id="color-select" class="form-control">
                                                     <option value="">Check Color</option>
                                                     <c:forEach var="color" items="${iColor}">
-                                                        <option id="color_${color}" value="${color}" class="fas"
-                                                                style="font-size:15px; color:${color};"> ${color}
-                                                        </option>
+                                                    <option id="color_${color}" value="${color}" class="fas"
+                                                            style="font-size:15px; color:${color};"> ${color}
+                                                    </option>
                                                     </c:forEach>
                                                 </select>
                                             </label>
@@ -93,12 +93,12 @@
                                         <div class="form-group">
                                             <label>
                                                 Select
-                                                <select id="size-select" class="form-control">
+                                                <select id="size-select" class="form-control" name="location">
                                                     <option value="">Check Size</option>
                                                     <c:forEach var="size" items="${iSize}">
-                                                        <option id="size_${size}" value="${size}" class="fas"
-                                                                style="font-size:15px; color:${color};"> ${size}
-                                                        </option>
+                                                    <option id="size_${size}" value="${size}" class="fas"
+                                                            style="font-size:15px; color:${color};"> ${size}
+                                                    </option>
                                                     </c:forEach>
                                                 </select>
                                             </label>
@@ -176,7 +176,6 @@
             </form>
         </section>
     </div>
-
     <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <%--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>--%>
@@ -185,9 +184,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 <script>
-    let itemSize = $("#size-select").val();
-    let itemColor = $("#color-select").val();
-    let itemCnt = $("#cnt-select").val();
     let itemId = ${item.id};
     let itemName = '${item.name}';
     let itemPrice = ${item.price};

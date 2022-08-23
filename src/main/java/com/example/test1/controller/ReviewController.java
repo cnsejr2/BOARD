@@ -53,7 +53,7 @@ public class ReviewController {
             }
             review.setReviewFileList(fileList);
         }
-        return "redirect:/item/view/{itemId}";
+        return "redirect:/item/view/" + review.getReviewId();
     }
 
     @GetMapping("/getReviewList")
@@ -64,7 +64,6 @@ public class ReviewController {
             Long reviewId = review.getReviewId();
             List<ReviewFile> reFileList = reviewFileService.getReviewFile(reviewId);
             review.setReviewFileList(reFileList);
-            logger.info("이미지 : " + review.getReviewFileList());
         });
         return rList;
     }

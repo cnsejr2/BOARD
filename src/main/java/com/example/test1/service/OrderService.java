@@ -24,6 +24,7 @@ public class OrderService {
     public int hadCartItem(String user) { return orderMapper.hadCartItem(user); }
     public void deleteOrder(String orderId) { orderMapper.deleteOrder(orderId); }
     public void updateCartItem(Long cartItemId) { orderMapper.updateCartItem(cartItemId); }
+    public List<OrderList> selectOrderListByMemberId(String memberId) { return orderMapper.selectOrderListByMemberId(memberId); }
 
 
 }

@@ -4,8 +4,11 @@ import com.example.test1.domain.CartItem;
 import com.example.test1.domain.Order;
 import com.example.test1.domain.OrderList;
 import com.example.test1.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +19,9 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+@Controller
+@Slf4j
+@EnableScheduling
 public class AdminOrderController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -36,7 +42,8 @@ public class AdminOrderController {
 
     @GetMapping("/admin/order/info")
     public ModelAndView adminOrderInfo(@RequestParam("orderId") String orderId,
-                                       @RequestParam("memberId") String memberId) {
+                                       @RequestParam("memberId") String memberId,
+                                       @RequestParam(value = "review" , required = false) String review) {
         ModelAndView mav = new ModelAndView("/admin/order/info");
 
         String orderItem = orderService.selectOrderItemId(orderId);
@@ -52,7 +59,7 @@ public class AdminOrderController {
         logger.info("order : " + order);
         mav.addObject("order", order);
         mav.addObject("cList", cList);
-
+        mav.addObject("review", review);
         return mav;
     }
 

@@ -5,20 +5,12 @@ import com.example.test1.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.net.URLDecoder;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -37,6 +29,8 @@ public class AdminController {
     ItemService itemService;
     @Resource
     ItemImageService itemImageService;
+    @Resource
+    OrderService orderService;
 
     @GetMapping("/admin/board/list")
     public ModelAndView boardForm() {
@@ -63,13 +57,14 @@ public class AdminController {
     public ModelAndView viewMemberProfile(@PathVariable("id") String id,
                                           @RequestParam(value = "type", defaultValue = "") String type,
                                           Criteria cri) throws Exception {
-        ModelAndView mav = new ModelAndView("security/profile");
+        ModelAndView mav = new ModelAndView("member/profile");
 
         SecurityMember sMember = adminService.findMember(id);
         mav.addObject("member", sMember);
         Criteria boardCri = new Criteria(1, 5);
         Criteria commentCri = new Criteria(1, 5);
         Criteria wishCri = new Criteria(1, 5);
+        Criteria orderCri = new Criteria(1, 5);
         int num = 0;
         if (type.equals("board")) {
             boardCri = cri;
@@ -79,6 +74,9 @@ public class AdminController {
         } else if (type.equals("wish")) {
             wishCri = cri;
             num = 2;
+        } else if (type.equals("order")) {
+            wishCri = cri;
+            num = 3;
         }
 
         List<Board> bList = boardService.getListPagingByWriter(id, boardCri);
@@ -112,6 +110,9 @@ public class AdminController {
         mav.addObject("wList", wList);
         Paging pageWishMake = new Paging(commentCri, wTotal);
         mav.addObject("pageWishMake", pageWishMake);
+
+        List<OrderList> oList = orderService.selectOrderListByMemberId(id);
+        mav.addObject("oList", oList);
 
         mav.addObject("type", num);
 

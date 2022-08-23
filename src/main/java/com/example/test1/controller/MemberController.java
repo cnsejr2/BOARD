@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,7 +39,7 @@ public class MemberController {
     public ModelAndView goMyProfile(Principal principal,
                                     @RequestParam(value = "type", defaultValue = "") String type,
                                     Criteria cri) throws Exception {
-        ModelAndView mav = new ModelAndView("security/profile");
+        ModelAndView mav = new ModelAndView("member/profile");
 
         String id = principal.getName();
 

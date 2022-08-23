@@ -46,16 +46,16 @@
             <div class="pageInfo_area">
                 <ul id="pageInfo" class="pageInfo">
                     <!-- 이전페이지 버튼 -->
-                    <c:if test="${pageMake.prev}">
-                        <li class="pageInfo_btn previous"><a href="${pageMake.startPage-1}">Previous</a></li>
+                    <c:if test="${pageWishMake.prev}">
+                        <li class="pageInfo_btn previous"><a href="${pageWishMake.startPage-1}">Previous</a></li>
                     </c:if>
                     <!-- 각 번호 페이지 버튼 -->
-                    <c:forEach var="num" begin="${pageMake.startPage}" end="${pageMake.endPage}">
-                        <li class="pageInfo_btn ${pageMake.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
+                    <c:forEach var="num" begin="${pageWishMake.startPage}" end="${pageWishMake.endPage}">
+                        <li class="pageInfo_btn ${pageWishMake.cri.pageNum == num ? "active":"" }"><a href="${num}">${num}</a></li>
                     </c:forEach>
                     <!-- 다음페이지 버튼 -->
-                    <c:if test="${pageMake.next}">
-                        <li class="pageInfo_btn next"><a href="${pageMake.endPage + 1 }">Next</a></li>
+                    <c:if test="${pageWishMake.next}">
+                        <li class="pageInfo_btn next"><a href="${pageWishMake.endPage + 1 }">Next</a></li>
                     </c:if>
                 </ul>
             </div>

@@ -62,4 +62,9 @@
         </set>
         where cartItemId = #{cartItemId, jdbcType=NUMERIC}
     </update>
+
+    <select id="selectOrderListByMemberId" resultType="java.util.HashMap">
+        SELECT ORDERID as "orderId", MEMBERID as "memberId", CARTITEMID as "cartItemId", STATE as "state" FROM LYE_ORDER_LIST
+        WHERE memberId = #{memberId, jdbcType=VARCHAR}
+    </select>
 </mapper>
