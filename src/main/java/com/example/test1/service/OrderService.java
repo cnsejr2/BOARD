@@ -19,13 +19,21 @@ public class OrderService {
     public void registerOrder(Order order) { orderMapper.registerOrder(order); }
     public void insertOrderItem(String orderId, String itemIds, String memberId) { orderMapper.insertOrderItem(orderId, itemIds, memberId); }
     public String selectOrderItemId(String orderId) { return orderMapper.selectOrderItemId(orderId); }
-    public String selectOrderItemIdBymId(String orderId, String mId) { return orderMapper.selectOrderItemIdBymId(orderId, mId); }
-    public CartItem findCartItem(Long cartItemId) { return orderMapper.findCartItem(cartItemId); }
+     public CartItem findCartItem(Long cartItemId) { return orderMapper.findCartItem(cartItemId); }
     public Order selectOrder(String orderId) { return orderMapper.selectOrder(orderId); }
     public int hadCartItem(String user) { return orderMapper.hadCartItem(user); }
     public void deleteOrder(String orderId) { orderMapper.deleteOrder(orderId); }
     public void updateCartItem(Long cartItemId) { orderMapper.updateCartItem(cartItemId); }
     public List<OrderList> selectOrderListByMemberId(String memberId) { return orderMapper.selectOrderListByMemberId(memberId); }
-
+    public List<CartItem> selectCartList(String orderId) {
+        String orderItem = selectOrderItemId(orderId);
+        String[] orderItemId = orderItem.split(",");
+        List<CartItem> cList = new ArrayList<>();
+        for (String oItem : orderItemId) {
+            CartItem cItem = findCartItem(Long.parseLong(oItem));
+            cList.add(cItem);
+        }
+        return cList;
+    }
 
 }

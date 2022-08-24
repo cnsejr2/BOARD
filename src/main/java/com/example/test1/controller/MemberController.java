@@ -105,15 +105,8 @@ public class MemberController {
                                         @RequestParam(value = "review" , required = false) String review) {
         ModelAndView mav = new ModelAndView("/order/info");
 
-        String orderItem = orderService.selectOrderItemId(orderId);
-        String[] orderItemId = orderItem.split(",");
-        List<CartItem> cList = new ArrayList<>();
-        int amount = 0;
-        for (String oItem : orderItemId) {
-            CartItem cItem = orderService.findCartItem(Long.parseLong(oItem));
-            cList.add(cItem);
-            amount += (cItem.getItemPrice() * cItem.getCnt());
-        }
+        List<CartItem> cList = orderService.selectCartList(orderId);
+
         Order order = orderService.selectOrder(orderId);
         mav.addObject("state", review);
         mav.addObject("order", order);

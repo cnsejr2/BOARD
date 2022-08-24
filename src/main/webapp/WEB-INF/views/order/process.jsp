@@ -42,6 +42,7 @@
                                             <input type="hidden" class="individual_price_input" value="${item.itemPrice}">
                                             <input type="hidden" class="individual_cnt_input" value="${item.cnt}">
                                             <input type="hidden" class="individual_total_input" value="${item.cnt * item.itemPrice}">
+                                            <c:set var="total" value="${total + (item.cnt * item.itemPrice) }" />
                                         </div>
                                         <td>
                                             <table class="table-borderless">
@@ -68,7 +69,7 @@
                             <thead>
                             <tr>
                                 <th>총 합</th>
-                                <th style="width: 500px">${item.cnt * item.itemPrice}</th>
+                                <th style="width: 500px"><c:out value="${ total }원"></c:out></th>
                             </tr>
                             </thead>
 

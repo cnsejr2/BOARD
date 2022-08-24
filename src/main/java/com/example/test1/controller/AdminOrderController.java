@@ -45,15 +45,8 @@ public class AdminOrderController {
                                        @RequestParam("memberId") String memberId) {
         ModelAndView mav = new ModelAndView("/admin/order/info");
 
-        String orderItem = orderService.selectOrderItemId(orderId);
-        String[] orderItemId = orderItem.split(",");
-        List<CartItem> cList = new ArrayList<>();
-        int amount = 0;
-        for (String oItem : orderItemId) {
-            CartItem cItem = orderService.findCartItem(Long.parseLong(oItem));
-            cList.add(cItem);
-            amount += (cItem.getItemPrice() * cItem.getCnt());
-        }
+        List<CartItem> cList = orderService.selectCartList(orderId);
+
         Order order = orderService.selectOrder(orderId);
         mav.addObject("order", order);
         mav.addObject("cList", cList);
