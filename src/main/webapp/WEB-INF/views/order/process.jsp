@@ -68,7 +68,7 @@
                             <thead>
                             <tr>
                                 <th>총 합</th>
-                                <th style="width: 500px">${amount}</th>
+                                <th style="width: 500px">${item.cnt * item.itemPrice}</th>
                             </tr>
                             </thead>
 

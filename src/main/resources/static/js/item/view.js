@@ -135,7 +135,7 @@ function appearModal(e) {
 
             const fileCallPath = encodeURIComponent(uploadPath);
             $(this).find(".review_file").attr('src', '/displayReview?fileName=' + fileCallPath);
-            $(this).find(".review_file").attr('style', 'width:750px; height:500px;');
+            $(this).find(".review_file").attr('style', 'width:350px; height:300px;');
             $(hideBtn).show();
             $(showBtn).hide();
         });

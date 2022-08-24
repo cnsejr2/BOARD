@@ -66,7 +66,6 @@
                             <div class="col-12 col-sm-6">
                                 <h3 class="my-3">${item.name}</h3>
                                 <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.</p>
-
                                 <hr>
                                 <h4>Available Colors</h4>
                                 <div class="row">
@@ -136,8 +135,6 @@
                                         <i class="fas fa-heart fa-lg mr-2"></i>
                                         Add to Wishlist
                                     </div>
-                                    <a href="/item/${item.id}/review/write.do"> 리뷰작성</a>
-
                                 </div>
                                 <div class="mt-4 product-share">
                                     <a href="#" class="text-gray">

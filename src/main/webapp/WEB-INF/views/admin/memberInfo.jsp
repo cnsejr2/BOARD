@@ -62,7 +62,7 @@
                                         <div class="btn btn-sm bg-teal" onclick="deleteMember('${member.ID}')">
                                             <i class="fas fa-eraser"></i>
                                         </div>
-                                        <a href="/admin/profile/${member.ID}" class="btn btn-sm btn-primary">
+                                        <a href="/member/profile/${member.ID}" class="btn btn-sm btn-primary">
                                             <i class="fas fa-user"></i> View Profile
                                         </a>
                                     </div>

@@ -26,7 +26,7 @@ public class OrderController {
     OrderService orderService;
 
     @RequestMapping(value="/order/process/{orderId}", method = RequestMethod.GET)
-    public ModelAndView processOrder1(Principal principal,
+    public ModelAndView processOrder2(Principal principal,
                                      @PathVariable("orderId") String orderId) throws Exception {
         String user = principal.getName();
         ModelAndView mav = new ModelAndView("/order/process");
@@ -69,7 +69,7 @@ public class OrderController {
 
     @PostMapping("/cart/order")
     @ResponseBody
-    public String processOrder2(@RequestBody List<Long> itemIdxArray, Principal principal){
+    public String processOrder1(@RequestBody List<Long> itemIdxArray, Principal principal){
 
         String user = principal.getName();
         Calendar cal = Calendar.getInstance();
@@ -93,5 +93,28 @@ public class OrderController {
         orderService.insertOrderItem(orderId, itemIds, user);
 
         return orderId;
+    }
+
+    @GetMapping("/profile/order/info")
+    public ModelAndView memberOrderInfo(@RequestParam("orderId") String orderId,
+                                       @RequestParam("memberId") String memberId,
+                                       @RequestParam(value = "review" , required = false) String review) {
+        ModelAndView mav = new ModelAndView("/order/info");
+
+        String orderItem = orderService.selectOrderItemId(orderId);
+        String[] orderItemId = orderItem.split(",");
+        List<CartItem> cList = new ArrayList<>();
+        int amount = 0;
+        for (String oItem : orderItemId) {
+            CartItem cItem = orderService.findCartItem(Long.parseLong(oItem));
+            cList.add(cItem);
+            amount += (cItem.getItemPrice() * cItem.getCnt());
+        }
+        Order order = orderService.selectOrder(orderId);
+        mav.addObject("state", review);
+        mav.addObject("order", order);
+        mav.addObject("cList", cList);
+        mav.addObject("review", review);
+        return mav;
     }
 }

@@ -39,6 +39,10 @@
         SELECT CARTITEMID FROM LYE_ORDER_LIST WHERE orderId = #{orderId, jdbcType=VARCHAR}
     </select>
 
+    <select id="selectOrderItemIdBymId" resultType="String">
+        SELECT CARTITEMID FROM LYE_ORDER_LIST WHERE orderId = #{orderId, jdbcType=VARCHAR}
+    </select>
+
     <select id="findCartItem" parameterType="Long" resultType="com.example.test1.domain.CartItem">
         SELECT * FROM LYE_ITEM_CART WHERE cartItemId = #{cartItemId, jdbcType=NUMERIC}
     </select>

@@ -16,6 +16,7 @@ public interface OrderMapper {
     void registerOrder(Order order);
     void insertOrderItem(@Param("orderId") String orderId, @Param("itemIds") String itemIdxArray, @Param("memberId") String memberId);
     String selectOrderItemId(String orderId);
+    String selectOrderItemIdBymId(String orderId, String mId);
     CartItem findCartItem(Long cartItemId);
     Order selectOrder(String orderId);
     int hadCartItem(@Param("mId") String user);

@@ -34,7 +34,7 @@ public class AdminController {
 
     @GetMapping("/admin/board/list")
     public ModelAndView boardForm() {
-        ModelAndView mav = new ModelAndView("/admin/myList");
+        ModelAndView mav = new ModelAndView("member/myList");
         List<Board> bList = boardService.findAll();
         mav.addObject("bList", bList);
         return mav;

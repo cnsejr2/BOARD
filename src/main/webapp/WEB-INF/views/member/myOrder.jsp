@@ -25,7 +25,7 @@
             <tbody>
                 <c:forEach var="order" items="${oList}">
                 <tr>
-                    <td><a href="/admin/order/info?orderId=${order.orderId}&memberId=${order.memberId}">${order.orderId}</a></td>
+                    <td><a href="/profile/order/info?orderId=${order.orderId}&memberId=${order.memberId}&review=${order.state}">${order.orderId}</a></td>
                     <td>${order.memberId}</td>
                     <td>
                         <div class="btn-group">
@@ -46,7 +46,7 @@
 
     $(document).ready(function () {
         $(".reviewBtn").click(function() {
-
+            location.href="/item/${item.id}/review/write.do";
         })
     });
 

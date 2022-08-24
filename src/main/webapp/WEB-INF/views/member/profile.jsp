@@ -104,19 +104,19 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="${type == 0 ? "active":"" } tab-pane" id="MyBoard">
-                    <%@ include file="/WEB-INF/views/admin/myList.jsp" %>
+                    <%@ include file="/WEB-INF/views/member/myList.jsp" %>
                   </div>
                   <div class="${type == 1 ? "active":"" } tab-pane" id="MyComment">
-                    <%@ include file="/WEB-INF/views/admin/myComment.jsp" %>
+                    <%@ include file="/WEB-INF/views/member/myComment.jsp" %>
                   </div>
                   <div class="${type == 2 ? "active":"" } tab-pane" id="MyWish">
-                    <%@ include file="/WEB-INF/views/admin/myWish.jsp" %>
+                    <%@ include file="/WEB-INF/views/member/myWish.jsp" %>
                   </div>
                   <div class="${type == 3 ? "active":"" } tab-pane" id="MyOrder">
-                    <%@ include file="/WEB-INF/views/security/list.jsp" %>
+                    <%@ include file="/WEB-INF/views/member/myOrder.jsp" %>
                   </div>
                   <div class="${type == 4 ? "active":"" } tab-pane" id="MyReview">
-                    <%@ include file="/WEB-INF/views/member/reviewList.jsp" %>
+                    <%@ include file="/WEB-INF/views/member/myReview.jsp" %>
                   </div>
                 </div>
               </div>

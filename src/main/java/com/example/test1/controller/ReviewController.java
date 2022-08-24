@@ -40,7 +40,7 @@ public class ReviewController {
         mav.addObject("itemId", id);
         return mav;
     }
-    @RequestMapping(value = "/item/{itemId}/review/write.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/item/review/write.do", method = RequestMethod.POST)
     public String insertReview(Principal principal, Review review, MultipartFile[] file) throws IOException {
         String user = principal.getName();
         review.setMemberId(user);
@@ -53,7 +53,7 @@ public class ReviewController {
             }
             review.setReviewFileList(fileList);
         }
-        return "redirect:/item/view/" + review.getReviewId();
+        return "redirect:/item/view/" + review.getItemId();
     }
 
     @GetMapping("/getReviewList")

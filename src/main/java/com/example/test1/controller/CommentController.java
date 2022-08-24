@@ -50,7 +50,6 @@ public class CommentController {
         return "redirect:/board/view/" + id;
     }
 
-    /* 게시글 삭제 페이지 */
     @RequestMapping(value="/comment/delete", method = RequestMethod.GET)
     public String deleteComment(@RequestParam("id") Long id,
                               @RequestParam("bid") Long bid) throws Exception {

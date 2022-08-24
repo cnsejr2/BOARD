@@ -31,7 +31,7 @@ public class ItemController {
     FileUtils fileUtils;
     @GetMapping("/item/write.do")
     public String itemForm() {
-        return "/item/write";
+        return "admin/write";
     }
 
     @PostMapping("/item/write.do")

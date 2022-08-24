@@ -56,7 +56,6 @@ public class AdminOrderController {
             amount += (cItem.getItemPrice() * cItem.getCnt());
         }
         Order order = orderService.selectOrder(orderId);
-        logger.info("order : " + order);
         mav.addObject("order", order);
         mav.addObject("cList", cList);
         mav.addObject("review", review);

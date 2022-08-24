@@ -49,7 +49,6 @@ $(document).ready(function() {
         console.log("sizeCheck : " + sizeCheck);
         if ( nameCheck&&infoCheck&&imageCheck&&sizeCheck ) {
             console.log("Error O");
-            //회원가입 버튼(회원가입 기능 작동
             $("#itemForm").attr("action", "/item/write.do");
             $("#itemForm").submit();
         } else {
