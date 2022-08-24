@@ -96,6 +96,7 @@ public class ItemController {
             logger.info("itemId : " + item.getImageList());
 
         });
+        logger.info("star : " + list.get(0).getStar());
         mav.addObject("itemList", list);
         return mav;
     }

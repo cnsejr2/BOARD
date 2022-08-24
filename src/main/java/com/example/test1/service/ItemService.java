@@ -32,4 +32,5 @@ public class ItemService {
     public List<WishItem> getListPagingWishItemById(String writer, Criteria cri) { return itemMapper.getListPagingWishItemById(writer, cri); }
     public int getTotalWishItemById(String writer) { return  itemMapper.getTotalWishItemById(writer); }
     public void deleteWishItem(Long idx) { itemMapper.deleteWishItem(idx); }
+    public void updatestar(Long itemId) { itemMapper.updateStar(itemId); }
 }

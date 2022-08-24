@@ -35,73 +35,73 @@ public class ItemImageController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     ItemImageService itemImageService;
-    @PostMapping(value="/uploadItemAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ItemImage>> uploadAjaxActionPOST(MultipartFile uploadFile) throws IOException {
-
-        logger.info("uploadItemAjaxAction..........");
-
-        File checkfile = new File(uploadFile.getOriginalFilename());
-        String type = null;
-
-        try {
-            type = Files.probeContentType(checkfile.toPath());
-            logger.info("MIME TYPE : " + type);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (!type.startsWith("image")) {
-            List<ItemImage> list = null;
-            return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
-        }
-        String uploadFolder = "C:\\upload\\item";
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String str = sdf.format(date);
-        String datePath = str.replace("-", File.separator);
-
-        File uploadPath = new File(uploadFolder, datePath);
-
-        if (uploadPath.exists() == false) {
-            uploadPath.mkdirs();
-        }
-
-        List<ItemImage> list = new ArrayList();
-        ItemImage iImage = new ItemImage();
-
-        String uploadItemFileName = uploadFile.getOriginalFilename();
-        iImage.setFileName(uploadItemFileName);
-        iImage.setUpload(datePath);
-
-        String uuid = UUID.randomUUID().toString();
-        iImage.setUuid(uuid);
-
-        uploadItemFileName = uuid + "_" + uploadItemFileName;
-
-        File saveFile = new File(uploadPath, uploadItemFileName);
-
-        try {
-            uploadFile.transferTo(saveFile);
-
-            File thumbnailFile = new File(uploadPath, "s_" + uploadItemFileName);
-            BufferedImage bo_image = ImageIO.read(saveFile);
-
-
-            double ratio = 3;
-
-            int width = (int) (bo_image.getWidth() / ratio);
-            int height = (int) (bo_image.getHeight() / ratio);
-            Thumbnails.of(saveFile)
-                    .size(width, height)
-                    .toFile(thumbnailFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        list.add(iImage);
-
-        ResponseEntity<List<ItemImage>> result = new ResponseEntity<List<ItemImage>>(list, HttpStatus.OK);
-        return result;
-    }
+//    @PostMapping(value="/uploadItemAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<List<ItemImage>> uploadAjaxActionPOST(MultipartFile uploadFile) throws IOException {
+//
+//        logger.info("uploadItemAjaxAction..........");
+//
+//        File checkfile = new File(uploadFile.getOriginalFilename());
+//        String type = null;
+//
+//        try {
+//            type = Files.probeContentType(checkfile.toPath());
+//            logger.info("MIME TYPE : " + type);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        if (!type.startsWith("image")) {
+//            List<ItemImage> list = null;
+//            return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
+//        }
+//        String uploadFolder = "C:\\upload\\item";
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date = new Date();
+//        String str = sdf.format(date);
+//        String datePath = str.replace("-", File.separator);
+//
+//        File uploadPath = new File(uploadFolder, datePath);
+//
+//        if (uploadPath.exists() == false) {
+//            uploadPath.mkdirs();
+//        }
+//
+//        List<ItemImage> list = new ArrayList();
+//        ItemImage iImage = new ItemImage();
+//
+//        String uploadItemFileName = uploadFile.getOriginalFilename();
+//        iImage.setFileName(uploadItemFileName);
+//        iImage.setUpload(datePath);
+//
+//        String uuid = UUID.randomUUID().toString();
+//        iImage.setUuid(uuid);
+//
+//        uploadItemFileName = uuid + "_" + uploadItemFileName;
+//
+//        File saveFile = new File(uploadPath, uploadItemFileName);
+//
+//        try {
+//            uploadFile.transferTo(saveFile);
+//
+//            File thumbnailFile = new File(uploadPath, "s_" + uploadItemFileName);
+//            BufferedImage bo_image = ImageIO.read(saveFile);
+//
+//
+//            double ratio = 3;
+//
+//            int width = (int) (bo_image.getWidth() / ratio);
+//            int height = (int) (bo_image.getHeight() / ratio);
+//            Thumbnails.of(saveFile)
+//                    .size(width, height)
+//                    .toFile(thumbnailFile);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        list.add(iImage);
+//
+//        ResponseEntity<List<ItemImage>> result = new ResponseEntity<List<ItemImage>>(list, HttpStatus.OK);
+//        return result;
+//    }
 
     @GetMapping("/displayItem")
     public ResponseEntity<byte[]> getImage(String fileName) {

@@ -53,7 +53,7 @@
     <select id="getListPaging" resultType="com.example.test1.domain.Item">
     <![CDATA[
         select * from (
-                          select rownum  as rn, ID, NAME, PRICE
+                          select rownum  as rn, ID, NAME, PRICE, STAR
                           from LYE_ITEM where rownum <= #{pageNum} * #{amount} order by ID)
         where rn > (#{pageNum} -1) * #{amount}
         ]]>
@@ -156,5 +156,11 @@
         DELETE FROM LYE_ITEM_WISH
         WHERE itemId= #{id}
     </delete>
-
+    <update id="updateStar">
+        UPDATE LYE_ITEM
+        <set>
+            STAR = (SELECT SUM(star) / COUNT(STAR) FROM LYE_REVIEW WHERE ITEMID=#{itemId, jdbcType=NUMERIC})
+        </set>
+        WHERE ID = #{itemId, jdbcType=NUMERIC}
+    </update>
 </mapper>

@@ -47,6 +47,21 @@
                                                 Add to Wishlist
                                             </div>
                                         </div>
+                                        <span class="info-box-text">
+                                        별점 : ${item.star}
+                                            <div>
+                                                <c:forEach begin="0" end="4" var="i" step="1">
+                                                    <c:choose>
+                                                        <c:when test="${item.star > i }">
+                                                            <i class="far fas fa-star"></i>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <i class="far fa-star"></i>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </div>
+                                        </span>
                                     </div>
                                 </div>
                             </div>

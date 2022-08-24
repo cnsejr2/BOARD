@@ -1,6 +1,7 @@
 package com.example.test1.controller;
 
 import com.example.test1.domain.*;
+import com.example.test1.service.ItemService;
 import com.example.test1.service.ReviewFileService;
 import com.example.test1.service.ReviewService;
 import com.example.test1.util.FileUtils;
@@ -34,6 +35,8 @@ public class ReviewController {
     ReviewFileService reviewFileService;
     @Resource
     FileUtils fileUtils;
+    @Resource
+    ItemService itemService;
     @GetMapping("/item/{id}/review/write.do")
     public ModelAndView reviewForm(@PathVariable("id") Long id) {
         ModelAndView mav = new ModelAndView("review/write");
@@ -53,6 +56,7 @@ public class ReviewController {
             }
             review.setReviewFileList(fileList);
         }
+        itemService.updatestar(review.getItemId());
         return "redirect:/item/view/" + review.getItemId();
     }
 
