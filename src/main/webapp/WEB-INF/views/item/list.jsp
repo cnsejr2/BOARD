@@ -108,6 +108,7 @@
         const fileName = itemObj.data("filename");
 
         const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
+        console.log("fileCallPath : " + fileCallPath);
         $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
         $(this).find("img").attr('style', 'width:150px; height:150px;');
 

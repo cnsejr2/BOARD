@@ -78,13 +78,13 @@ public class FileUtils {
             Date date = new Date();
             String str = sdf.format(date);
 
-
             String datePath = str.replace("-", File.separator);
 
             File uploadPath = new File(uploadFolder, datePath);
-
-            File target = new File(uploadFolder);
+            logger.info("uploadPath : " + uploadPath);
+            File target = new File(uploadPath.toString());
             if (!target.exists()) {
+                logger.info("디렉토리 생성");
                 target.mkdirs();
             }
 

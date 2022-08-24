@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>PROCESS</title>
@@ -33,9 +34,6 @@
                             <tr>
                                 <th>ITEM</th>
                                 <th style="width: 60px">COUNT</th>
-                                <c:if test="${order.state == 2}">
-                                <th>REVIEW</th>
-                                </c:if>
                             </tr>
                             </thead>
                             <tbody>
@@ -63,11 +61,6 @@
                                     <td>
                                         <p><span class="info-box-text">${item.cnt}</span></p>
                                     </td>
-                                    <c:if test="${order.state == 2}">
-                                    <td>
-                                        <p><span class="info-box-text"><a href="/item/${item.id}/review/write.do"> 리뷰작성</a></span></p>
-                                    </td>
-                                    </c:if>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -79,7 +72,6 @@
                                 <th style="width: 500px">${order.amount}</th>
                             </tr>
                             </thead>
-
                         </table>
                     </div>
                 </div>

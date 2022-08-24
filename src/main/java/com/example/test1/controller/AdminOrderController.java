@@ -42,8 +42,7 @@ public class AdminOrderController {
 
     @GetMapping("/admin/order/info")
     public ModelAndView adminOrderInfo(@RequestParam("orderId") String orderId,
-                                       @RequestParam("memberId") String memberId,
-                                       @RequestParam(value = "review" , required = false) String review) {
+                                       @RequestParam("memberId") String memberId) {
         ModelAndView mav = new ModelAndView("/admin/order/info");
 
         String orderItem = orderService.selectOrderItemId(orderId);
@@ -58,7 +57,6 @@ public class AdminOrderController {
         Order order = orderService.selectOrder(orderId);
         mav.addObject("order", order);
         mav.addObject("cList", cList);
-        mav.addObject("review", review);
         return mav;
     }
 

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -95,6 +96,29 @@ public class MemberController {
 
         List<OrderList> oList = memberService.selectOrderList(id);
         mav.addObject("oList", oList);
+        return mav;
+    }
+
+    @GetMapping("/profile/order/info")
+    public ModelAndView memberOrderInfo(@RequestParam("orderId") String orderId,
+                                        @RequestParam("memberId") String memberId,
+                                        @RequestParam(value = "review" , required = false) String review) {
+        ModelAndView mav = new ModelAndView("/order/info");
+
+        String orderItem = orderService.selectOrderItemId(orderId);
+        String[] orderItemId = orderItem.split(",");
+        List<CartItem> cList = new ArrayList<>();
+        int amount = 0;
+        for (String oItem : orderItemId) {
+            CartItem cItem = orderService.findCartItem(Long.parseLong(oItem));
+            cList.add(cItem);
+            amount += (cItem.getItemPrice() * cItem.getCnt());
+        }
+        Order order = orderService.selectOrder(orderId);
+        mav.addObject("state", review);
+        mav.addObject("order", order);
+        mav.addObject("cList", cList);
+        mav.addObject("review", review);
         return mav;
     }
 

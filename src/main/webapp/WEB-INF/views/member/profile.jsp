@@ -104,7 +104,7 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="${type == 0 ? "active":"" } tab-pane" id="MyBoard">
-                    <%@ include file="/WEB-INF/views/member/myList.jsp" %>
+                    <%@ include file="/WEB-INF/views/member/myBoard.jsp" %>
                   </div>
                   <div class="${type == 1 ? "active":"" } tab-pane" id="MyComment">
                     <%@ include file="/WEB-INF/views/member/myComment.jsp" %>
