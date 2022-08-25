@@ -39,7 +39,6 @@ public class ItemController {
     public ModelAndView itemFormPost(Item item, MultipartFile[] file) throws IOException {
         itemService.insertItem(item);
         Long itemId = itemService.getItemId();
-        logger.info("file : " + file);
         if (file != null) {
             List<ItemImage> fileList = fileUtils.parseItemImageInfo(itemId, file);
             for (int i = 0; i < fileList.size(); i++) {

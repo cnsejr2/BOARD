@@ -42,8 +42,6 @@ public class OrderController {
     @PostMapping("/order/process")
     @ResponseBody
     public ModelAndView completeOrder(Order order, Principal principal) {
-        String user = principal.getName();
-
         ModelAndView mav = new ModelAndView("/order/complete");
 
         order.setPhone(phone_format(order.getPhone()));
@@ -77,8 +75,8 @@ public class OrderController {
 
         String itemIds = "";
         for (Long i : itemIdxArray) {
-            orderService.updateCartItem(i);
-            itemIds += (String.valueOf(i) + ",");
+//            orderService.updateCartItem(i);
+            itemIds += (i + ",");
         }
 
         orderService.insertOrderItem(orderId, itemIds, user);

@@ -170,7 +170,9 @@
                 <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="/myProfile" class="d-block">${user}</a>
+                <a href="/myProfile" class="d-block">
+                    ${user}
+                </a>
             </div>
         </div>
 

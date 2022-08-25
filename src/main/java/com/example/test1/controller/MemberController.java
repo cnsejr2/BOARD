@@ -20,7 +20,6 @@ import java.util.List;
 @Slf4j
 public class MemberController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Resource
     MemberService memberService;
     @Resource

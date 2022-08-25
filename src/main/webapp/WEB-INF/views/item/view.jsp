@@ -53,6 +53,7 @@
                                             </div>
                                         </c:forEach>
                                     </div>
+                                    <c:if test="${item.imageList.size() > 1}">
                                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Previous</span>
@@ -61,6 +62,7 @@
                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Next</span>
                                     </button>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
@@ -118,10 +120,11 @@
 
                                 <div class="bg-gray py-2 px-3 mt-4">
                                     <h2 class="mb-0">
-                                        <i class="fas fa-comment-dollar"></i>${item.price}
+                                        <i class="fas fa-comment-dollar"></i>
+                                        <span class="info-box-number finalTotalPrice"></span>
                                     </h2>
                                     <h4 class="mt-0">
-                                        <small>Ex Tax: ${item.price} </small>
+                                        <small>Ex Tax: <span class="info-box-number finalTotalPrice"></span> </small>
                                     </h4>
                                 </div>
 

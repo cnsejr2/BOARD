@@ -27,10 +27,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-                        <%
-                            session = request.getSession();
-                            out.println("관리자 " + session.getAttribute("greeting") + "님, 반갑습니다.");
-                        %>
+                        관리자 ${user} 님 반갑습니다.
                         </sec:authorize>
                     </li>
                     <li class="nav-item">

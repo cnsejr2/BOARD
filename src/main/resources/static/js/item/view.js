@@ -1,6 +1,7 @@
 
 $(document).ready(function () {
 
+    calculateTotal();
     getReviewList();
     $(".cartBtn").click(function() {
         if ($("#color-select").val() == "" || $("#size-select").val() == "") {
@@ -157,3 +158,16 @@ $(document).on('click', '[data-toggle="lightbox"]', function(event) {
     event.preventDefault();
     $(this).ekkoLightbox();
 })
+$("#cnt-select").on("change", function() {
+    calculateTotal();
+});
+function calculateTotal() {
+    let totalPrice = 0;
+
+    let cnt = $("#cnt-select").val()
+
+    totalPrice += (parseInt(cnt) * itemPrice)
+
+    $(".finalTotalPrice").text(totalPrice.toLocaleString());
+
+}

@@ -37,7 +37,6 @@ public class ItemImageController {
     ItemImageService itemImageService;
     @GetMapping(value="/getItemImageList")
     public ResponseEntity<List<ItemImage>> getItemImageList(Long itemId) {
-        log.info("/getItemImageList : " + itemId);
         return new ResponseEntity(itemImageService.getItemImage(itemId), HttpStatus.OK);
     }
 }

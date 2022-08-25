@@ -34,11 +34,8 @@ public class SecurityLoginController {
 
     @RequestMapping("/main")
     public ModelAndView getMain(Principal principal, Criteria cri) throws Exception {
-        ModelAndView mav = new ModelAndView("/index");
+        ModelAndView mav = new ModelAndView("/main");
         String user = principal.getName();
-
-//        int cartItemCnt = orderService.hadCartItem(user);
-//        mav.addObject("cartItemCnt", cartItemCnt);
 
         List<Board> bList = boardService.getListPaging(cri);
         mav.addObject("bList", bList);
@@ -49,7 +46,6 @@ public class SecurityLoginController {
         mav.addObject("pageMaker", pageMake);
         mav.addObject("user", user);
 
-//        mav.addObject("keyword", "");
         return mav;
     }
     @GetMapping("/security/login")

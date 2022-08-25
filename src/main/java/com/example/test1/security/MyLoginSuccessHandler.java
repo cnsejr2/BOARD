@@ -23,8 +23,7 @@ public class MyLoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
         logger.info("Hi MyLoginSuccessHandler");
-        session.setAttribute("greeting", authentication.getName());
-
+        session.setAttribute("user", authentication.getName());
         response.sendRedirect("/main");
     }
 }
