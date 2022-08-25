@@ -94,7 +94,7 @@
         const fileName = itemObj.data("filename");
 
         const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
-        $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
+        $(this).find("img").attr('src', '/display?dir=item&&fileName=' + fileCallPath);
 
     });
 

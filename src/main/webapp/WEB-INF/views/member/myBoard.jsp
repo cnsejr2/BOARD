@@ -73,6 +73,7 @@
         <button type="button" class="btn btn-primary update-btn float-right" onclick="boardDelete();"> 글 삭제 </button>
     </div>
 <script>
+    console.log("bList : " + ${bList})
     let moveForm = $("#moveForm");
 
     $(".pageInfo a").on("click", function(e){

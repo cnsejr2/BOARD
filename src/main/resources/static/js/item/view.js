@@ -66,8 +66,8 @@ $(".image_wrap").each(function(i, obj) {
     const fileName = itemObj.data("filename");
 
     const fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
-    $(this).find("img").attr('src', '/displayItem?fileName=' + fileCallPath);
-    $(this).find("img").attr('style', 'width:750px; height:500px;');
+    $(this).find("img").attr('src', '/display?dir=item&&fileName=' + fileCallPath);
+    $(this).find("img").attr('style', 'width:900px; height:500px;');
 
 });
 
@@ -134,7 +134,7 @@ function appearModal(e) {
             const uploadPath = reviewObj.data("filepath");
 
             const fileCallPath = encodeURIComponent(uploadPath);
-            $(this).find(".review_file").attr('src', '/displayReview?fileName=' + fileCallPath);
+            $(this).find(".review_file").attr('src', '/display?dir=review&&fileName=' + fileCallPath);
             $(this).find(".review_file").attr('style', 'width:350px; height:300px;');
             $(hideBtn).show();
             $(showBtn).hide();

@@ -185,22 +185,8 @@ public class ItemController {
 
         ModelAndView mav = new ModelAndView("/item/wish");
 
-        List<WishItem> list = itemService.findAllWishItem(user);
+        List<WishItem> list = itemService.connectImage(user);
 
-        list.forEach(item -> {
-
-            Long itemId = item.getItemId();
-
-            Item i = itemService.selectItemDetail(itemId);
-            item.setItem(i);
-
-            List<ItemImage> imageList = itemImageService.getItemImage(itemId);
-            item.getItem().setImageList(imageList);
-
-
-            logger.info("imageList : " + item.getItem().getImageList());
-
-        });
         mav.addObject("itemList", list);
         return mav;
     }

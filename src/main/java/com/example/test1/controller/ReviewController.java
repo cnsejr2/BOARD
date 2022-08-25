@@ -8,22 +8,15 @@ import com.example.test1.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @Slf4j
@@ -56,7 +49,7 @@ public class ReviewController {
             }
             review.setReviewFileList(fileList);
         }
-        itemService.updatestar(review.getItemId());
+        itemService.updateStar(review.getItemId());
         return "redirect:/item/view/" + review.getItemId();
     }
 

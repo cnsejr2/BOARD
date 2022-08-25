@@ -31,4 +31,5 @@ public interface ItemMapper {
     int getTotalWishItemById(@Param("mId") String mid);
     void deleteWishItem(Long idx);
     void updateStar(@Param("itemId") Long itemId);
+
 }

@@ -103,7 +103,6 @@ public class BoardController {
             board.getImageList().forEach(attach -> {
                 attach.setBId(board.getId());
                 if (attach.getUuid() != null) {
-                    logger.info("attach: " + attach);
                     attachService.imageReEnroll(attach);
                 }
 
@@ -128,14 +127,6 @@ public class BoardController {
         boardService.deleteMultiBoard(boardIdxArray);
         return boardIdxArray;
     }
-
-    /**
-     *
-     * @param principal
-     * @param id
-     * @return
-     * @throws Exception
-     */
     @GetMapping("/board/updateRecommend")
     @ResponseBody
     public int getCommentList(Principal principal, @RequestParam("id") Long id) throws Exception {

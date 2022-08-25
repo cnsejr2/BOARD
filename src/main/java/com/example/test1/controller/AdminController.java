@@ -24,13 +24,7 @@ public class AdminController {
     @Resource
     BoardService boardService;
     @Resource
-    CommentService commentService;
-    @Resource
-    ItemService itemService;
-    @Resource
-    ItemImageService itemImageService;
-    @Resource
-    OrderService orderService;
+    MemberService memberService;
 
     @GetMapping("/admin/board/list")
     public ModelAndView boardForm() {
@@ -61,60 +55,20 @@ public class AdminController {
 
         SecurityMember sMember = adminService.findMember(id);
         mav.addObject("member", sMember);
-        Criteria boardCri = new Criteria(1, 5);
-        Criteria commentCri = new Criteria(1, 5);
-        Criteria wishCri = new Criteria(1, 5);
-        Criteria orderCri = new Criteria(1, 5);
-        int num = 0;
-        if (type.equals("board")) {
-            boardCri = cri;
-        } else if (type.equals("comment")) {
-            commentCri = cri;
-            num = 1;
-        } else if (type.equals("wish")) {
-            wishCri = cri;
-            num = 2;
-        } else if (type.equals("order")) {
-            wishCri = cri;
-            num = 3;
-        }
 
-        List<Board> bList = boardService.getListPagingByWriter(id, boardCri);
-        int bTotal = boardService.getTotalByWriter(id);
-        mav.addObject("bList", bList);
-        Paging pageMake = new Paging(boardCri, bTotal);
-        mav.addObject("pageMake", pageMake);
+        HashMap<String, Object> arr = memberService.makePaging(id, type, cri);
+        mav.addObject("bList", arr.get("bList"));
+        mav.addObject("pageMake", arr.get("pageMake"));
 
-        List<Comment> cList = commentService.findCommentPagingByWriter(id, commentCri);
-        int cTotal = commentService.getTotalCommentByWriter(id);
-        mav.addObject("cList", cList);
-        Paging pageComMake = new Paging(commentCri, cTotal);
-        mav.addObject("pageComMake", pageComMake);
+        mav.addObject("cList", arr.get("cList"));
+        mav.addObject("pageComMake", arr.get("pageComMake"));
 
-        List<WishItem> wList = itemService.getListPagingWishItemById(id, wishCri);
-        int wTotal = itemService.getTotalWishItemById(id);
-        wList.forEach(item -> {
+        mav.addObject("wList", arr.get("wList"));
+        mav.addObject("pageWishMake", arr.get("pageWishMake"));
 
-            Long itemId = item.getItemId();
+        mav.addObject("oList", arr.get("oList"));
 
-            Item i = itemService.selectItemDetail(itemId);
-            item.setItem(i);
-
-            List<ItemImage> imageList = itemImageService.getItemImage(itemId);
-            item.getItem().setImageList(imageList);
-
-
-            logger.info("imageList : " + item.getItem().getImageList());
-
-        });
-        mav.addObject("wList", wList);
-        Paging pageWishMake = new Paging(commentCri, wTotal);
-        mav.addObject("pageWishMake", pageWishMake);
-
-        List<OrderList> oList = orderService.selectOrderListByMemberId(id);
-        mav.addObject("oList", oList);
-
-        mav.addObject("type", num);
+        mav.addObject("type", arr.get("type"));
 
         return mav;
     }
